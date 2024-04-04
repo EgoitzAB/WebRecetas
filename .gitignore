@@ -1,0 +1,14 @@
+# Ignorar el archivo .env
+.env
+
+# Ignorar el directorio venv
+venv/
+
+# Ignorar el __pycache__
+__pycache__/
+
+# Ignorar el archivo .vscode
+.vscode/
+
+# Ignorar la base de datos
+db.sqlite3

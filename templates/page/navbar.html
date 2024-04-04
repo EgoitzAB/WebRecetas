@@ -1,0 +1,51 @@
+<nav class="navbar navbar-dark navbar-expand-lg fixed-top d-flex" id="mainNav">
+  <div class="container-fluid">
+    <a class="navbar-brand fs-2" href="#">El Recetario de Patxi</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasDarkNavbar" aria-controls="offcanvasDarkNavbar" aria-label="Toggle navigation">
+      Menú<span class="navbar-toggler-icon menu-toggler"></button></span></button>
+    <div class="offcanvas offcanvas-end text-bg-dark" tabindex="-1" id="offcanvasDarkNavbar" aria-labelledby="offcanvasDarkNavbarLabel">
+      <div class="offcanvas-header">
+        <h5 class="offcanvas-title" id="offcanvasDarkNavbarLabel">Dark offcanvas</h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close">
+      </div>
+      <div class="offcanvas-body">
+        <ul class="navbar-nav flex-grow-1 ps-5 fs-3">
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="#">Portada</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Recetas</a>
+          </li>
+          <!-- Dropdown for large screens -->
+          <li class="nav-item d-none d-lg-block">
+            <a class="nav-link" href="#">Técnicas</a>
+          </li>
+          <li class="nav-item d-none d-lg-block">
+            <a class="nav-link" href="#">Herramientas</a>
+          </li>
+          <li class="nav-item d-none d-lg-block">
+            <a class="nav-link" href="#">Blog</a>
+          </li>
+          <!-- Dropdown for small screens -->
+          <li class="nav-item dropdown d-lg-none">
+            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Dropdown
+            </a>
+            <ul class="dropdown-menu dropdown-menu-dark dropdown-menu-end">
+              <li><a class="dropdown-item" href="#">Action</a></li>
+              <li><a class="dropdown-item" href="#">Another action</a></li>
+              <li>
+                <hr class="dropdown-divider">
+              </li>
+              <li><a class="dropdown-item" href="#">Something else here</a></li>
+            </ul>
+          </li>
+        </ul>
+        <form class="d-flex mt-3" role="search" action="{% url 'core:recetas' % }">
+          <input class="form-control me-2 well search-field" type="search" placeholder="Search" aria-label="Search">
+          <button class="btn btn-success" type="submit">Search</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</nav>
