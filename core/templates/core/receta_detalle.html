@@ -1,2 +1,22 @@
+{% extends "page/base.html" %}
 {% load static %}
-{% extends 'page/base.html' %}
+
+{% block extrahead %}
+{% endblock extrahead %}
+
+{% block header %}
+<script src="{% static 'js/scripts.js' %}"></script>
+{% include "page/navbar.html" %}
+{% endblock header %}
+
+{% block content %}
+<div class="recipe-detail">
+    <h1>{{ object.titulo }}</h1>
+    {% if object.imagen %}
+        <img src="{{ object.imagen.url }}" alt="{{ object.titulo }}">
+    {% else %}
+        <p>No image available</p>
+    {% endif %}
+    <p>{{ object.descripcion }}</p>
+</div>
+{% endblock content %}

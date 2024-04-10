@@ -24,20 +24,20 @@ $(document).ready(function() {
 window.addEventListener('DOMContentLoaded', event => {
 
   // Navbar shrink function
-  var navbarShrink = function () {
-      const navbarCollapsible = document.body.querySelector('#mainNav');
-      if (!navbarCollapsible) {
-          return;
-      }
-      if (window.scrollY === 0) {
-          navbarCollapsible.classList.remove('navbar-shrink')
-      } else {
-          navbarCollapsible.classList.add('navbar-shrink')
-      }
+    var navbarShrink = function () {
+    const navbarCollapsible = document.body.querySelector('#mainNav');
+    if (!navbarCollapsible) {
+        return;
+    }
+    if (window.scrollY === 0) {
+        navbarCollapsible.classList.remove('navbar-shrink')
+    } else {
+        navbarCollapsible.classList.add('navbar-shrink')
+    }
 
 };
 
-// Shrink the navbar 
+// Shrink the navbar
 navbarShrink();
 
 // Shrink the navbar when page is scrolled
@@ -85,6 +85,33 @@ $(document).ready(function() {
                 };
             },
         },
-        minimumInputLength: 2,
+        minimumInputLength: 3,
+    }).on('select2:select', function (e) {
+        var data = e.params.data;
+        console.log('Selected data:', data);
+        window.location.href = '/receta_detalle/' + data.id + '/';  // Redirige al usuario a la página de detalles de la receta seleccionada
+    });
+});
+
+window.addEventListener('scroll', function() {
+    var timelineElements = document.querySelectorAll('.timeline > li');
+
+    timelineElements.forEach(function(element) {
+        var position = element.getBoundingClientRect();
+
+        // Comprueba si el elemento está en la vista
+        if(position.top >= 0 && position.bottom <= window.innerHeight) {
+            element.classList.add('visible');
+        }
+    });
+});
+
+
+$(document).ready(function() {
+    $('.timeline.card-hidden').hide(); // Ocultar los elementos ocultos al cargar la página
+    $('.timeline-link').click(function(event) {
+        event.preventDefault(); // Evitar que el enlace realice su acción predeterminada
+        $('.timeline.card-hidden').slideDown(); // Mostrar los elementos ocultos al hacer clic en el último elemento de la línea de tiempo
+        $(this).hide(); // Ocultar el último elemento de la línea de tiempo después de mostrar los elementos ocultos
     });
 });

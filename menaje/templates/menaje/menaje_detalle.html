@@ -1,0 +1,24 @@
+{% extends "page/base.html" %}
+{% load static %}
+
+{% block extrahead %}
+{% endblock extrahead %}
+
+{% block header %}
+{% include "page/navbar.html" %}
+{% endblock header %}
+
+{% block content %}
+<div class="recipe-detail">
+    <h1>{{ object.titulo }}</h1>
+    {% if object.imagen %}
+        <img src="{{ object.imagen.url }}" alt="{{ object.titulo }}">
+    {% else %}
+        <p>No image available</p>
+    {% endif %}
+    <p>{{ object.descripcion }}</p>
+</div>
+{% endblock content %}
+{% block footer %}
+{% include 'page/footer.html' %}
+{% endblock footer %}

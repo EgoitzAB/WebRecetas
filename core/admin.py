@@ -13,7 +13,7 @@ class IngredientesInline(admin.TabularInline):
 
 
 class ItemsPaginaAdmin(admin.ModelAdmin):
-    list_display = ['titulo', 'fecha_creacion', 'fecha_modificacion', 'status']
+    list_display = ['titulo', 'fecha_creacion', 'fecha_modificacion', 'status', 'slug']
     search_fields = ['titulo', 'contenido']
     list_filter = ['status', 'fecha_creacion', 'fecha_modificacion']
     inlines = [PasosInline, IngredientesInline]

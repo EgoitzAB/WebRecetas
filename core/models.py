@@ -11,6 +11,9 @@ from PIL import Image
 from io import BytesIO
 from django.core.files.uploadedfile import InMemoryUploadedFile
 from django.core.files.base import ContentFile
+from django.contrib.postgres.indexes import GinIndex
+from django.utils.text import slugify
+from autoslug import AutoSlugField
 
 # Create your models here.
 class ItemsPagina(models.Model):
@@ -37,9 +40,13 @@ class ItemsPagina(models.Model):
     imagen = ThumbnailerImageField(upload_to='pasos_pics', blank=True, null=True)
     likes = models.ManyToManyField(User, related_name='likes', blank=True)
     tags = TaggableManager(blank=True)
-    categoria = models.CharField(max_length=4, choices=CATEGORIAS, default="ning")
+    categoria = models.CharField(max_length=25, choices=CATEGORIAS, default="ning")
+    slug = AutoSlugField(unique=True, populate_from='titulo')
 
     def save(self, *args, **kwargs):
+        if not self.slug:
+            self.slug = slugify(self.titulo)
+
         if self.imagen:
             try:
                 img = Image.open(self.imagen)
@@ -55,7 +62,7 @@ class ItemsPagina(models.Model):
         super().save(*args, **kwargs)
 
     @property
-    def tiempo_preparacion_total(self):
+    def tiempo_total(self):
         return self.pasos_set.aggregate(Sum('tiempo_preparacion'))['tiempo_preparacion__sum'] or 0
 
     def __str__(self):
@@ -64,7 +71,9 @@ class ItemsPagina(models.Model):
     class Meta:
         ordering = ['fecha_creacion', 'fecha_modificacion']
         indexes = [
-            models.Index(fields=['-fecha_creacion', 'categoria'])
+            models.Index(fields=['titulo'], name='titulo_index', opclasses=['varchar_pattern_ops']),
+            models.Index(fields=['-fecha_creacion', 'categoria']),
+            GinIndex(fields=['titulo'], name='titulo_gin_index', opclasses=['gin_trgm_ops']),
         ]
 
 
@@ -91,6 +100,11 @@ class Pasos(models.Model):
                 pass
         super().save(*args, **kwargs)
 
+    class Meta:
+        indexes = [
+            GinIndex(fields=['descripcion'], name='descripcion_gin_index', opclasses=['gin_trgm_ops']),
+        ]
+
 
 class Ingredientes(models.Model):
     nombre = models.CharField(max_length=250)
@@ -99,3 +113,8 @@ class Ingredientes(models.Model):
 
     def __str__(self):
         return self.nombre
+
+    class Meta:
+        indexes = [
+            GinIndex(fields=['nombre'], name='nombre_gin_index', opclasses=['gin_trgm_ops']),
+        ]

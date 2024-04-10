@@ -1,0 +1,18 @@
+{% extends "page/base.html" %}
+
+{% block content %}
+    <h1>Resultados de la búsqueda</h1>
+
+    {% if results %}
+        <h2>Recetas encontradas</h2>
+        <ul>
+            {% for result in results %}
+                <li>
+                    <a href="{% url 'core:recetas' result.slug %}">{{ result.titulo }}</a>
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>No se encontraron recetas.</p>
+    {% endif %}
+{% endblock %}
