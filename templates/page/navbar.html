@@ -1,51 +1,114 @@
 <nav class="navbar navbar-dark navbar-expand-lg fixed-top d-flex" id="mainNav">
   <div class="container-fluid">
-    <a class="navbar-brand fs-2" href="{% url 'core:home' %}">El Recetario de Patxi</a>
+    <a class="navbar-brand fs-3" href="{% url 'core:home' %}">El Recetario de Patxi</a>
+    <!-- Botón de hamburguesa -->
     <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasDarkNavbar" aria-controls="offcanvasDarkNavbar" aria-label="Toggle navigation">
-      Menú<span class="navbar-toggler-icon menu-toggler"></button></span></button>
-    <div class="offcanvas offcanvas-end text-bg-dark" tabindex="-1" id="offcanvasDarkNavbar" aria-labelledby="offcanvasDarkNavbarLabel">
-      <div class="offcanvas-header">
-        <h5 class="offcanvas-title" id="offcanvasDarkNavbarLabel">Dark offcanvas</h5>
-        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close">
-      </div>
-      <div class="offcanvas-body">
-        <ul class="navbar-nav flex-grow-1 ps-5 fs-3">
-          <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="{% url 'core:home' %}">Portada</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="{% url 'core:receta_lista' %}">Recetas</a>
-          </li>
-          <!-- Dropdown for large screens -->
-          <li class="nav-item">
-            <a class="nav-link" href="{% url 'aparatos:aparatos_lista' %}">Técnicas</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="{% url 'menaje:menaje_lista' %}">Herramientas</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">Blog</a>
-          </li>
-          <!-- Dropdown for small screens -->
-          <li class="nav-item dropdown d-lg-none">
-            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-              Dropdown
-            </a>
-            <ul class="dropdown-menu dropdown-menu-dark dropdown-menu-end">
-              <li><a class="dropdown-item" href="#">Action</a></li>
-              <li><a class="dropdown-item" href="#">Another action</a></li>
-              <li>
-                <hr class="dropdown-divider">
-              </li>
-              <li><a class="dropdown-item" href="#">Something else here</a></li>
-            </ul>
-          </li>
-        </ul>
-        <form class="d-flex mt-3" role="search" action="{% url 'core:receta_search' %}">
-          <input class="form-control me-2 well search-field" type="search" placeholder="Search" aria-label="Search">
-          <button class="btn btn-success" type="submit">Search</button>
-        </form>
-      </div>
+      Menú<span class="navbar-toggler-icon menu-toggler"></span>
+    </button>
+
+    <!-- Contenido del navbar -->
+    <div class="collapse navbar-collapse justify-content-between" id="navbarSupportedContent">
+      <ul class="navbar-nav">
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="{% url 'core:home' %}">Portada</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'core:receta_lista' %}">Recetas</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'aparatos:aparatos_lista' %}">Técnicas</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'menaje:menaje_lista' %}">Herramientas</a>
+        </li>
+      </ul>
+
+      <!-- Campo de búsqueda -->
+      <form class="d-flex col-lg-auto col-md-12" role="search" action="{% url 'core:receta_search' %}">
+        <input class="form-control me-2" type="search" placeholder="Buscar recetas" aria-label="Search">
+        <button class="btn btn-success" type="submit">Buscar</button>
+      </form>
+
+      <!-- Bloque de autenticación -->
+      <ul class="nav navbar-nav navbar-right">
+        {% if user.is_authenticated %}
+        <li class="nav-item dropdown">
+          <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
+            <span class="glyphicon glyphicon-user"></span>
+            <strong>{{ user.username }}</strong>
+            <span class="glyphicon glyphicon-chevron-down"></span>
+          </a>
+          <ul class="dropdown-menu">
+            <li><a class="dropdown-item" href="{% url 'account_change_password' %}">Cambiar contraseña</a></li>
+            <li class="divider"></li>
+            <li><a class="dropdown-item" href="{% url 'account_logout' %}">Cerrar sesión</a></li>
+          </ul>
+        </li>
+        {% else %}
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'account_login' %}">Iniciar sesión</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'account_signup' %}">Registrarse</a>
+        </li>
+        {% endif %}
+      </ul>
     </div>
   </div>
 </nav>
+
+<!-- Offcanvas -->
+<div class="offcanvas offcanvas-end text-bg-dark" tabindex="-1" id="offcanvasDarkNavbar" aria-labelledby="offcanvasDarkNavbarLabel">
+  <div class="offcanvas-header">
+    <h5 class="offcanvas-title" id="offcanvasDarkNavbarLabel">Menú</h5>
+    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+  </div>
+  <div class="offcanvas-body">
+    <ul class="navbar-nav flex-grow-1">
+      <li class="nav-item">
+        <a class="nav-link active" aria-current="page" href="{% url 'core:home' %}">Portada</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'core:receta_lista' %}">Recetas</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'aparatos:aparatos_lista' %}">Técnicas</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'menaje:menaje_lista' %}">Herramientas</a>
+      </li>
+    </ul>
+
+    <!-- Campo de búsqueda -->
+    <form class="d-flex mt-3" role="search" action="{% url 'core:receta_search' %}">
+      <input class="form-control me-2" type="search" placeholder="Buscar recetas" aria-label="Search" style="max-width: 140px;">
+      <button class="btn btn-success" type="submit">Buscar</button>
+    </form>
+
+    <!-- Bloque de autenticación -->
+    <ul class="nav navbar-nav navbar-right mt-3">
+      {% if user.is_authenticated %}
+      <li class="nav-item dropdown">
+        <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
+          <span class="glyphicon glyphicon-user"></span>
+          <strong>{{ user.username }}</strong>
+          <span class="glyphicon glyphicon-chevron-down"></span>
+        </a>
+        <ul class="dropdown-menu">
+          <li><a class="dropdown-item" href="{% url 'account_change_password' %}">Cambiar contraseña</a></li>
+          <li class="divider"></li>
+          <li><a class="dropdown-item" href="{% url 'account_logout' %}">Cerrar sesión</a></li>
+        </ul>
+      </li>
+      {% else %}
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'account_login' %}">Iniciar sesión</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'account_signup' %}">Registrarse</a>
+      </li>
+      {% endif %}
+    </ul>
+  </div>
+</div>
+

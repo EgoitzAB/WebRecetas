@@ -1,4 +1,5 @@
 import os
+import uuid
 
 from django.db import models
 from django.db.models import Sum
@@ -14,6 +15,7 @@ from django.core.files.base import ContentFile
 from django.contrib.postgres.indexes import GinIndex
 from django.utils.text import slugify
 from autoslug import AutoSlugField
+
 
 # Create your models here.
 class ItemsPagina(models.Model):
@@ -80,7 +82,7 @@ class ItemsPagina(models.Model):
 class Pasos(models.Model):
     numero = models.IntegerField()
     descripcion = models.CharField(max_length=250)
-    imagen_paso = ThumbnailerImageField(upload_to='recetas_pics', blank=True, null=True)
+    imagen_paso = models.ImageField(upload_to='recetas_pics', blank=True, null=True)
     recetas = models.ForeignKey(ItemsPagina, on_delete=models.CASCADE)
     tiempo_preparacion = models.IntegerField()
     tiempo_coccion = models.IntegerField()
@@ -88,23 +90,28 @@ class Pasos(models.Model):
     def save(self, *args, **kwargs):
         if self.imagen_paso:
             try:
-                thumbnail = self.imagen_paso.get_thumbnail({'size': (800, 600), 'crop': True})
-                thumbnail_content = thumbnail.read()
-                # Generar un nombre único para la miniatura
-                thumbnail_name = f"thumbnail_{os.path.basename(self.imagen_paso.name)}"
-                # Guardar la miniatura en un ContentFile
-                thumbnail_path = self.imagen_paso.storage.save(thumbnail_name, ContentFile(thumbnail_content))
-                # Actualizar el campo de imagen_paso con la ruta de la miniatura
-                self.imagen_paso = thumbnail_path
-            except InvalidImageFormatError:
-                pass
+                # Abrir la imagen original
+                img = Image.open(self.imagen_paso)
+                img = img.resize((800, 600))  # Redimensionar la imagen si es necesario
+                # Convertir la imagen a formato JPEG
+                buffer = BytesIO()
+                img.save(buffer, format='JPEG')
+                buffer.seek(0)
+                # Generar un nombre único para la imagen
+                filename = os.path.join('recetas_pics', f"{uuid.uuid4()}.jpg")
+                # Guardar la imagen en el sistema de archivos
+                self.imagen_paso.save(filename, ContentFile(buffer.getvalue()), save=False)
+                # Limpiar el buffer
+                buffer.close()
+            except Exception as e:
+                print(f"Error al procesar la imagen: {e}")
         super().save(*args, **kwargs)
 
     class Meta:
+        ordering = ['numero']
         indexes = [
             GinIndex(fields=['descripcion'], name='descripcion_gin_index', opclasses=['gin_trgm_ops']),
         ]
-
 
 class Ingredientes(models.Model):
     nombre = models.CharField(max_length=250)

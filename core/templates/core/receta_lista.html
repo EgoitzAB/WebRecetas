@@ -36,7 +36,7 @@
                     <p>{{ receta.contenido }}</p>
                     <div class="meta">
                         <a href="{% url 'core:recetas' slug=receta.slug %}">Ver detalles</a>
-                    <span>by <a href="#">{{ receta.author }}</a></span> <span>on <a href="#">{{ receta.date }}</a></span>
+                    <span>Hecha por<a href="#">{{ receta.autor }}</a></span> <span>el <a href="#">{{ receta.date }}</a></span>
                 </div>
                 </div>
             </div>
@@ -45,6 +45,39 @@
         </div>
     </div>
 </div>
+<nav aria-label="Page navigation example">
+  <ul class="pagination">
+    {% if page_obj.has_previous %}
+    <li class="page-item">
+      <a class="page-link pagination-button" href="?page=1" aria-label="Primera">
+        <span aria-hidden="true">&laquo; Primera</span>
+      </a>
+    </li>
+    <li class="page-item">
+      <a class="page-link pagination-button" href="?page={{ page_obj.previous_page_number }}" aria-label="Previa">
+        <span aria-hidden="true">Previa</span>
+      </a>
+    </li>
+    {% endif %}
+    <li class="page-item active">
+      <span class="page-link current">
+        Página {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}.
+      </span>
+    </li>
+    {% if page_obj.has_next %}
+    <li class="page-item">
+      <a class="page-link pagination-button" href="?page={{ page_obj.next_page_number }}" aria-label="Siguiente">
+        <span aria-hidden="true">Siguiente</span>
+      </a>
+    </li>
+    <li class="page-item">
+      <a class="page-link pagination-button" href="?page={{ page_obj.paginator.num_pages }}" aria-label="Última">
+        <span aria-hidden="true">Última &raquo;</span>
+      </a>
+    </li>
+    {% endif %}
+  </ul>
+</nav>
 
 {% endblock content %}
 

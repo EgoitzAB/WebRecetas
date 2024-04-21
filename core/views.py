@@ -1,4 +1,5 @@
-from django.shortcuts import render
+from typing import Any
+from django.shortcuts import render, get_object_or_404
 from .models import ItemsPagina
 from django.contrib.postgres.search import SearchVector, SearchQuery, SearchRank, TrigramSimilarity
 from .forms import SearchForm, ItemsPaginaForm
@@ -7,25 +8,36 @@ from django.http import JsonResponse
 from django.views import View
 from django.db.models import Q
 from django.views.decorators.cache import cache_page
+from django.core.cache import cache
 from django.conf import settings
+from django.template.response import TemplateResponse
 from .utils import obtener_vistas_de_receta, recetas_mas_vistas
+from .recomendador import RecetaRecomendador, RecetaHistorial
 import redis
 
 
-@cache_page(60 * 15)
 def home(request):
-    # Obtener las recetas más vistas utilizando la función recetas_mas_vistas
-    recetas_destacadas = recetas_mas_vistas(request, cantidad_recetas=6)
+    #Recuperar las recetas del cache y renderizar, o hacer queries y generar cache
+    recetas_home = cache.get_many(['recetas', 'recetas_distintas', 'recetas_destacadas'])
+    if recetas_home:
+        return render(request, 'core/home.html', {'recetas': recetas_home['recetas'],
+                    'recetas_distintas' : recetas_home['recetas_distintas'],
+                    'recetas_destacadas': recetas_home['recetas_destacadas']})
+    else:
+        # Obtener las recetas más vistas utilizando la función recetas_mas_vistas
+        recetas_destacadas = recetas_mas_vistas(request, cantidad_recetas=6)
+        # Obtener las recetas distintas y las recetas normales
+        recetas_distintas = ItemsPagina.objects.filter(status='CR').order_by('categoria').distinct('categoria')
+        recetas = ItemsPagina.objects.filter(status="CR")[:6]
+        # Obtener el número de vistas de cada receta
+        for receta in recetas_destacadas:
+            receta.num_vistas = obtener_vistas_de_receta(receta.id)
 
-    # Obtener las recetas distintas y las recetas normales
-    recetas_distintas = ItemsPagina.objects.filter(status='CR').order_by('categoria').distinct('categoria')
-    recetas = ItemsPagina.objects.filter(status="CR")[:6]
-
-    # Obtener el número de vistas de cada receta
-    for receta in recetas_destacadas:
-        receta.num_vistas = obtener_vistas_de_receta(receta.id)
-
-    return render(request, 'core/home.html', {'recetas': recetas, 'recetas_distintas': recetas_distintas, 'recetas_destacadas': recetas_destacadas})
+        timeout = 180 # ajustando el timeout del caché a 3 minutos
+        cache.set_many({'recetas': recetas, 'recetas_distintas': recetas_distintas,
+                    'recetas_destacadas': recetas_destacadas},
+                    timeout=timeout)
+        return render(request, 'core/home.html', {'recetas': recetas, 'recetas_distintas': recetas_distintas, 'recetas_destacadas': recetas_destacadas})
 
 def receta_search(request):
     form = SearchForm()
@@ -67,6 +79,24 @@ class VistaLista(ListView):
         return context
 
 
+def render_to_response(self, context, **response_kwargs):
+    # Generar una clave única para esta página basada en la URL y los parámetros de consulta
+    cache_key = 'vista_lista_cache_' + self.request.get_full_path()
+
+    # Intentar recuperar la página renderizada desde la caché
+    cached_response = cache.get(cache_key)
+
+    if cached_response is None:
+        # Si la página no está en caché, renderizarla y almacenarla en caché
+        response = TemplateResponse(request=self.request, template=self.template_name, context=context)
+        rendered_content = response.render()
+        cache.set(cache_key, rendered_content, timeout=300)  # Caché durante 5 minutos
+        return response
+
+    # Si la página está en caché, devolverla directamente
+    return render(self.request, self.template_name, {'content': cached_response})
+
+
 class VistaDetalle(DetailView):
     model = ItemsPagina
     template_name = 'core/receta_detalle.html'
@@ -80,10 +110,27 @@ class VistaDetalle(DetailView):
         redis_connection.incr(f"receta:{obj.id}:vistas")
         # Obtener el número total de vistas de esta receta
         num_vistas = redis_connection.get(f"receta:{obj.id}:vistas")
+        print(f"Número total de vistas de la receta {obj.id}: {num_vistas}")
         # Actualizar el conjunto recetas_vistas con la nueva puntuación
         redis_connection.zadd('recetas_vistas', {obj.id: num_vistas})
         return obj
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        # Obtener el receta_id
+        receta = self.get_object()
+        # Pasar el receta_id al middleware
+        historial = RecetaHistorial(self.request)
+        historial.añadir(receta)
+        # Obtener recomendaciones de recetas
+        recomendador = RecetaRecomendador()
+        recetas_recomendadas_ids = recomendador.sugerir_recetas_para(historial, 4)
+        recetas_recomendadas = ItemsPagina.objects.filter(id__in=recetas_recomendadas_ids)
+        print(recetas_recomendadas)
+        print(recetas_recomendadas_ids)
+        context['recetas_recomendadas'] = recetas_recomendadas
+
+        return context
 
 
 class AutocompleteView(View):

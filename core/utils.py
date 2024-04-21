@@ -33,3 +33,4 @@ def recetas_mas_vistas(request, cantidad_recetas=6):
 
     # Devolver las recetas más vistas
     return recetas_mas_vistas
+

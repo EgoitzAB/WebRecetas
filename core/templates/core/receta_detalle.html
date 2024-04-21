@@ -5,18 +5,43 @@
 {% endblock extrahead %}
 
 {% block header %}
-<script src="{% static 'js/scripts.js' %}"></script>
 {% include "page/navbar.html" %}
 {% endblock header %}
-
 {% block content %}
-<div class="recipe-detail">
-    <h1>{{ object.titulo }}</h1>
-    {% if object.imagen %}
-        <img src="{{ object.imagen.url }}" alt="{{ object.titulo }}">
-    {% else %}
-        <p>No image available</p>
-    {% endif %}
-    <p>{{ object.descripcion }}</p>
-</div>
+        <header class="masthead">
+            <div class="container">
+                <div class="masthead-subheading">Bienvenidos al recetario</div>
+                <div class="masthead-heading">Es hora de cocinar</div>
+                <a class="btn btn-success btn-xl text-uppercase" href="#services">Registrarse</a>
+            </div>
+        </header>
+    <div class="container">
+        <div class="divider"></div>
+            <h1 class="receta-title">{{ object.titulo }}</h1>
+            <img src="{% if object.imagen %}{{ object.imagen.url }}{% else %}/media/alubias.jpeg.800x600_q85_crop.jpg{% endif %}" alt="Image" class="receta-thumbnail">
+            <div class="receta-entry">
+            <p class="receta-contenido" id="receta-contenido">{{ object.contenido }}</p>
+            {% for paso in object.pasos_set.all %}
+                <div class="receta-entry">
+                    <h3>Paso número {{ paso.numero}}</h3>
+                    <a href="{{ paso.imagen_paso.url }}" class="thumbnail-grande"><img src="{% if paso.imagen_paso %}{{ paso.imagen_paso.url }}{% else %}/media/alubias.jpeg.800x600_q85_crop.jpg{% endif %}" alt="Image" class="thumbnail-grande"></a>
+                    <div class="post-content-entry">
+                        <h3>{{ paso.descripcion }}</h3>
+                        <p>Tiempo de preparación: {{ paso.tiempo_preparacion }} minutos</p>
+                        <p>Tiempo de cocción: {{ paso.tiempo_coccion }} minutos</p>
+                    </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    <h2>Productos Recomendados</h2>
+    <ul>
+    {% for producto in recetas_recomendadas %}
+        <li>{{ producto.titulo }}</li>
+    {% endfor %}
+    </ul>
+
 {% endblock content %}
+{% block footer %}
+{% include "page/footer.html" %}
+{% endblock footer %}

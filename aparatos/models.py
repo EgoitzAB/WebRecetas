@@ -20,6 +20,7 @@ class Aparatos(models.Model):
     class Status(models.TextChoices):
         CREADO = 'CR', 'Creado'
         PUBLICADO = 'PB', 'Publicado'
+
     nombre = models.CharField(max_length=250)
     descripcion = models.TextField()
     usos = models.TextField()
@@ -28,7 +29,7 @@ class Aparatos(models.Model):
     status = models.CharField(max_length=2, choices=Status.choices, default=Status.CREADO)
     slug = AutoSlugField(unique=True, populate_from='nombre')
     tags = TaggableManager(blank=True)
-    categoria = models.ManyToManyField(Categoria)
+    categoria = models.ManyToManyField(Categoria, blank=True)
 
     def save(self, *args, **kwargs):
         if not self.slug:
@@ -53,6 +54,7 @@ class Modelos(models.Model):
     class Status(models.TextChoices):
         CREADO = 'CR', 'Creado'
         PUBLICADO = 'PB', 'Publicado'
+
     nombre = models.CharField(max_length=255)
     modelo = models.ForeignKey(Aparatos, on_delete=models.CASCADE)
     likes = models.ManyToManyField(User, related_name='aparatos_likes', blank=True)
@@ -64,11 +66,14 @@ class Modelos(models.Model):
     slug = AutoSlugField(unique=True, populate_from='nombre')
     tags = TaggableManager(blank=True)
     fecha_modificacion = models.DateTimeField(auto_now_add=True)
-    categoria = models.ManyToManyField(Categoria)
 
     def save(self, *args, **kwargs):
         if not self.slug:
-            self.slug = slugify(self.modelo)
+            # Generar el slug basado en el nombre del aparato y del modelo
+            self.slug = slugify(f"{self.modelo.nombre}-{self.nombre}")
+
+        # Resto de la lógica del método save
+        super().save(*args, **kwargs)
 
         if self.imagen:
             try:

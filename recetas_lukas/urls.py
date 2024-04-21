@@ -18,6 +18,15 @@ from django.contrib import admin
 from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
+from aparatos.sitemap import AparatosSitemap
+from core.sitemap import RecetasSitemap
+from django.contrib.sitemaps.views import sitemap
+
+
+sitemaps = {
+    'aparatos': AparatosSitemap,
+    'recetas': RecetasSitemap,
+}
 
 
 urlpatterns = [
@@ -27,4 +36,5 @@ urlpatterns = [
     path('', include('core.urls')),
     path("__debug__/", include("debug_toolbar.urls")),
     path('aparatos/', include('aparatos.urls')),
+    path('sitemap.xml', sitemap, {'sitemaps': sitemaps}, name='sitemap'),
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

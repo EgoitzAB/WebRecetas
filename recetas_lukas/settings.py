@@ -33,6 +33,8 @@ INTERNAL_IPS = [
     "127.0.0.1",
 ]
 
+SITE_ID = 1
+
 # Application definition
 
 INSTALLED_APPS = [
@@ -43,6 +45,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     "django.contrib.sites",
+    "django.contrib.sitemaps",
 
     'allauth',
     'allauth.account',
@@ -110,7 +113,7 @@ REDIS_HOST = os.getenv('REDIS_HOST')
 REDIS_PORT = int(os.getenv('REDIS_PORT'))
 REDIS_DB = int(os.getenv('REDIS_DB'))
 
-
+HISTORIAL_RECETAS_ID = 'historial'
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
 
@@ -139,9 +142,15 @@ AUTHENTICATION_BACKENDS = [
 
 SITE_ID = 1  # new
 
-ACCOUNT_EMAIL_VERIFICATION = "none"  # new
+ACCOUNT_AUTHENTICATION_METHOD = "username_email"
+ACCOUNT_CHANGE_EMAIL = True
+ACCOUNT_EMAIL_VERIFICATION = "mandatory"
+ACCOUNT_EMAIL_REQUIRED = True
 
 LOGIN_REDIRECT_URL = "/"  # new
+
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
 # Internationalization
 # https://docs.djangoproject.com/en/5.0/topics/i18n/
 

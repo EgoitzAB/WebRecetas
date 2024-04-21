@@ -34,7 +34,7 @@
                     <h3><a href="#">{{ receta.nombre }}</a></h3>
                     <p>{{ receta.descripcion }}</p>
                     <div class="meta">
-                        <a href="{% url 'core:recetas' slug=receta.slug %}">Ver detalles</a>
+                        <a href="{% url 'aparatos:aparatos_detalle' slug=receta.slug %}">Ver detalles</a>
                     <span>Puedes comprarlo en <a href="#">{{ receta.link_amazon }}</a></span> <span>o <a href="#">{{ receta.link_amazon }}</a></span>
                 </div>
                 </div>

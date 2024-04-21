@@ -27,6 +27,7 @@ header.masthead {
     background-position: center center;
     background-size: cover;
     margin-bottom: 6em;
+    position: static;
 }
 
 header.masthead .masthead-subheading {
@@ -57,41 +58,46 @@ header.masthead .masthead-heading {
   margin-bottom: 2.5em;
 }
 
-  #mainNav {
+#mainNav {
     padding-top: 1rem;
     padding-bottom: 1rem;
     background-color: #212529;
+    position: fixed;
+    margin-bottom: 2rem;
   }
-  #mainNav .navbar-toggler {
+
+#mainNav .navbar-toggler {
     padding: 0.75rem;
     text-transform: uppercase;
     font-weight: 700;
   }
-  #mainNav .navbar-brand {
+#mainNav .navbar-brand {
     color: #ffc800;
     font-weight: 700;
     letter-spacing: 0.0625em;
     text-transform: uppercase;
   }
-  #mainNav .navbar-brand img {
+#mainNav .navbar-brand img {
     height: 1.5rem;
   }
-  #mainNav .navbar-nav .nav-item .nav-link {
+#mainNav .navbar-nav .nav-item .nav-link {
     color: #fff;
     letter-spacing: 0.0625em;
-  }
-  #mainNav .navbar-nav .nav-item .nav-link.active, #mainNav .navbar-nav .nav-item .nav-link:hover {
+}
+#mainNav .navbar-nav .nav-item .nav-link.active, #mainNav .navbar-nav .nav-item .nav-link:hover {
     color: #ffc800;
-  }
+}
 
-  @media (min-width: 992px) {
+@media (min-width: 992px) {
     #mainNav {
+      position: fixed;
       padding-top: 1.5rem;
       padding-bottom: 1.5rem;
       border: none;
       background-color: transparent;
       transition: padding-top 0.3s ease-in-out, padding-bottom 0.3s ease-in-out;
     }
+
     #mainNav .navbar-brand {
       font-size: 1.5em;
       transition: font-size 0.3s ease-in-out;
@@ -183,6 +189,7 @@ header.masthead .masthead-heading {
   font-weight: 700;
   margin-bottom: 0;
 }
+
 #portfolio .portfolio-item .portfolio-caption .portfolio-caption-subheading {
   font-style: italic;
   font-family: "Roboto Slab", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
@@ -271,18 +278,21 @@ header.masthead .masthead-heading {
   padding: 0 20px 0 100px;
   text-align: left;
 }
+
 .timeline > li .timeline-panel:before {
   right: auto;
   left: -15px;
   border-right-width: 15px;
   border-left-width: 0;
 }
+
 .timeline > li .timeline-panel:after {
   right: auto;
   left: -14px;
   border-right-width: 14px;
   border-left-width: 0;
 }
+
 .timeline > li .timeline-image {
   position: absolute;
   z-index: 100;
@@ -296,38 +306,46 @@ header.masthead .masthead-heading {
   border-radius: 100%;
   background-color: #ffc800;
 }
+
 .timeline > li .timeline-image h4, .timeline > li .timeline-image .h4 {
   font-size: 10px;
   line-height: 14px;
   margin-top: 12px;
 }
+
 .timeline > li.timeline-inverted > .timeline-panel {
   float: right;
   padding: 0 20px 0 100px;
   text-align: left;
 }
+
 .timeline > li.timeline-inverted > .timeline-panel:before {
   right: auto;
   left: -15px;
   border-right-width: 15px;
   border-left-width: 0;
 }
+
 .timeline > li.timeline-inverted > .timeline-panel:after {
   right: auto;
   left: -14px;
   border-right-width: 14px;
   border-left-width: 0;
 }
+
 .timeline > li:last-child {
   margin-bottom: 0;
 }
+
 .timeline .timeline-heading h4, .timeline .timeline-heading .h4 {
   margin-top: 0;
   color: inherit;
 }
+
 .timeline .timeline-heading h4.subheading, .timeline .timeline-heading .subheading.h4 {
   text-transform: none;
 }
+
 .timeline .timeline-body > ul,
 .timeline .timeline-body > p {
   margin-bottom: 0;
@@ -491,4 +509,93 @@ header.masthead .masthead-heading {
 
 .form-container {
     margin-top: 100px; /* Ajusta este valor según sea necesario */
+}
+
+.navbar-login
+{
+    width: 305px;
+    padding: 10px;
+    padding-bottom: 0px;
+}
+
+.navbar-login-session
+{
+    padding: 10px;
+    padding-bottom: 0px;
+    padding-top: 0px;
+}
+
+.icon-size
+{
+    font-size: 87px;
+}
+
+.pagination {
+  justify-content: center;
+}
+
+/*-----------Página de detalle de recetas-----------------*/
+
+.receta-section {
+  display: block;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+.receta-margin {
+  margin-top: 14rem;
+  height: 200px;
+}
+
+.receta-title {
+  text-align: center;
+  margin-bottom: 8rem;
+}
+
+.receta-entry {
+  justify-content: center;
+  text-align: center;
+}
+
+.receta-thumbnail {
+  width: 60vw;
+  display: block;
+  margin: 0 auto;
+  justify-content: center;
+  border-radius: 40px;
+  -webkit-transition: .3s all ease;
+  -o-transition: .3s all ease;
+  transition: .3s all ease;
+}
+
+.receta-thumbnail:hover, .receta-thumbnail:focus {
+  opacity: .7;
+}
+
+.receta-contenido {
+  margin-top: 5rem;
+  margin-bottom: 3rem;
+  text-align: center;
+}
+@media (max-width: 600px) {
+  .divider {
+    height: 10px;
+    margin-top: 10rem;
+  }
+}
+
+.thumbnail-grande {
+  width: 35vw; /* Ajustar el ancho deseado */
+  height: auto;
+  display: block;
+  margin: 0 auto;
+}
+
+.recomendaciones {
+  display: block;
+}
+
+.footer {
+  position: relative;
+  bottom: 0;
+  width: 100%;
 }
