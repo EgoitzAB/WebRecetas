@@ -27,7 +27,13 @@ def home(request):
         # Obtener las recetas más vistas utilizando la función recetas_mas_vistas
         recetas_destacadas = recetas_mas_vistas(request, cantidad_recetas=6)
         # Obtener las recetas distintas y las recetas normales
-        recetas_distintas = ItemsPagina.objects.filter(status='CR').order_by('categoria').distinct('categoria')
+        recetas_distintas_list = ItemsPagina.objects.filter(status='CR').order_by('categoria').distinct('categoria')
+        recetas_distintas = []
+        for receta_distinta in recetas_distintas_list:
+            # Obtener una receta por categoría
+            receta_distintas_categoria = ItemsPagina.objects.filter(status='CR', categoria=receta_distinta.categoria).first()
+            if receta_distintas_categoria:
+                recetas_distintas.append(receta_distintas_categoria)
         recetas = ItemsPagina.objects.filter(status="CR")[:6]
         # Obtener el número de vistas de cada receta
         for receta in recetas_destacadas:

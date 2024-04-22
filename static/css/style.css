@@ -45,6 +45,10 @@ header.masthead .masthead-heading {
 
   }
 
+.form-search {
+  width: 140px;
+}
+
 .main-section {
   margin-top: 4em;
 }
@@ -89,6 +93,16 @@ header.masthead .masthead-heading {
 }
 
 @media (min-width: 992px) {
+  .navbar-expand-lg .navbar-nav .nav-link {
+    padding-right: 1px; /* Eliminar el padding derecho */
+    padding-left: 1px; /* Eliminar el padding izquierdo */
+  }
+
+  .navbar-expand-lg form {
+    margin-left: auto;
+  }
+
+
     #mainNav {
       position: fixed;
       padding-top: 1.5rem;
@@ -598,4 +612,14 @@ header.masthead .masthead-heading {
   position: relative;
   bottom: 0;
   width: 100%;
+}
+
+.paso-descripcion {
+  margin-top: 4rem;
+  margin-bottom: 4rem;
+}
+
+.encabezado-pasos {
+  margin-top: 4rem;
+  margin-bottom: 4rem;
 }

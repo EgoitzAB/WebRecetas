@@ -19,14 +19,34 @@
         <div class="divider"></div>
             <h1 class="receta-title">{{ object.titulo }}</h1>
             <img src="{% if object.imagen %}{{ object.imagen.url }}{% else %}/media/alubias.jpeg.800x600_q85_crop.jpg{% endif %}" alt="Image" class="receta-thumbnail">
-            <div class="receta-entry">
-            <p class="receta-contenido" id="receta-contenido">{{ object.contenido }}</p>
+        <div class="receta-entry">
+        <p class="receta-contenido" id="receta-contenido">{{ object.contenido }}</p>
+        <div class="row">
+            <div class="col-md-6">
+                <h5>Ingredientes:</h5>
+                <ul>
+                    {% for ingrediente in object.ingredientes_set.all %}
+                        <li>{{ ingrediente.nombre }} - {{ ingrediente.cantidad }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+            <div class="col-md-6">
+                <h5>Tiempo Total:</h5>
+                <ul>
+                    <li>Tiempo de Preparación: {{ object.tiempo_total.0 }} minutos</li>
+                    <li>Tiempo de Cocción: {{ object.tiempo_total.1 }} minutos</li>
+                    <li>Tiempo Total Combinado: {{ object.tiempo_total.2 }} minutos</li>
+                </ul>
+            </div>
+        </div>
+        </div>
+
             {% for paso in object.pasos_set.all %}
                 <div class="receta-entry">
-                    <h3>Paso número {{ paso.numero}}</h3>
+                    <h3 class="encabezado-pasos">Paso número {{ paso.numero}}</h3>
                     <a href="{{ paso.imagen_paso.url }}" class="thumbnail-grande"><img src="{% if paso.imagen_paso %}{{ paso.imagen_paso.url }}{% else %}/media/alubias.jpeg.800x600_q85_crop.jpg{% endif %}" alt="Image" class="thumbnail-grande"></a>
                     <div class="post-content-entry">
-                        <h3>{{ paso.descripcion }}</h3>
+                        <p class="paso-descripcion">{{ paso.descripcion }}</p>
                         <p>Tiempo de preparación: {{ paso.tiempo_preparacion }} minutos</p>
                         <p>Tiempo de cocción: {{ paso.tiempo_coccion }} minutos</p>
                     </div>
@@ -34,12 +54,54 @@
             {% endfor %}
         </div>
     </div>
-    <h2>Productos Recomendados</h2>
-    <ul>
-    {% for producto in recetas_recomendadas %}
-        <li>{{ producto.titulo }}</li>
-    {% endfor %}
-    </ul>
+
+    <div class="blog-section">
+        <div class="container">
+            <div id="carouselExampleAutoplaying1" class="carousel slide" data-bs-ride="carousel">
+                <div class="carousel-inner">
+                    {% for receta in recetas_recomendadas %}
+                        {% if forloop.first or forloop.counter0|divisibleby:2 %}
+                            <div class="carousel-item {% if forloop.first %}active{% endif %}">
+                                <div class="row">
+                        {% endif %}
+                        <div class="col-12 col-sm-6 mb-5">
+                            <div class="post-entry">
+                                <a href="#" class="post-thumbnail">
+                                    <img src="{% if receta.imagen %}{{ receta.imagen.url }}{% else %}/media/alubias.jpeg.800x600_q85_crop.jpg{% endif %}" alt="Image" class="img-fluid">
+                                </a>
+                                <div class="post-content-entry">
+                                    <h3><a href="#">{{ receta.titulo }} vista: {{ receta.num_vistas }}</a></h3>
+                                    <p>{{ receta.contenido }}</p>
+                                    <div class="meta">
+                                        <a href="{% url 'core:recetas' slug=receta.slug %}">Ver detalles</a>
+                                        <span>Hecha por<a href="#">{{ receta.autor }}</a></span>
+                                        <span>el <a href="#">{{ receta.fecha_modificacion }}</a></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {% if forloop.last or forloop.counter0|add:1|divisibleby:2 %}
+                                </div><!--/.row-->
+                            </div><!--/.carousel-item-->
+                        {% endif %}
+                    {% endfor %}
+                    {% if recetas_recomendadas|length|divisibleby:2 %}
+                        <!-- Agregar un div vacío para rellenar el espacio -->
+                        <div class="col-12 col-sm-6 mb-5"></div>
+                    {% endif %}
+                </div><!--/.carousel-inner-->
+                <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleAutoplaying1" data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="">Previous</span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleAutoplaying1" data-bs-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="">Next</span>
+                </button>
+            </div><!--/#carouselExampleAutoplaying-->
+        </div><!--/.container-->
+    </div><!--/.blog-section-->
+
 
 {% endblock content %}
 {% block footer %}

@@ -1,14 +1,14 @@
 <nav class="navbar navbar-dark navbar-expand-lg fixed-top d-flex" id="mainNav">
   <div class="container-fluid">
-    <a class="navbar-brand fs-3" href="{% url 'core:home' %}">El Recetario de Patxi</a>
+    <a class="navbar-brand fs-5" href="{% url 'core:home' %}">El Recetario de Patxi</a>
     <!-- Botón de hamburguesa -->
     <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasDarkNavbar" aria-controls="offcanvasDarkNavbar" aria-label="Toggle navigation">
       Menú<span class="navbar-toggler-icon menu-toggler"></span>
     </button>
 
     <!-- Contenido del navbar -->
-    <div class="collapse navbar-collapse justify-content-between" id="navbarSupportedContent">
-      <ul class="navbar-nav">
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
         <li class="nav-item">
           <a class="nav-link active" aria-current="page" href="{% url 'core:home' %}">Portada</a>
         </li>
@@ -25,12 +25,12 @@
 
       <!-- Campo de búsqueda -->
       <form class="d-flex col-lg-auto col-md-12" role="search" action="{% url 'core:receta_search' %}">
-        <input class="form-control me-2" type="search" placeholder="Buscar recetas" aria-label="Search">
-        <button class="btn btn-success" type="submit">Buscar</button>
+        <input class="form-control form-control-sm form-search me-2" type="search" placeholder="Buscar recetas" aria-label="Search">
+        <button class="btn btn-success btn-sm" type="submit">Buscar</button>
       </form>
 
       <!-- Bloque de autenticación -->
-      <ul class="nav navbar-nav navbar-right">
+      <ul class="nav navbar-nav navbar-right ms-auto">
         {% if user.is_authenticated %}
         <li class="nav-item dropdown">
           <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">

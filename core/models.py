@@ -35,6 +35,7 @@ class ItemsPagina(models.Model):
         ('otr', 'Otro'),]
 
     titulo = models.CharField(max_length=250)
+    autor = models.CharField(max_length=100, default="Lucas")
     contenido = models.TextField()
     fecha_creacion = models.DateTimeField(auto_now_add=True)
     fecha_modificacion = models.DateTimeField(auto_now=True)
@@ -65,7 +66,10 @@ class ItemsPagina(models.Model):
 
     @property
     def tiempo_total(self):
-        return self.pasos_set.aggregate(Sum('tiempo_preparacion'))['tiempo_preparacion__sum'] or 0
+        tiempo_preparacion_total = self.pasos_set.aggregate(Sum('tiempo_preparacion'))['tiempo_preparacion__sum'] or 0
+        tiempo_coccion_total = self.pasos_set.aggregate(Sum('tiempo_coccion'))['tiempo_coccion__sum'] or 0
+        tiempo_total_combinado = tiempo_preparacion_total + tiempo_coccion_total
+        return tiempo_preparacion_total, tiempo_coccion_total, tiempo_total_combinado
 
     def __str__(self):
         return self.titulo
