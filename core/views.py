@@ -5,7 +5,7 @@ from django.contrib.postgres.search import SearchVector, SearchQuery, SearchRank
 from .forms import SearchForm, ItemsPaginaForm
 from django.views.generic import DetailView, ListView
 from django.http import JsonResponse
-from django.views import View
+from django.views import View, generic
 from django.db.models import Q
 from django.views.decorators.cache import cache_page
 from django.core.cache import cache
@@ -27,13 +27,13 @@ def home(request):
         # Obtener las recetas más vistas utilizando la función recetas_mas_vistas
         recetas_destacadas = recetas_mas_vistas(request, cantidad_recetas=6)
         # Obtener las recetas distintas y las recetas normales
-        recetas_distintas_list = ItemsPagina.objects.filter(status='CR').order_by('categoria').distinct('categoria')
+        # Agrupar las recetas por categoría y seleccionar una receta representativa de cada categoría
         recetas_distintas = []
-        for receta_distinta in recetas_distintas_list:
-            # Obtener una receta por categoría
-            receta_distintas_categoria = ItemsPagina.objects.filter(status='CR', categoria=receta_distinta.categoria).first()
-            if receta_distintas_categoria:
-                recetas_distintas.append(receta_distintas_categoria)
+        categorias_distintas = set()  # Usamos un conjunto para mantener las categorías únicas
+        for receta in ItemsPagina.objects.filter(status='CR'):
+            if receta.categoria not in categorias_distintas:
+                recetas_distintas.append(receta)
+                categorias_distintas.add(receta.categoria)
         recetas = ItemsPagina.objects.filter(status="CR")[:6]
         # Obtener el número de vistas de cada receta
         for receta in recetas_destacadas:
@@ -151,3 +151,11 @@ class AutocompleteView(View):
         results = [{'id': receta.slug, 'text': receta.titulo, } for receta in recetas]
         print(results)
         return JsonResponse(results, safe=False)
+
+
+class TermsOfUseView(generic.TemplateView):
+    template_name = 'core/terminos_de_uso.html'
+
+
+class PrivacidadView(generic.TemplateView):
+    template_name = 'core/privacidad.html'

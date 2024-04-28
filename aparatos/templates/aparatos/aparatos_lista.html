@@ -18,32 +18,45 @@
         </header>
 <div class="form-container">
 <form method="GET">
-    {{ form.as_p }}
+    <select name="categorias">
+        <option value="">Todas las categorías</option>
+        {% for categorias_id, categorias_nombre in form.fields.categorias.choices %}
+            <option value="{{ categorias_id }}">{{ categorias_nombre }}</option>
+        {% endfor %}
+    </select>
     <button type="submit">Filtrar</button>
 </form>
+
 </div>
 
 <div class="blog-section">
     <div class="container">
         <div class="row">
             {% for receta in object_list %}
-            <div class="col-12 col-sm-6 col-md-4 mb-5">
-                <div class="post-entry">
-                <a href="#" class="post-thumbnail"><img src="{% if receta.imagen %}{{ receta.imagen.url }}{% else %}/media/alubias.jpeg.800x600_q85_crop.jpg{% endif %}" alt="Image" class="img-fluid"></a>
-                <div class="post-content-entry">
-                    <h3><a href="#">{{ receta.nombre }}</a></h3>
-                    <p>{{ receta.descripcion }}</p>
-                    <div class="meta">
-                        <a href="{% url 'aparatos:aparatos_detalle' slug=receta.slug %}">Ver detalles</a>
-                    <span>Puedes comprarlo en <a href="#">{{ receta.link_amazon }}</a></span> <span>o <a href="#">{{ receta.link_amazon }}</a></span>
+                <div class="col-12 col-sm-6 col-md-4 mb-5">
+                    <div class="post-entry">
+                        <a href="#" class="post-thumbnail"><img src="{% if receta.imagen %}{{ receta.imagen.url }}{% else %}/media/alubias.jpeg.800x600_q85_crop.jpg{% endif %}" alt="Image" class="img-fluid"></a>
+                        <div class="post-content-entry">
+                            <h3><a href="#">{{ receta.nombre }}</a></h3>
+                            <p>{{ receta.descripcion }}</p>
+                            <div class="meta">
+                                <a href="{% url 'aparatos:aparatos_detalle' slug=receta.slug %}">Ver detalles</a>
+                                <span>Puedes comprarlo en <a href="#">{{ receta.link_amazon }}</a></span> <span>o <a href="#">{{ receta.link_amazon }}</a></span>
+                            </div>
+                        </div>
+                        <h3>Modelos Asociados:</h3>
+                        <ul>
+                            {% for modelo in receta.modelos_set.all %}
+                                <li><a href="{% url 'aparatos:modelo_detalle' modelo.slug %}">{{ modelo.nombre }}</a></li>
+                            {% endfor %}
+                        </ul>
+                    </div>
                 </div>
-                </div>
-            </div>
-            </div>
             {% endfor %}
         </div>
     </div>
 </div>
+
 
 {% endblock content %}
 

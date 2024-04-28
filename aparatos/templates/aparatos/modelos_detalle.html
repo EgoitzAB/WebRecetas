@@ -9,24 +9,19 @@
 {% endblock header %}
 
 {% block content %}
-<div class="recipe-detail">
+<div class="modelo-detail">
     <h1>{{ object.nombre }}</h1>
     {% if object.imagen %}
         <img src="{{ object.imagen.url }}" alt="{{ object.nombre }}">
     {% else %}
         <p>No hay imagen disponible</p>
     {% endif %}
-    <p>Descripción: {{ object.descripcion }}</p>
-    <p>Usos: {{ object.usos }}</p>
-    <p>Características Generales: {{ object.caracteristica_generales }}</p>
-    <h2>Modelos asociados:</h2>
-    <ul>
-        {% for modelo in object.modelos_set.all %}
-            <li><a href="{% url 'aparatos:modelo_detalle' modelo.slug %}">{{ modelo.nombre }}</a></li>
-        {% endfor %}
-    </ul>
+    <p>Características: {{ object.caracteristicas_modelo }}</p>
+    <p>Año: {{ object.año }}</p>
+    <p>Link de Amazon: <a href="{{ object.link_amazon }}">{{ object.link_amazon }}</a></p>
 </div>
 {% endblock content %}
+
 {% block footer %}
 {% include 'page/footer.html' %}
 {% endblock footer %}

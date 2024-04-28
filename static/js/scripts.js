@@ -67,8 +67,8 @@ responsiveNavItems.map(function (responsiveNavItem) {
 
 });
 
-// Select2 for the main searching feature
 $(document).ready(function() {
+    // Inicializa Select2 en el campo de búsqueda principal
     $('.search-field').select2({
         ajax: {
             url: autocompleteUrl,
@@ -76,10 +76,11 @@ $(document).ready(function() {
             delay: 250,
             data: function (params) {
                 return {
-                    q: params.term, // search term
+                    q: params.term, // término de búsqueda
                 };
             },
             processResults: function (data) {
+                console.log('Datos de respuesta del servidor para principal:', data);
                 return {
                     results: data,
                 };
@@ -89,9 +90,43 @@ $(document).ready(function() {
     }).on('select2:select', function (e) {
         var data = e.params.data;
         console.log('Selected data:', data);
-        window.location.href = '/receta_detalle/' + data.id + '/';  // Redirige al usuario a la página de detalles de la receta seleccionada
+        window.location.href = '/receta_detalle/' + data.id + '/';
+    });
+
+    // Evento que se dispara cuando el offcanvas se muestra
+    $('#offcanvasNavbar2').on('shown.bs.offcanvas', function () {
+        console.log("Offcanvas mostrado");
+        
+        // Espera un breve momento antes de inicializar Select2 en el campo de búsqueda del offcanvas
+        setTimeout(function() {
+            // Inicializa Select2 en el campo de búsqueda del offcanvas
+            $('#search-field').select2({
+                ajax: {
+                    url: autocompleteUrl,
+                    dataType: 'json',
+                    delay: 250,
+                    data: function (params) {
+                        return {
+                            q: params.term, // término de búsqueda
+                        };
+                    },
+                    processResults: function (data) {
+                        console.log('Datos de respuesta del servidor para offcanvas:', data);
+                        return {
+                            results: data,
+                        };
+                    },
+                },
+                minimumInputLength: 3,
+            }).on('select2:select', function (e) {
+                var data = e.params.data;
+                console.log('Selected data:', data);
+                window.location.href = '/receta_detalle/' + data.id + '/';
+            });
+        }, 100); // Espera 100 milisegundos antes de inicializar Select2 en el offcanvas
     });
 });
+
 
 window.addEventListener('scroll', function() {
     var timelineElements = document.querySelectorAll('.timeline > li');

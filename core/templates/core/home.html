@@ -3,7 +3,6 @@
 {% block extrahead %}
 {% endblock extrahead %}
 {% block header %}
-<script src="{% static 'js/scripts.js' %}"></script>
 {% include "page/navbar.html" %}
 {% endblock header %}
 {% block content %}
@@ -137,128 +136,123 @@
         </div>
         </section>
         <!-- Categorías -->
-<section class="page-section" id="about">
-    <div class="container">
-        <div class="text-center">
-            <h2 class="main-title text-uppercase">Las categorías</h2>
-            <h3 class="main-subtitle text-muted">Conoce las diferentes categorías disponibles.</h3>
-        </div>
-        <div class="timeline-container">
-            <ul class="timeline">
-                {% for receta in recetas_distintas %}
-                    {% if forloop.counter <= 4 %}
-                        <li {% if forloop.counter|divisibleby:2 %}class="timeline-inverted"{% endif %}>
-                            <div class="timeline-image">
-                                {% if receta.imagen %}
-                                    <img class="rounded-circle img-fluid" src="{{ receta.imagen.url }}" alt="{{ receta.titulo }}" />
-                                {% else %}
-                                    <!-- Mostrar una imagen predeterminada o nada -->
-                                {% endif %}
-                            </div>
-                            <div class="timeline-panel">
-                                <div class="timeline-heading">
-                                    <h4>{{ receta.categoria }}</h4>
-                                    <h4 class="subheading">Número de recetas: {{ receta.num_recetas }}</h4>
-                                </div>
-                                <div class="timeline-body">
-                                    <p class="text-muted">{{ receta.contenido }}</p>
-                                    <p class="text-muted">Fecha de creación: {{ receta.fecha_creacion }}</p>
-                                </div>
-                            </div>
-                        </li>
-                    {% endif %}
-                {% endfor %}
-                        <li class="timeline-inverted">
-                            <a class="timeline-link" href="#">
+    <section class="page-section" id="about">
+        <div class="container">
+            <div class="text-center">
+                <h2 class="main-title text-uppercase">Las categorías</h2>
+                <h3 class="main-subtitle text-muted">Conoce las diferentes categorías disponibles.</h3>
+            </div>
+            <div class="timeline-container">
+                <ul class="timeline">
+                    {% for receta in recetas_distintas %}
+                        {% if forloop.counter <= 4 %}
+                            <li {% if forloop.counter|divisibleby:2 %}class="timeline-inverted"{% endif %}>
                                 <div class="timeline-image">
-                                    <h4>
-                                        Expande
-                                        <br />
-                                        Las
-                                        <br />
-                                        Categorías
-                                    </h4>
+                                    {% if receta.imagen %}
+                                        <img class="rounded-circle img-fluid" src="{{ receta.imagen.url }}" alt="{{ receta.titulo }}" />
+                                    {% else %}
+                                        <!-- Mostrar una imagen predeterminada o nada -->
+                                    {% endif %}
                                 </div>
-                            </a>
-                        </li>
-            </ul>
-            <ul class="timeline card-hidden">
-                {% for receta in recetas_distintas %}
-                    {% if forloop.counter > 4 %}
-                        <li {% if forloop.counter|divisibleby:2 %}class="timeline-inverted"{% endif %}>
-                            <div class="timeline-image">
-                                {% if receta.imagen %}
-                                    <img class="rounded-circle img-fluid" src="{{ receta.imagen.url }}" alt="{{ receta.titulo }}" />
-                                {% else %}
-                                    <!-- Mostrar una imagen predeterminada o nada -->
-                                {% endif %}
-                            </div>
-                            <div class="timeline-panel">
-                                <div class="timeline-heading">
-                                    <h4>{{ receta.categoria }}</h4>
-                                    <h4 class="subheading">Número de recetas: {{ receta.num_recetas }}</h4>
+                                <div class="timeline-panel">
+                                    <div class="timeline-heading">
+                                        <h4>{{ receta.categoria }}</h4>
+                                        <h4 class="subheading">Número recetas: {{ receta.num_recetas }}</h4>
+                                    </div>
+                                    <div class="timeline-body">
+                                        <p class="text-muted">{{ receta.contenido }}</p>
+                                        <p class="text-muted">Fecha de creación: {{ receta.fecha_creacion }}</p>
+                                    </div>
                                 </div>
-                                <div class="timeline-body">
-                                    <p class="text-muted">{{ receta.contenido }}</p>
-                                    <p class="text-muted">Fecha de creación: {{ receta.fecha_creacion }}</p>
+                            </li>
+                        {% endif %}
+                    {% endfor %}
+                            <li class="timeline-inverted">
+                                <a class="timeline-link" href="#">
+                                    <div class="timeline-image">
+                                        <h4>
+                                            Expande
+                                            <br />
+                                            Las
+                                            <br />
+                                            Categorías
+                                        </h4>
+                                    </div>
+                                </a>
+                            </li>
+                </ul>
+                <ul class="timeline card-hidden">
+                    {% for receta in recetas_distintas %}
+                        {% if forloop.counter > 4 %}
+                            <li {% if forloop.counter|divisibleby:2 %}class="timeline-inverted"{% endif %}>
+                                <div class="timeline-image">
+                                    {% if receta.imagen %}
+                                        <img class="rounded-circle img-fluid" src="{{ receta.imagen.url }}" alt="{{ receta.titulo }}" />
+                                    {% else %}
+                                        <!-- Mostrar una imagen predeterminada o nada -->
+                                    {% endif %}
                                 </div>
-                            </div>
-                        </li>
-                    {% endif %}
-                {% endfor %}
-                    <li class="timeline-inverted">
-                    <div class="timeline-image">
-                        <h4>
-                            A cocinar
-                            <br />
-                            Ñam
-                            <br />
-                        </h4>
-                    </div>
-                </li>
-            </ul>
+                                <div class="timeline-panel">
+                                    <div class="timeline-heading">
+                                        <h4>{{ receta.categoria }}</h4>
+                                        <h4 class="subheading">Número de recetas: {{ receta.num_recetas }}</h4>
+                                    </div>
+                                    <div class="timeline-body">
+                                        <p class="text-muted">{{ receta.contenido }}</p>
+                                        <p class="text-muted">Fecha de creación: {{ receta.fecha_creacion }}</p>
+                                    </div>
+                                </div>
+                            </li>
+                        {% endif %}
+                    {% endfor %}
+                        <li class="timeline-inverted">
+                        <div class="timeline-image">
+                            <h4>
+                                A cocinar
+                                <br />
+                                Ñam
+                                <br />
+                            </h4>
+                        </div>
+                    </li>
+                </ul>
+            </div>
         </div>
-    </div>
-</section>
-
+    </section>
 
 <!-- Sección de las estadísticas -->
 <section id="stats-counter" class="stats-counter">
-      <div class="container aos-init aos-animate" data-aos="zoom-out">
-
+    <div class="container aos-init aos-animate" data-aos="zoom-out">
         <div class="row gy-4">
-
-          <div class="col-lg-3 col-md-6">
+        <div class="col-lg-3 col-md-6">
             <div class="stats-item text-center w-100 h-100">
-              <span data-purecounter-start="0" data-purecounter-end="232" data-purecounter-duration="0" class="purecounter">232</span>
-              <p>Clients</p>
+            <span data-purecounter-start="0" data-purecounter-end="232" data-purecounter-duration="0" class="purecounter">232</span>
+            <p>Visitas</p>
             </div>
-          </div>
-
-          <div class="col-lg-3 col-md-6">
+        </div>
+        <div class="col-lg-3 col-md-6">
             <div class="stats-item text-center w-100 h-100">
-              <span data-purecounter-start="0" data-purecounter-end="521" data-purecounter-duration="0" class="purecounter">521</span>
-              <p>Projects</p>
-            </div>
-          </div>
-
-          <div class="col-lg-3 col-md-6">
+            <span data-purecounter-start="0" data-purecounter-end="521" data-purecounter-duration="0" class="purecounter">521</span>
+            <p>Recetas</p>
+        </div>
+        </div>
+        <div class="col-lg-3 col-md-6">
             <div class="stats-item text-center w-100 h-100">
-              <span data-purecounter-start="0" data-purecounter-end="1453" data-purecounter-duration="0" class="purecounter">1453</span>
-              <p>Hours Of Support</p>
+            <span data-purecounter-start="0" data-purecounter-end="1453" data-purecounter-duration="0" class="purecounter">1453</span>
+            <p>Hours Of Support</p>
             </div>
-          </div>
+        </div>
 
-          <div class="col-lg-3 col-md-6">
+        <div class="col-lg-3 col-md-6">
             <div class="stats-item text-center w-100 h-100">
-              <span data-purecounter-start="0" data-purecounter-end="32" data-purecounter-duration="0" class="purecounter">32</span>
-              <p>Workers</p>
+            <span data-purecounter-start="0" data-purecounter-end="32" data-purecounter-duration="0" class="purecounter">32</span>
+            <p>Workers</p>
             </div>
-          </div>
+        </div>
 
         </div>
 
-      </div>
+    </div>
     </section>
     <!-- Terminar la sección de las estadísticas -->
 
@@ -288,7 +282,7 @@
                                         <p>{{ receta.contenido }}</p>
                                         <div class="meta">
                                             <a href="{% url 'core:recetas' slug=receta.slug %}">Ver detalles</a>
-                                            <span>by <a href="#">{{ receta.author }}</a></span> 
+                                            <span>by <a href="#">{{ receta.author }}</a></span>
                                             <span>on <a href="#">{{ receta.date }}</a></span>
                                         </div>
                                     </div>

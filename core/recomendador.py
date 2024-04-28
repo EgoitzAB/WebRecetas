@@ -74,7 +74,6 @@ class RecetaHistorial:
             print("Recetas vistas juntas actualizadas.")
             self.session[settings.HISTORIAL_RECETAS_ID] = {}
             print("Recomendaciones limpiadas.")
-
             # Actualizar la hora de inicio de la sesión para la próxima vez
             self.session_start = timezone.now().isoformat()
             self.session['_session_creation_time'] = self.session_start

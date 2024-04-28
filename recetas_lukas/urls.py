@@ -32,7 +32,6 @@ sitemaps = {
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('accounts/', include('allauth.urls')),
-    path('menaje/', include('menaje.urls')),
     path('', include('core.urls')),
     path("__debug__/", include("debug_toolbar.urls")),
     path('aparatos/', include('aparatos.urls')),

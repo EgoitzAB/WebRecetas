@@ -8,16 +8,16 @@ class SearchForm(forms.Form):
 class ItemsPaginaForm(forms.Form):
     CATEGORIAS_CHOICES = [
         ('', 'Todas las categorías'),  # Opción por defecto para mostrar todas las categorías
-        ('car', 'Carne'),
-        ('pes', 'Pescado'),
+        ('carne', 'Carne'),
+        ('pescado', 'Pescado'),
         ('ave', 'Ave'),
-        ('cal', 'Caldo'),
-        ('ens', 'Ensalada'),
-        ('pas', 'Pasta'),
-        ('pos', 'Postre'),
-        ('sop', 'Sopa'),
-        ('ver', 'Verdura'),
-        ('otr', 'Otro'),
+        ('caldo', 'Caldo'),
+        ('ensalada', 'Ensalada'),
+        ('pasta', 'Pasta'),
+        ('postre', 'Postre'),
+        ('sopa', 'Sopa'),
+        ('verdura', 'Verdura'),
+        ('otro', 'Otro'),
     ]
 
     categoria = forms.ChoiceField(choices=CATEGORIAS_CHOICES, required=False)

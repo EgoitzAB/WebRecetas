@@ -49,6 +49,19 @@ header.masthead .masthead-heading {
   width: 140px;
 }
 
+.offcanvas-open .search-field {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 10;
+}
+
+.offcanvas-open .search-field {
+  position: relative;
+}
+
 .main-section {
   margin-top: 4em;
 }
@@ -622,4 +635,8 @@ header.masthead .masthead-heading {
 .encabezado-pasos {
   margin-top: 4rem;
   margin-bottom: 4rem;
+}
+
+.select2-search {
+  z-index: 9999999999999999999;
 }

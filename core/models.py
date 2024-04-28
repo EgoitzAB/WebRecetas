@@ -23,16 +23,16 @@ class ItemsPagina(models.Model):
         CREADO = 'CR', 'Creado'
         PUBLICADO = 'PB', 'Publicado'
     CATEGORIAS = [
-        ('car', 'Carne'),
-        ('pes', 'Pescado'),
+        ('carne', 'Carne'),
+        ('pescado', 'Pescado'),
         ('ave', 'Ave'),
-        ('cal', 'Caldo'),
-        ('ens', 'Ensalada'),
-        ('pas', 'Pasta'),
-        ('pos', 'Postre'),
-        ('sop', 'Sopa'),
-        ('ver', 'Verdura'),
-        ('otr', 'Otro'),]
+        ('caldo', 'Caldo'),
+        ('ensalada', 'Ensalada'),
+        ('pasta', 'Pasta'),
+        ('postre', 'Postre'),
+        ('sopa', 'Sopa'),
+        ('verdura', 'Verdura'),
+        ('otro', 'Otro'),]
 
     titulo = models.CharField(max_length=250)
     autor = models.CharField(max_length=100, default="Lucas")

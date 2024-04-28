@@ -58,7 +58,6 @@ INSTALLED_APPS = [
     'redisboard',
 
     'core',
-    'menaje',
     'aparatos',
 ]
 
