@@ -22,8 +22,7 @@ $(document).ready(function() {
 }); */
 
 window.addEventListener('DOMContentLoaded', event => {
-
-  // Navbar shrink function
+    // Navbar shrink function
     var navbarShrink = function () {
     const navbarCollapsible = document.body.querySelector('#mainNav');
     if (!navbarCollapsible) {
@@ -34,23 +33,21 @@ window.addEventListener('DOMContentLoaded', event => {
     } else {
         navbarCollapsible.classList.add('navbar-shrink')
     }
-
 };
-
-// Shrink the navbar
+    // Shrink the navbar
 navbarShrink();
 
-// Shrink the navbar when page is scrolled
-document.addEventListener('scroll', navbarShrink);
+    // Shrink the navbar when page is scrolled
+    document.addEventListener('scroll', navbarShrink);
 
 //  Activate Bootstrap scrollspy on the main nav element
-const mainNav = document.body.querySelector('#mainNav');
-if (mainNav) {
-    new bootstrap.ScrollSpy(document.body, {
-        target: '#mainNav',
-        rootMargin: '0px 0px -40%',
-    });
-};
+    const mainNav = document.body.querySelector('#mainNav');
+    if (mainNav) {
+        new bootstrap.ScrollSpy(document.body, {
+            target: '#mainNav',
+            rootMargin: '0px 0px -40%',
+        });
+    };
 
 // Collapse responsive navbar when toggler is visible
 const navbarToggler = document.body.querySelector('.navbar-toggler');
@@ -96,11 +93,8 @@ $(document).ready(function() {
     // Evento que se dispara cuando el offcanvas se muestra
     $('#offcanvasNavbar2').on('shown.bs.offcanvas', function () {
         console.log("Offcanvas mostrado");
-        
-        // Espera un breve momento antes de inicializar Select2 en el campo de búsqueda del offcanvas
-        setTimeout(function() {
             // Inicializa Select2 en el campo de búsqueda del offcanvas
-            $('#search-field').select2({
+            $('.search-field').select2({
                 ajax: {
                     url: autocompleteUrl,
                     dataType: 'json',
@@ -117,13 +111,13 @@ $(document).ready(function() {
                         };
                     },
                 },
+                dropdownParent: $('#offcanvasNavbar2'),
                 minimumInputLength: 3,
             }).on('select2:select', function (e) {
                 var data = e.params.data;
                 console.log('Selected data:', data);
                 window.location.href = '/receta_detalle/' + data.id + '/';
             });
-        }, 100); // Espera 100 milisegundos antes de inicializar Select2 en el offcanvas
     });
 });
 

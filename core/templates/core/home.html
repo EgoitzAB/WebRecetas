@@ -257,56 +257,56 @@
     <!-- Terminar la sección de las estadísticas -->
 
 <!-- Carrousel final con las recetas -->
-<section class="page-section" id="services">
-    <div class="container">
-        <div class="text-center">
-            <h2 class="text-uppercase">Nuestras recetas más vistas</h2>
-            <h3 class="text-muted main-subtitle">Aquí están las más populares</h3>
-        </div>
-        <div class="blog-section">
+        <section class="page-section" id="services">
             <div class="container">
-                <div id="carouselExampleAutoplaying1" class="carousel slide" data-bs-ride="carousel">
-                    <div class="carousel-inner">
-                        {% for receta in recetas_destacadas %}
-                            {% if forloop.first or forloop.counter0|divisibleby:3 %}
-                                <div class="carousel-item {% if forloop.first %}active{% endif %}">
-                                    <div class="row">
-                            {% endif %}
-                            <div class="col-12 col-sm-6 col-md-4 mb-5">
-                                <div class="post-entry">
-                                    <a href="#" class="post-thumbnail">
-                                        <img src="{% if receta.imagen %}{{ receta.imagen.url }}{% else %}/media/alubias.jpeg.800x600_q85_crop.jpg{% endif %}" alt="Image" class="img-fluid">
-                                    </a>
-                                    <div class="post-content-entry">
-                                        <h3><a href="#">{{ receta.titulo }} vista: {{ receta.num_vistas }}</a></h3>
-                                        <p>{{ receta.contenido }}</p>
-                                        <div class="meta">
-                                            <a href="{% url 'core:recetas' slug=receta.slug %}">Ver detalles</a>
-                                            <span>by <a href="#">{{ receta.author }}</a></span>
-                                            <span>on <a href="#">{{ receta.date }}</a></span>
+                <div class="text-center">
+                    <h2 class="text-uppercase">Nuestras recetas más vistas</h2>
+                    <h3 class="text-muted main-subtitle">Aquí están las más populares</h3>
+                </div>
+                <div class="blog-section">
+                    <div class="container">
+                        <div id="carouselExampleAutoplaying1" class="carousel slide" data-bs-ride="carousel">
+                            <div class="carousel-inner">
+                                {% for receta in recetas_destacadas %}
+                                    {% if forloop.first or forloop.counter0|divisibleby:3 %}
+                                        <div class="carousel-item {% if forloop.first %}active{% endif %}">
+                                            <div class="row">
+                                    {% endif %}
+                                    <div class="col-12 col-sm-6 col-md-4 mb-5">
+                                        <div class="post-entry">
+                                            <a href="#" class="post-thumbnail">
+                                                <img src="{% if receta.imagen %}{{ receta.imagen.url }}{% else %}/media/alubias.jpeg.800x600_q85_crop.jpg{% endif %}" alt="Image" class="img-fluid">
+                                            </a>
+                                            <div class="post-content-entry">
+                                                <h3><a href="#">{{ receta.titulo }} vista: {{ receta.num_vistas }}</a></h3>
+                                                <p>{{ receta.contenido }}</p>
+                                                <div class="meta">
+                                                    <a href="{% url 'core:recetas' slug=receta.slug %}">Ver detalles</a>
+                                                    <span>by <a href="#">{{ receta.author }}</a></span>
+                                                    <span>on <a href="#">{{ receta.date }}</a></span>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                            </div>
-                            {% if forloop.last or forloop.counter0|add:1|divisibleby:3 %}
-                                    </div><!--/.row-->
-                                </div><!--/.carousel-item-->
-                            {% endif %}
-                        {% endfor %}
-                    </div><!--/.carousel-inner-->
-                    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleAutoplaying1" data-bs-slide="prev">
-                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                        <span class="">Previous</span>
-                    </button>
-                    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleAutoplaying1" data-bs-slide="next">
-                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                        <span class="">Next</span>
-                    </button>
-                </div><!--/#carouselExampleAutoplaying-->
+                                    {% if forloop.last or forloop.counter0|add:1|divisibleby:3 %}
+                                            </div><!--/.row-->
+                                        </div><!--/.carousel-item-->
+                                    {% endif %}
+                                {% endfor %}
+                            </div><!--/.carousel-inner-->
+                            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleAutoplaying1" data-bs-slide="prev">
+                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                <span class="">Previous</span>
+                            </button>
+                            <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleAutoplaying1" data-bs-slide="next">
+                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                <span class="">Next</span>
+                            </button>
+                        </div><!--/#carouselExampleAutoplaying-->
+                    </div><!--/.container-->
+                </div><!--/.blog-section-->
             </div><!--/.container-->
-        </div><!--/.blog-section-->
-    </div><!--/.container-->
-</section><!--/#services-->
+        </section><!--/#services-->
 
 
 
