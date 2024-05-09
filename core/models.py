@@ -5,6 +5,7 @@ from django.db import models
 from django.db.models import Sum
 from django.contrib.auth.models import User
 from easy_thumbnails.fields import ThumbnailerImageField
+from django.utils import timezone
 from easy_thumbnails.files import get_thumbnailer
 from taggit.managers import TaggableManager
 from easy_thumbnails.exceptions import InvalidImageFormatError
@@ -16,23 +17,17 @@ from django.contrib.postgres.indexes import GinIndex
 from django.utils.text import slugify
 from autoslug import AutoSlugField
 
+class Categoria(models.Model):
+    nombre = models.CharField(max_length=50, unique=True)
+    imagen = models.ImageField(upload_to='categorias', blank=True, null=True)
+    def __str__(self):
+        return self.nombre
 
 # Create your models here.
 class ItemsPagina(models.Model):
     class Status(models.TextChoices):
         CREADO = 'CR', 'Creado'
         PUBLICADO = 'PB', 'Publicado'
-    CATEGORIAS = [
-        ('carne', 'Carne'),
-        ('pescado', 'Pescado'),
-        ('ave', 'Ave'),
-        ('caldo', 'Caldo'),
-        ('ensalada', 'Ensalada'),
-        ('pasta', 'Pasta'),
-        ('postre', 'Postre'),
-        ('sopa', 'Sopa'),
-        ('verdura', 'Verdura'),
-        ('otro', 'Otro'),]
 
     titulo = models.CharField(max_length=250)
     autor = models.CharField(max_length=100, default="Lucas")
@@ -43,7 +38,7 @@ class ItemsPagina(models.Model):
     imagen = ThumbnailerImageField(upload_to='pasos_pics', blank=True, null=True)
     likes = models.ManyToManyField(User, related_name='likes', blank=True)
     tags = TaggableManager(blank=True)
-    categoria = models.CharField(max_length=25, choices=CATEGORIAS, default="ning")
+    categoria = models.ForeignKey(Categoria, on_delete=models.SET_NULL, null=True)
     slug = AutoSlugField(unique=True, populate_from='titulo')
 
     def save(self, *args, **kwargs):
@@ -77,7 +72,7 @@ class ItemsPagina(models.Model):
     class Meta:
         ordering = ['fecha_creacion', 'fecha_modificacion']
         indexes = [
-            models.Index(fields=['titulo'], name='titulo_index', opclasses=['varchar_pattern_ops']),
+            #models.Index(fields=['titulo'], name='titulo_index', opclasses=['varchar_pattern_ops']),
             models.Index(fields=['-fecha_creacion', 'categoria']),
             GinIndex(fields=['titulo'], name='titulo_gin_index', opclasses=['gin_trgm_ops']),
         ]
@@ -129,3 +124,26 @@ class Ingredientes(models.Model):
         indexes = [
             GinIndex(fields=['nombre'], name='nombre_gin_index', opclasses=['gin_trgm_ops']),
         ]
+
+
+class FondosHeaders(models.Model):
+    vista = models.CharField(max_length=100, blank=True)
+    imagen_fondo = models.ImageField(upload_to='imagenes_fondo/', default='default.jpg')
+    fecha_creacion = models.DateTimeField(default=timezone.now)
+
+    def __str__(self):
+        return f'Imagen de fondo para {self.vista}'
+
+    def get_imagen_fondo_url(self):
+        return self.imagen_fondo.url
+
+    def get_imagen_fondo_url_resized(self):
+        imagen = Image.open(self.imagen_fondo)
+        imagen_resized = imagen.resize((1920, 1080), Image.ANTIALIAS)
+        imagen_resized_path = f'imagenes_fondo_resized/{self.imagen_fondo.name}'
+        imagen_resized.save(imagen_resized_path)
+        return imagen_resized_path
+
+    class Meta:
+        verbose_name = 'Encabezados del sitio'
+        verbose_name_plural = 'Encabezados del sitio'

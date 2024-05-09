@@ -22,8 +22,22 @@ def recetas_mas_vistas(request, cantidad_recetas=6):
     # Obtener la información de las recetas más vistas
     recetas_mas_vistas = []
     for id_receta in ids_recetas:
-        receta = ItemsPagina.objects.get(id=id_receta)
-        recetas_mas_vistas.append(receta)
+        try:
+            receta = ItemsPagina.objects.get(id=id_receta)
+            recetas_mas_vistas.append(receta)
+        except ItemsPagina.DoesNotExist:
+            # La receta no existe en la base de datos, ignorarla
+            print(f"La receta con ID {id_receta} no existe en la base de datos.")
     print("Recetas más vistas:", recetas_mas_vistas)  # Imprimir la lista de recetas más vistas
     # Devolver las recetas más vistas
     return recetas_mas_vistas
+
+def funcion_visitas():
+    # Conexion a Redis
+    redis_connection = redis.StrictRedis(host=settings.REDIS_HOST, port=settings.REDIS_PORT, db=settings.REDIS_DB)
+    # Obtener números de visitas totales y de sesiones totales
+    visitas_totales = redis_connection.get('visitas_totales')
+    visitas_sesion = redis_connection.get('visitas_sesion')
+
+    return {'visitas_totales': int(visitas_totales) if visitas_totales else 0,
+            'visitas_sesion': int(visitas_sesion) if visitas_sesion else 0}

@@ -72,6 +72,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 
     "allauth.account.middleware.AccountMiddleware",
+    "core.middleware.ContadorVisitasMiddleware",
 ]
 
 ROOT_URLCONF = 'recetas_lukas.urls'

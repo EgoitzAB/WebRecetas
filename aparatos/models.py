@@ -11,7 +11,7 @@ from taggit.managers import TaggableManager
 
 class Categoria(models.Model):
     nombre = models.CharField(max_length=100, unique=True)
-
+    imagen = models.ImageField(upload_to='categorias_recetas', blank=True, null=True)
     def __str__(self):
         return self.nombre
 
@@ -29,7 +29,7 @@ class Aparatos(models.Model):
     status = models.CharField(max_length=2, choices=Status.choices, default=Status.CREADO)
     slug = AutoSlugField(unique=True, populate_from='nombre')
     tags = TaggableManager(blank=True)
-    categoria = models.ManyToManyField(Categoria, blank=True)
+    categoria = models.ForeignKey(Categoria, on_delete=models.SET_NULL, null=True)
 
     def save(self, *args, **kwargs):
         if not self.slug:
@@ -48,6 +48,9 @@ class Aparatos(models.Model):
             except Exception as e:
                 print(f"Error al procesar la imagen: {e}")
         super().save(*args, **kwargs)
+
+    def imagen_categoria_url(self):
+            return self.categoria.imagen.url if self.categoria.imagen else None
 
 
 class Modelos(models.Model):

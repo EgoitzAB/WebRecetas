@@ -1,6 +1,5 @@
 {% extends "page/base.html" %}
 {% load static %}
-
 {% block extrahead %}
 {% endblock extrahead %}
 
@@ -9,24 +8,24 @@
 {% endblock header %}
 
 {% block content %}
-        <header class="masthead">
-            <div class="container">
-                <div class="masthead-subheading">El txoko del menaje</div>
-                <div class="masthead-heading">Compra y descubre utensilios y herramientas</div>
-                <a class="btn btn-success btn-xl text-uppercase" href="#services">Explóralos</a>
-            </div>
-        </header>
+<header class="masthead" style="background-image: url('{{ imagen_fondo.url }}')">
+    <div class="container">
+        <div class="masthead-subheading">El txoko del menaje</div>
+        <div class="masthead-heading">Compra y descubre utensilios y herramientas</div>
+        <a class="btn btn-success btn-xl text-uppercase" href="#services">Explóralos</a>
+    </div>
+</header>
+
 <div class="form-container">
-<form method="GET">
-    <select name="categorias">
-        <option value="">Todas las categorías</option>
+<form method="GET" class="filtro-form">
+    <select name="categorias" class="filtro-select">
+        <option value="" class="filtro-option">Todas las categorías</option>
         {% for categorias_id, categorias_nombre in form.fields.categorias.choices %}
-            <option value="{{ categorias_id }}">{{ categorias_nombre }}</option>
+            <option value="{{ categorias_id }}" class="filtro-option">{{ categorias_nombre }}</option>
         {% endfor %}
     </select>
-    <button type="submit">Filtrar</button>
+    <button type="submit" class="filtro-button">Filtrar</button>
 </form>
-
 </div>
 
 <div class="blog-section">
@@ -44,10 +43,10 @@
                                 <span>Puedes comprarlo en <a href="#">{{ receta.link_amazon }}</a></span> <span>o <a href="#">{{ receta.link_amazon }}</a></span>
                             </div>
                         </div>
-                        <h3>Modelos Asociados:</h3>
+                        <h3 class="mt-5 mb-3">Modelos Asociados:</h3>
                         <ul>
                             {% for modelo in receta.modelos_set.all %}
-                                <li><a href="{% url 'aparatos:modelo_detalle' modelo.slug %}">{{ modelo.nombre }}</a></li>
+                                <li class="text-pan"><a class="text-vino" href="{% url 'aparatos:modelo_detalle' modelo.slug %}">{{ modelo.nombre }}</a></li>
                             {% endfor %}
                         </ul>
                     </div>
@@ -56,7 +55,39 @@
         </div>
     </div>
 </div>
-
+<nav aria-label="Page navigation example">
+<ul class="pagination">
+    {% if page_obj.has_previous %}
+    <li class="page-item">
+      <a class="page-link pagination-button-separate" href="?page=1" aria-label="Primera">
+        <span aria-hidden="true">&laquo; Primera</span>
+      </a>
+    </li>
+    <li class="page-item">
+      <a class="page-link pagination-button-separate" href="?page={{ page_obj.previous_page_number }}" aria-label="Previa">
+        <span aria-hidden="true">Previa</span>
+      </a>
+    </li>
+    {% endif %}
+    <li class="page-item active">
+      <span class="page-link current">
+        Página {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}.
+      </span>
+    </li>
+    {% if page_obj.has_next %}
+    <li class="page-item">
+      <a class="page-link pagination-button-separate" href="?page={{ page_obj.next_page_number }}" aria-label="Siguiente">
+        <span aria-hidden="true">Siguiente</span>
+      </a>
+    </li>
+    <li class="page-item">
+      <a class="page-link pagination-button-separate" href="?page={{ page_obj.paginator.num_pages }}" aria-label="Última">
+        <span aria-hidden="true">Última &raquo;</span>
+      </a>
+    </li>
+    {% endif %}
+  </ul>
+</nav>
 
 {% endblock content %}
 

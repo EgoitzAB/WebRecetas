@@ -8,22 +8,25 @@
 {% include "page/navbar.html" %}
 {% endblock header %}
 {% block content %}
-        <header class="masthead">
-            <div class="container">
-                <div class="masthead-subheading">Bienvenidos al recetario</div>
-                <div class="masthead-heading">Es hora de cocinar</div>
-                <a class="btn btn-success btn-xl text-uppercase" href="#services">Registrarse</a>
-            </div>
-        </header>
+{% if object.categoria %}
+    <header class="masthead" style="background-image: url('{{ object.categoria.imagen.url }}');">
+        <div class="container">
+            <div class="masthead-subheading">{{ object.categoria.nombre }}</div>
+            <div class="masthead-heading">Es hora de cocinar</div>
+            <a class="btn btn-success btn-xl text-uppercase" href="#services">Registrarse</a>
+        </div>
+    </header>
+{% endif %}
     <div class="container">
         <div class="divider"></div>
             <h1 class="receta-title">{{ object.titulo }}</h1>
             <img src="{% if object.imagen %}{{ object.imagen.url }}{% else %}/media/alubias.jpeg.800x600_q85_crop.jpg{% endif %}" alt="Image" class="receta-thumbnail">
         <div class="receta-entry">
+        <h3 class="receta-title mt-5">Descripción</h3>
         <p class="receta-contenido" id="receta-contenido">{{ object.contenido }}</p>
         <div class="row">
             <div class="col-md-6">
-                <h5>Ingredientes:</h5>
+                <h5 class="mb-4">Ingredientes:</h5>
                 <ul>
                     {% for ingrediente in object.ingredientes_set.all %}
                         <li>{{ ingrediente.nombre }} - {{ ingrediente.cantidad }}</li>
@@ -31,7 +34,7 @@
                 </ul>
             </div>
             <div class="col-md-6">
-                <h5>Tiempo Total:</h5>
+                <h5 class="mb-4">Tiempo Total:</h5>
                 <ul>
                     <li>Tiempo de Preparación: {{ object.tiempo_total.0 }} minutos</li>
                     <li>Tiempo de Cocción: {{ object.tiempo_total.1 }} minutos</li>
@@ -44,7 +47,11 @@
             {% for paso in object.pasos_set.all %}
                 <div class="receta-entry">
                     <h3 class="encabezado-pasos">Paso número {{ paso.numero}}</h3>
-                    <a href="{{ paso.imagen_paso.url }}" class="thumbnail-grande"><img src="{% if paso.imagen_paso %}{{ paso.imagen_paso.url }}{% else %}/media/alubias.jpeg.800x600_q85_crop.jpg{% endif %}" alt="Image" class="thumbnail-grande"></a>
+                {% if paso.imagen_paso %}
+                    <a href="{{ paso.imagen_paso.url }}" class="thumbnail-grande">
+                        <img src="{{ paso.imagen_paso.url }}" alt="Image" class="thumbnail-grande">
+                    </a>
+                {% endif %}
                     <div class="post-content-entry">
                         <p class="paso-descripcion">{{ paso.descripcion }}</p>
                         <p>Tiempo de preparación: {{ paso.tiempo_preparacion }} minutos</p>

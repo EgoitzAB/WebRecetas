@@ -1,4 +1,10 @@
 /* home page  */
+:root {
+  /* Variables de color */
+  --color-pan: #F5DEB3; /* Color pan */
+  --color-vino: #800020; /* Color vino */
+  --color-verdura: #228B22; /* Color verdura */
+}
 
 .card-body.collapsed {
   height: 150px;
@@ -21,7 +27,6 @@ header.masthead {
     padding-bottom: 6rem;
     text-align: center;
     color: #fff;
-    background-image: url("/media/pasos_pics/imagen_0w6I80a.jpg");
     background-repeat: no-repeat;
     background-attachment: scroll;
     background-position: center center;
@@ -79,16 +84,18 @@ header.masthead .masthead-heading {
     padding-top: 1rem;
     padding-bottom: 1rem;
     position: fixed;
+    background-color: #212529;
     margin-bottom: 2rem;
-    background-color: transparent;
-    width: 100%;
-    z-index: 1000;
-    transition: background-color 0.3s ease;
-    border: none;
+  }
+
+  #mainNav.navbar-shrink {
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+    background-color: #212529;
   }
 
 #mainNav .navbar-toggler {
-    padding: 0.75rem;
+    padding: 0.75rem 0.5rem;
     text-transform: uppercase;
     font-weight: 700;
   }
@@ -119,47 +126,46 @@ header.masthead .masthead-heading {
     margin-left: auto;
   }
 
+  #mainNav {
+      align-items: center;
+      position: fixed;
+      padding-top: 1.5rem;
+      padding-bottom: 1.5rem;
+      background-color: transparent;
+      border: none;
+      transition: padding-top 0.3s ease-in-out, padding-bottom 0.3s ease-in-out;
+  }
 
-#mainNav {
-    position: fixed;
-    padding-top: 1.5rem;
-    padding-bottom: 1.5rem;
-    border: none;
-    background-color: transparent;
-    transition: padding-top 0.3s ease-in-out, padding-bottom 0.3s ease-in-out;
-}
+  #mainNav .navbar-brand {
+    font-size: 1.5em;
+    transition: font-size 0.3s ease-in-out;
+  }
 
-#mainNav .navbar-brand {
-  font-size: 1.5em;
-  transition: font-size 0.3s ease-in-out;
-}
+  #mainNav .navbar-brand img {
+    height: 2rem;
+    transition: height 0.3s ease-in-out;
+  }
 
-#mainNav .navbar-brand img {
-  height: 2rem;
-  transition: height 0.3s ease-in-out;
-}
+  #mainNav.navbar-shrink {
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+    background-color: #212529;
+  }
 
-#mainNav.navbar-shrink {
-      padding-top: 1rem;
-      padding-bottom: 1rem;
-      background-color: #212529;
+  #mainNav.navbar-shrink .navbar-brand {
+    font-size: 1.25em;
+  }
+  #mainNav.navbar-shrink .navbar-brand svg,
+  #mainNav.navbar-shrink .navbar-brand img {
+    height: 1.5rem;
+  }
+  #mainNav .navbar-nav .nav-item {
+    margin-right: 1rem;
+  }
+  #mainNav .navbar-nav .nav-item:last-child {
+    margin-right: 0;
+  }
 }
-
-#mainNav.navbar-shrink .navbar-brand {
-      font-size: 1.25em;
-}
-#mainNav.navbar-shrink .navbar-brand svg,
-#mainNav.navbar-shrink .navbar-brand img {
-  height: 1.5rem;
-}
-#mainNav .navbar-nav .nav-item {
-  margin-right: 1rem;
-}
-#mainNav .navbar-nav .nav-item:last-child {
-  margin-right: 0;
-}
-}
-
 
 .menu-toggler {
   margin-left: 10px;
@@ -529,6 +535,22 @@ header.masthead .masthead-heading {
       margin-bottom: 7px;
 }
 
+/* Color vino para el título de la receta */
+.post-entry h3 a {
+  color: #800000; /* Color vino en hexadecimal */
+}
+
+/* Color verde para el nombre del autor */
+.post-entry .meta a {
+  color: #008000; /* Color verde en hexadecimal */
+}
+
+/* Color pan para la fecha */
+.post-entry .meta span a {
+  color: #008000; /* Color pan en hexadecimal */
+}
+
+
 .blog-section .post-entry .post-content-entry .meta {
       font-size: 14px;
 }
@@ -627,6 +649,7 @@ header.masthead .masthead-heading {
 .recomendaciones {
   display: block;
 }
+/* miscelanea */
 
 .footer {
   position: relative;
@@ -645,5 +668,120 @@ header.masthead .masthead-heading {
 }
 
 .select2-search {
-  z-index: 9999999999999999999;
+  z-index: 1000;
+}
+
+.text-bg-dark {
+  color: #000000 !important;
+  background-color: RGBA(var(--bs-dark-rgb), var(--bs-bg-opacity, 1)) !important;
+}
+
+.offcanvas-header {
+  background-color: transparent !important;
+  color: #fff;
+}
+
+.terms {
+  margin-top: 250px;
+}
+
+.pagination-button-separate {
+  margin-right: 10px; /* Ajusta el espacio entre los botones */
+  margin-left: 10px;
+  background-color: #ffca28; /* Cambia el color del botón */
+  border-color: #ffca28; /* Cambia el color del borde del botón */
+  color: #ffffff; /* Cambia el color del texto del botón */
+}
+
+.pagination .page-item .current {
+  background-color: #800000; /* Color vino en hexadecimal */
+  border-color: #800000; /* Opcional: cambia el color del borde si es necesario */
+  border-radius: 0;
+  margin-right: 10px;
+}
+
+/* Estilos para el formulario de filtro */
+.filtro-form {
+  display: flex;
+  align-items: center;
+  background-color: #F4E3B2;
+  border-radius: 10px;
+  padding: 10px;
+}
+
+/* Estilos para el select del filtro */
+.filtro-select {
+  border-radius: 20px; /* Hace que el select sea más redondeado */
+  padding: 10px;
+  background-color: #FFFFFF; /* Color de fondo blanco */
+  border: 2px solid #000000; /* Borde negro */
+  color: #000000; /* Texto negro */
+  font-size: 16px;
+}
+
+/* Estilos para las opciones del select del filtro */
+.filtro-option {
+  background-color: #FFFFFF; /* Color de fondo blanco */
+  color: #000000; /* Texto negro */
+}
+
+/* Estilos para el botón de filtrar */
+.filtro-button {
+  border-radius: 20px; /* Hace que el botón sea más redondeado */
+  padding: 10px 20px;
+  background-color: #800020;
+  color: #FFFFFF; /* Texto blanco */
+  border: none;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease; /* Agrega una transición suave al color de fondo */
+}
+
+/* Estilos para el botón de filtrar al pasar el mouse sobre él */
+.filtro-button:hover {
+  background-color: #333333; /* Color de fondo oscuro al pasar el mouse */
+}
+
+.text-pan {
+  color: #f9ed69; /* Color pan */
+}
+
+.text-vino {
+  color: #800000;
+}
+
+.text-verdura {
+  color: var(--color-verdura)
+}
+
+.bg-pan {
+  background-color: var(--color-pan);
+}
+
+.bg-vino {
+  background-color: var(--color-vino);
+  color: white !important;
+}
+
+.bg-verdura {
+  background-color: var(--color-verdura)
+}
+
+.bg-vino:hover {
+  color: #800020 !important; /* Cambio de color del texto a rojo vino */
+}
+
+.carousel-control-prev,
+.carousel-control-next {
+    font-size: large;
+    position: absolute;
+    z-index: 10000; /* Asegura que las flechas estén sobre las imágenes */
+}
+
+.carousel-control-prev {
+  left: -15%; /* Ajusta el porcentaje según sea necesario */
+}
+
+.carousel-control-next {
+  right: -15%; /* Ajusta el porcentaje según sea necesario */
 }

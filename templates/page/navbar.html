@@ -1,5 +1,5 @@
-<nav class="navbar navbar-expand-lg navbar-dark" aria-label="Offcanvas navbar large" id="mainNav">
-    <div class="container-fluid">
+<nav class="navbar navbar-expand-lg navbar-dark fixed-top" aria-label="Offcanvas navbar large" id="mainNav">
+    <div class="container-fluid align-items-start">
       <a class="navbar-brand fs-5" href="{% url 'core:home' %}">El Recetario de Patxi</a>
       <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar2" aria-controls="offcanvasNavbar2" aria-label="Toggle navigation">
         Menú<span class="navbar-toggler-icon"></span>
@@ -10,7 +10,7 @@
           <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
         </div>
         <div class="offcanvas-body">
-          <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
+          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
             <li class="nav-item">
               <a class="nav-link active" aria-current="page" href="{% url 'core:home' %}">Portada</a>
             </li>
@@ -18,12 +18,12 @@
               <a class="nav-link" href="{% url 'core:receta_lista' %}">Recetas</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="{% url 'aparatos:aparatos_lista' %}">Técnicas</a>
+              <a class="nav-link" href="{% url 'aparatos:aparatos_lista' %}">Hogar y Cocina</a>
             </li>
           </ul>
-          <form class="d-flex mt-3 mt-lg-0" role="search" action="{% url 'core:receta_search' %}">
-            <input class="form-control me-2 search-field" type="search" placeholder="Buscar recetas" aria-label="Search">
-            <button class="btn btn-outline-success" type="submit">Buscar</button>
+          <form class="d-flex mt-3 mt-lg-0 h-5" role="search" action="{% url 'core:receta_search' %}">
+            <input class="form-control me-2 form-search search-field" type="search" placeholder="Buscar recetas" aria-label="Search">
+            <button class="btn btn-success py-15" type="submit">Buscar</button>
           </form>
 
         <ul class="nav navbar-nav navbar-right ms-auto">

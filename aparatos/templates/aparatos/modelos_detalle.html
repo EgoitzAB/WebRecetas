@@ -1,27 +1,50 @@
 {% extends "page/base.html" %}
 {% load static %}
-
 {% block extrahead %}
 {% endblock extrahead %}
-
 {% block header %}
 {% include "page/navbar.html" %}
 {% endblock header %}
-
 {% block content %}
-<div class="modelo-detail">
-    <h1>{{ object.nombre }}</h1>
-    {% if object.imagen %}
-        <img src="{{ object.imagen.url }}" alt="{{ object.nombre }}">
-    {% else %}
-        <p>No hay imagen disponible</p>
-    {% endif %}
-    <p>Características: {{ object.caracteristicas_modelo }}</p>
-    <p>Año: {{ object.año }}</p>
-    <p>Link de Amazon: <a href="{{ object.link_amazon }}">{{ object.link_amazon }}</a></p>
+<header class="masthead" style="background-image: url('{{ object.modelo.imagen.url }}')">
+    <div class="container">
+        <div class="masthead-subheading">{{ object.modelo.categoria.nombre}}</div>
+        <div class="masthead-heading">Compra y descubre utensilios y herramientas</div>
+    </div>
+</header>
+<!-- Detalles del objeto específico (receta o aparato) -->
+<div class="recipe-detail container">
+    <div class="divider"></div>
+        <h1 class="receta-title">{{ object.nombre }}</h1>
+        {% if object.imagen %}
+            <img src="{{ object.imagen.url }}" alt="{{ object.nombre }}" class="receta-thumbnail">
+        {% else %}
+            <p>No hay imagen disponible</p>
+        {% endif %}
+    <div class="receta-entry">
+            <h3 class="receta-title mt-5">Descripción</h3>
+        {% if object.modelo.descripcion %}
+            <p class="receta-contenido" id="receta-contenido">{{ object.modelo.descripcion }}</p>
+        {% endif %}
+        <div class="row">
+            <div class="col-md-6">
+                <h5 class="mb-4">Usos:</h5>
+            {% if object.modelo.usos %}
+                <p class="receta-contenido">Usos: {{ object.modelo.usos }}</p>
+            {% endif %}
+            </div>
+            <div class="col-md-6">
+                <h5 class="mb-4">Características modelo:</h5>
+                {% if object.caracteristicas_modelo %}
+                <p class="receta-contenido">Características modelo: {{ object.caracteristicas_modelo }}</p>
+                <p class="receta-contenido">Año modelo: {{ object.año }}</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
 </div>
 {% endblock content %}
-
 {% block footer %}
 {% include 'page/footer.html' %}
 {% endblock footer %}
+

@@ -9,24 +9,43 @@
 {% endblock header %}
 
 {% block content %}
-<div class="recipe-detail">
-    <h1>{{ object.nombre }}</h1>
+<header class="masthead" style="background-image: url('{{ imagen_fondo.url }}')">
+    <div class="container">
+        <div class="masthead-subheading text-pan">El txoko del menaje</div>
+        <div class="masthead-heading text-pan">Compra y descubre utensilios y herramientas</div>
+    </div>
+</header>
+<div class="recipe-detail container">
+    <h1 class="receta-title">{{ object.nombre }}</h1>
     {% if object.imagen %}
-        <img src="{{ object.imagen.url }}" alt="{{ object.nombre }}">
+        <img class="receta-thumbnail"src="{{ object.imagen.url }}" alt="{{ object.nombre }}">
     {% else %}
-        <p>No hay imagen disponible</p>
     {% endif %}
-    <p>Descripción: {{ object.descripcion }}</p>
-    <p>Usos: {{ object.usos }}</p>
-    <p>Características Generales: {{ object.caracteristica_generales }}</p>
-    <h2>Modelos asociados:</h2>
-    <ul>
-        {% for modelo in object.modelos_set.all %}
-            <li><a href="{% url 'aparatos:modelo_detalle' modelo.slug %}">{{ modelo.nombre }}</a></li>
-        {% endfor %}
-    </ul>
+    <div class="receta-entry">
+    <h3 class="receta-title mt-5">Descripción</h3>
+    {% if object.descripcion %}
+    <p class="receta-contenido" id="receta-contenido">Descripción: {{ object.descripcion }}</p>
+    {% endif %}
+    {% if object.usos %}
+    <h3 class="receta-title mt-5">Usos</h3>
+    <p class="receta-contenido" id="receta-contenido">Usos: {{ object.usos }}</p>
+    {% endif %}
+    {% if object.caracteristica_generales %}
+    <h3 class="receta-title mt-5">Características</h3>
+    <p class="receta-contenido" id="receta-contenido">Características: {{ object.caracteristica_generales }}</p>
+    {% endif %}
+    {% if object.modelos_set.all %}
+        <h2 class="mt-4">Modelos asociados:</h2>
+        <ul>
+    {% for modelo in object.modelos_set.all %}
+        <li class="text-pan"><a href="{% url 'aparatos:modelo_detalle' modelo.slug %}" class="text-vino">{{ modelo.nombre }}</a></li>
+    {% endfor %}
+        </ul>
+    {% endif %}
+</div>
 </div>
 {% endblock content %}
+
 {% block footer %}
 {% include 'page/footer.html' %}
 {% endblock footer %}

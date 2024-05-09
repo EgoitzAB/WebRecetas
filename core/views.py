@@ -1,49 +1,69 @@
 from typing import Any
 from django.shortcuts import render, get_object_or_404
-from .models import ItemsPagina
+from .models import ItemsPagina, FondosHeaders
 from django.contrib.postgres.search import SearchVector, SearchQuery, SearchRank, TrigramSimilarity
 from .forms import SearchForm, ItemsPaginaForm
 from django.views.generic import DetailView, ListView
 from django.http import JsonResponse
 from django.views import View, generic
-from django.db.models import Q
+from django.db.models import Q, Count, F
 from django.views.decorators.cache import cache_page
+from django.core.exceptions import ObjectDoesNotExist
 from django.core.cache import cache
 from django.conf import settings
 from django.template.response import TemplateResponse
-from .utils import obtener_vistas_de_receta, recetas_mas_vistas
+from .utils import obtener_vistas_de_receta, recetas_mas_vistas, funcion_visitas
 from .recomendador import RecetaRecomendador, RecetaHistorial
 import redis
 
 
 def home(request):
-    #Recuperar las recetas del cache y renderizar, o hacer queries y generar cache
+    # Recuperar imagen del fondo de pantalla
+    imagen_fondo = cache.get_or_set('imagen_fondo_home', FondosHeaders.objects.get(vista="home").imagen_fondo, timeout=6)
+    print(f"Imagen de fondo recuperada: {imagen_fondo}")
+    # Recuperar las vistas de la página desde el caché
+    contadores_visitas = funcion_visitas()
+    visitas_totales = contadores_visitas.get('visitas_totales', 0)
+    visitas_sesion = contadores_visitas.get('visitas_sesion', 0)
+    # Recuperar las recetas del cache y renderizar, o hacer queries y generar cache
     recetas_home = cache.get_many(['recetas', 'recetas_distintas', 'recetas_destacadas'])
     if recetas_home:
         return render(request, 'core/home.html', {'recetas': recetas_home['recetas'],
-                    'recetas_distintas' : recetas_home['recetas_distintas'],
-                    'recetas_destacadas': recetas_home['recetas_destacadas']})
+                                                    'recetas_distintas': recetas_home['recetas_distintas'],
+                                                    'recetas_destacadas': recetas_home['recetas_destacadas'],
+                                                    'imagen_fondo': imagen_fondo,
+                                                    'visitas_totales': visitas_totales,
+                                                    'visitas_sesion': visitas_sesion,
+                                                    })
     else:
         # Obtener las recetas más vistas utilizando la función recetas_mas_vistas
         recetas_destacadas = recetas_mas_vistas(request, cantidad_recetas=6)
-        # Obtener las recetas distintas y las recetas normales
-        # Agrupar las recetas por categoría y seleccionar una receta representativa de cada categoría
-        recetas_distintas = []
-        categorias_distintas = set()  # Usamos un conjunto para mantener las categorías únicas
-        for receta in ItemsPagina.objects.filter(status='CR'):
-            if receta.categoria not in categorias_distintas:
-                recetas_distintas.append(receta)
-                categorias_distintas.add(receta.categoria)
-        recetas = ItemsPagina.objects.filter(status="CR")[:6]
         # Obtener el número de vistas de cada receta
         for receta in recetas_destacadas:
             receta.num_vistas = obtener_vistas_de_receta(receta.id)
+        recetas = ItemsPagina.objects.filter(status='CR')
+        #Agrupar las recetas por categoría y seleccionar una receta representativa de cada categoría
+        recetas_distintas = []
+        categorias_distintas = set()  # Usamos un conjunto para mantener las categorías únicas
+        for receta in recetas:
+            if receta.categoria not in categorias_distintas:
+                # Contar el número de recetas por categoría
+                num_recetas = recetas.filter(categoria=receta.categoria).count()
+                # Asignar el número de recetas al objeto receta
+                receta.num_recetas = num_recetas
+                recetas_distintas.append(receta)
+                categorias_distintas.add(receta.categoria)
 
         timeout = 180 # ajustando el timeout del caché a 3 minutos
         cache.set_many({'recetas': recetas, 'recetas_distintas': recetas_distintas,
                     'recetas_destacadas': recetas_destacadas},
                     timeout=timeout)
-        return render(request, 'core/home.html', {'recetas': recetas, 'recetas_distintas': recetas_distintas, 'recetas_destacadas': recetas_destacadas})
+        return render(request, 'core/home.html', {'recetas': recetas,
+                                                'recetas_distintas': recetas_distintas,
+                                                'recetas_destacadas': recetas_destacadas,
+                                                'imagen_fondo': imagen_fondo,
+                                                'visitas_totales': visitas_totales,
+                                                'visitas_sesion': visitas_sesion})
 
 def receta_search(request):
     form = SearchForm()
@@ -76,11 +96,19 @@ class VistaLista(ListView):
         queryset = ItemsPagina.objects.filter(status='CR').order_by('categoria')
         form = ItemsPaginaForm(self.request.GET)
         if form.is_valid():
-            queryset = form.filter_recetas(queryset)
+            categorias_selected = form.cleaned_data.get('categorias')
+            if categorias_selected:
+                queryset = queryset.filter(categoria__in=categorias_selected)
         return queryset
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        try:
+            imagen_fondo = cache.get_or_set('imagen_fondo_lista_recetas', FondosHeaders.objects.get(vista="recetas_lista").imagen_fondo, timeout=6)
+        except ObjectDoesNotExist:
+            # Si el objeto FondosHeaders no existe, proporciona un valor predeterminado o maneja la excepción de otra manera
+            imagen_fondo = '/home/felipe/Recetas/media/imagenes_fondo/kitchen-2400367_1920.jpg'  # Cambia esto por la ruta de tu imagen predeterminada
+        context['imagen_fondo'] = imagen_fondo
         context['form'] = ItemsPaginaForm(self.request.GET)
         return context
 
@@ -132,8 +160,12 @@ class VistaDetalle(DetailView):
         recomendador = RecetaRecomendador()
         recetas_recomendadas_ids = recomendador.sugerir_recetas_para(historial, 4)
         recetas_recomendadas = ItemsPagina.objects.filter(id__in=recetas_recomendadas_ids)
+        categoria = receta.categoria
+        if categoria:
+            context['categoria'] = categoria
         print(recetas_recomendadas)
         print(recetas_recomendadas_ids)
+        print(categoria)
         context['recetas_recomendadas'] = recetas_recomendadas
 
         return context
@@ -142,14 +174,21 @@ class VistaDetalle(DetailView):
 class AutocompleteView(View):
     def get(self, request):
         query = request.GET.get('q', '')
-        recetas = ItemsPagina.objects.filter(
-            Q(titulo__trigram_similar=query) |
-            Q(pasos__descripcion__trigram_similar=query) |
-            Q(ingredientes__nombre__trigram_similar=query)
-        ).distinct()
-        # Se pasa el slug a la librería javascript select
-        results = [{'id': receta.slug, 'text': receta.titulo, } for receta in recetas]
-        print(results)
+
+        # Realizar la búsqueda utilizando múltiples vectores de similitud trigram
+        recetas = ItemsPagina.objects.annotate(
+            similarity_titulo=TrigramSimilarity('titulo', query),
+            similarity_pasos=TrigramSimilarity('pasos__descripcion', query),
+            similarity_ingredientes=TrigramSimilarity('ingredientes__nombre', query)
+        ).filter(
+            Q(similarity_titulo__gt=0.2) |
+            Q(similarity_pasos__gt=0.1) |
+            Q(similarity_ingredientes__gt=0.1)
+        ).values('id', 'slug', 'titulo').distinct()
+
+        # Se pasa el slug y el título de las recetas a la librería JavaScript Select2
+        results = [{'id': receta['slug'], 'text': receta['titulo']} for receta in recetas]
+
         return JsonResponse(results, safe=False)
 
 

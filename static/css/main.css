@@ -1,0 +1,78 @@
+/* Estilos para templates autenticación */
+
+.myproject-h1 {
+    font-size: 3rem;
+}
+
+.gradient-custom-2 {
+    /* fallback for old browsers */
+    background: #fccb90;
+    /* Chrome 10-25, Safari 5.1-6 */
+    background: -webkit-linear-gradient(to right, #43f82b, #fcd600);
+    /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+    background: linear-gradient(to right,  #43f82b, #fcd600);
+}
+
+@media (min-width: 768px) {
+    .gradient-form {
+    height: 100vh !important;
+    }
+}
+
+@media (min-width: 769px) {
+    .gradient-custom-2 {
+    border-top-right-radius: .3rem;
+    border-bottom-right-radius: .3rem;
+    }
+}
+
+.form-group {
+        margin-bottom: 1.5rem;
+        display: flex; /* Utiliza flexbox para alinear elementos */
+        flex-direction: column;
+        align-items: center;
+    }
+
+.field-wrapper {
+        position: relative;
+        text-align: center;
+    }
+
+.field-wrapper input {
+        width: 100%; /* O ajusta el ancho según sea necesario */
+        padding: .375rem .75rem; /* O ajusta el relleno según sea necesario */
+        font-size: 1rem; /* O ajusta el tamaño de la fuente según sea necesario */
+        line-height: 1.5; /* O ajusta la altura de línea según sea necesario */
+        color: #fcd600; /* O ajusta el color del texto según sea necesario */
+        background-color: #ffffff; /* O ajusta el color de fondo según sea necesario */
+        background-clip: padding-box;
+        border: 1px solid #fcd600; /* O ajusta el color del borde según sea necesario */
+        border-radius: .25rem; /* O ajusta el radio del borde según sea necesario */
+        transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out; /* Ajusta la transición según sea necesario */
+    }
+
+.field-wrapper label {
+        margin-bottom: .5rem; /* Ajusta el margen inferior según sea necesario */
+        display: inline-block;
+        font-weight: 700; /* O ajusta el peso de la fuente según sea necesario */
+    }
+
+@media (max-width: 992px) {
+    .field-wrapper input {
+        width: 100%;
+        display: inline-block;
+        text-align: left;
+    }
+}
+
+.btn-block {
+    width: 45%;
+    padding: .375rem .75rem;
+    display: block;
+}
+
+.sin-puntos {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}

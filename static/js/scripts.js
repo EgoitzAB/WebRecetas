@@ -1,26 +1,3 @@
-/*function toggleCardSize(button) {
-    var cardBody = button.parentElement.previousElementSibling;
-    console.log('CardBody:', cardBody);
-    if (cardBody.classList.contains('collapsed')) {
-        console.log('CardBody is collapsed');
-        cardBody.classList.remove('collapsed');
-        cardBody.classList.add('expanded');
-        button.textContent = 'Retract';
-    } else {
-        console.log('CardBody is expanded');
-        cardBody.classList.remove('expanded');
-        cardBody.classList.add('collapsed');
-        button.textContent = 'Expand';
-    }
-};
-
-$(document).ready(function() {
-    $(document).on('click', '.toggle-button', function() {
-        console.log('Button clicked');
-        toggleCardSize(this);
-    });
-}); */
-
 window.addEventListener('DOMContentLoaded', event => {
     // Navbar shrink function
     var navbarShrink = function () {
@@ -35,11 +12,10 @@ window.addEventListener('DOMContentLoaded', event => {
     }
 };
     // Shrink the navbar
-navbarShrink();
+    navbarShrink();
 
     // Shrink the navbar when page is scrolled
     document.addEventListener('scroll', navbarShrink);
-
 //  Activate Bootstrap scrollspy on the main nav element
     const mainNav = document.body.querySelector('#mainNav');
     if (mainNav) {
@@ -144,3 +120,20 @@ $(document).ready(function() {
         $(this).hide(); // Ocultar el último elemento de la línea de tiempo después de mostrar los elementos ocultos
     });
 });
+
+$(document).ready(function () {
+    AOS.init({
+      duration: 1200,
+      easing: "ease-in-out",
+      once: true,
+      mirror: false,
+    });
+    new PureCounter({
+      once: false,
+      pulse: false,
+      formater: "us-US",
+      separator: true,
+      decimals: 0,
+      delay: 10,
+    });
+  });

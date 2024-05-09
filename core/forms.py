@@ -1,31 +1,27 @@
 from django import forms
-
+from .models import Categoria, ItemsPagina
 
 class SearchForm(forms.Form):
     query = forms.CharField()
 
-
 class ItemsPaginaForm(forms.Form):
-    CATEGORIAS_CHOICES = [
-        ('', 'Todas las categorías'),  # Opción por defecto para mostrar todas las categorías
-        ('carne', 'Carne'),
-        ('pescado', 'Pescado'),
-        ('ave', 'Ave'),
-        ('caldo', 'Caldo'),
-        ('ensalada', 'Ensalada'),
-        ('pasta', 'Pasta'),
-        ('postre', 'Postre'),
-        ('sopa', 'Sopa'),
-        ('verdura', 'Verdura'),
-        ('otro', 'Otro'),
-    ]
+    categorias = forms.MultipleChoiceField(choices=[], required=False, widget=forms.CheckboxSelectMultiple)
 
-    categoria = forms.ChoiceField(choices=CATEGORIAS_CHOICES, required=False)
+    class Meta:
+        model = ItemsPagina
+        fields = ('categorias',)
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['categorias'].choices = [(c.id, c.nombre) for c in Categoria.objects.all()]
 
     def filter_recetas(self, queryset):
         categoria = self.cleaned_data.get('categoria')
 
         if categoria:
+            # Filtrar el queryset utilizando el objeto de categoría
             queryset = queryset.filter(categoria=categoria)
 
         return queryset
+
+

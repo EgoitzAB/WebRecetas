@@ -1,8 +1,8 @@
 {% extends 'page/base.html' %}
 <body class="terms-page">
-{% block navbar %}
-{% include 'pages/navbar.html' %}
-{% endblock navbar %}
+{% block header %}
+{% include 'page/navbar.html' %}
+{% endblock header %}
 
 {% block content %}
 <h1 class="terms">Política de Privacidad</h1>
@@ -127,6 +127,6 @@
 {% endblock %}
 
 {% block footer %}
-{% include "pages/footer.html" %}
+{% include "page/footer.html" %}
 {% endblock footer %}
 </body>

@@ -1,74 +1,76 @@
 {% extends "page/base.html" %}
 {% load static %}
 {% block extrahead %}
+<link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@srexi/purecounterjs/dist/purecounter_vanilla.js"></script>
 {% endblock extrahead %}
 {% block header %}
 {% include "page/navbar.html" %}
 {% endblock header %}
 {% block content %}
-        <header class="masthead">
-            <div class="container">
-                <div class="masthead-subheading">Bienvenidos al recetario</div>
-                <div class="masthead-heading">Es hora de cocinar</div>
-                <a class="btn btn-success btn-xl text-uppercase" href="#services">Registrarse</a>
+<header class="masthead" style="background-image: url('{{ imagen_fondo.url }}')">
+    <div class="container">
+        <div class="masthead-subheading">Bienvenidos al recetario</div>
+        <div class="masthead-heading">Es hora de cocinar</div>
+    </div>
+</header>
+        <!-- Services-->
+<section class="page-section" id="services">
+    <div class="container">
+        <div class="text-center">
+            <h2 class="text-uppercase">Nuestras recetas</h2>
+            <h3 class="text-muted main-subtitle">Explore las categorías más abajo</h3>
+        </div>
+        <div id="carouselExampleAutoplaying" class="carousel carousel-dark slide" data-bs-ride="carousel">
+            <div class="carousel-inner">
+                {% for receta in recetas_distintas %}
+                    {% if receta.imagen %}
+                        {% if forloop.first %}
+                            <div class="carousel-item active">
+                                <img src="{{ receta.imagen.url }}" class="d-block w-100 carousel-image" alt="{{ receta.titulo }}">
+                                <div class="carousel-caption d-none d-md-block">
+                                    <h5 class="text-pan">{{ receta.titulo }}</h5>
+                                    <p><a class="text-white"href="{% url 'core:recetas' slug=receta.slug %}">Ver detalles</a></p>
+                                </div>
+                            </div>
+                            <div class="carousel-item">
+                                <img src="{{ receta.imagen.url }}" class="d-block w-100 carousel-image" alt="{{ receta.titulo }}">
+                                <div class="carousel-caption d-none d-md-block">
+                                    <h5 class="text-pan">{{ receta.titulo }}</h5>
+                                    <p><a class="text-white" href="{% url 'core:recetas' slug=receta.slug %}">Ver detalles</a></p>
+                                </div>
+                            </div>
+                            <div class="carousel-item">
+                                <img src="{{ receta.imagen.url }}" class="d-block w-100 carousel-image" alt="{{ receta.titulo }}">
+                                <div class="carousel-caption d-none d-md-block">
+                                    <h5 class="text-pan">{{ receta.titulo }}</h5>
+                                    <p><a class="text-white" href="{% url 'core:recetas' slug=receta.slug %}">Ver detalles</a></p>
+                                </div>
+                            </div>
+                        {% else %}
+                            <div class="carousel-item">
+                                <img src="{{ receta.imagen.url }}" class="d-block w-100 carousel-image" alt="{{ receta.titulo }}">
+                                <div class="carousel-caption d-none d-md-block">
+                                    <h5 class="text-pan">{{ receta.titulo }}</h5>
+                                    <p><a class="text-white" href="{% url 'core:recetas' slug=receta.slug %}">Ver detalles</a></p>
+                                </div>
+                            </div>
+                        {% endif %}
+                    {% endif %}
+                {% endfor %}
             </div>
-        </header>
-                <!-- Services-->
-        <section class="page-section" id="services">
-            <div class="container">
-                <div class="text-center">
-                    <h2 class="text-uppercase">Nuestras recetas</h2>
-                    <h3 class="text-muted main-subtitle">Explore las categorías más abajo</h3>
-                </div>
-                <div id="carouselExampleAutoplaying" class="carousel slide" data-bs-ride="carousel">
-                    <div class="carousel-inner">
-                        {% for receta in recetas_distintas %}
-                            {% if receta.imagen %}
-                                {% if forloop.first %}
-                                    <div class="carousel-item active">
-                                        <img src="{{ receta.imagen.url }}" class="d-block w-100 carousel-image" alt="{{ receta.titulo }}">
-                                        <div class="carousel-caption d-none d-md-block">
-                                            <h5>{{ receta.titulo }}</h5>
-                                            <p>{{ receta.contenido }}</p>
-                                        </div>
-                                    </div>
-                                    <div class="carousel-item">
-                                        <img src="{{ receta.imagen.url }}" class="d-block w-100 carousel-image" alt="{{ receta.titulo }}">
-                                        <div class="carousel-caption d-none d-md-block">
-                                            <h5>{{ receta.titulo }}</h5>
-                                            <p>{{ receta.contenido }}</p>
-                                        </div>
-                                    </div>
-                                    <div class="carousel-item">
-                                        <img src="{{ receta.imagen.url }}" class="d-block w-100 carousel-image" alt="{{ receta.titulo }}">
-                                        <div class="carousel-caption d-none d-md-block">
-                                            <h5>{{ receta.titulo }}</h5>
-                                            <p>{{ receta.contenido }}</p>
-                                        </div>
-                                    </div>
-                                {% else %}
-                                    <div class="carousel-item">
-                                        <img src="{{ receta.imagen.url }}" class="d-block w-100 carousel-image" alt="{{ receta.titulo }}">
-                                        <div class="carousel-caption d-none d-md-block">
-                                            <h5>{{ receta.titulo }}</h5>
-                                            <p>{{ receta.contenido }}</p>
-                                        </div>
-                                    </div>
-                                {% endif %}
-                            {% endif %}
-                        {% endfor %}
-                    </div>
-                    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleAutoplaying" data-bs-slide="prev">
-                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                        <span class="visually-hidden">Previous</span>
-                    </button>
-                    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleAutoplaying" data-bs-slide="next">
-                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                        <span class="visually-hidden">Next</span>
-                    </button>
-                </div>
-            </div>
-        </section>
+            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleAutoplaying" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleAutoplaying" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+            </button>
+        </div>
+    </div>
+</section>
 
         <!-- Recipes Grid-->
         <section class="page-section bg-light main-section" id="recipes-main">
@@ -95,7 +97,15 @@
                     <div class="card-body collapsed">
                         <p class="card-text">{{ item.titulo }}</p>
                         <div class="d-flex justify-content-between align-items-center">
-                            <small class="text-body-secondary">Tiempo preparación: {{ item.tiempo_total}} minutos</small>
+                            <small class="text-body-secondary mb-3">Tiempo preparación: {{ item.tiempo_total.2}} minutos</small>
+                        </div>
+                        <div class="d-flex justify-content-between align-items-center">
+                        <a href="{% url 'core:recetas' slug=item.slug %}" class="btn bg-vino">
+                            Ver receta
+                        </a>
+                        <a href="#portfolioModal{{ forloop.counter }}" class="btn bg-vino" data-bs-toggle="modal">
+                            Ampliar
+                        </a>
                         </div>
                     </div>
                 </div>
@@ -119,10 +129,13 @@
                                             <img class="img-fluid rounded mb-5" src="{% static 'images/default.jpg' %}" alt="imagen por defecto" />
                                         {% endif %}
                                         <!-- Portfolio Modal - Text-->
-                                        <p class="mb-5">{{ item.description }}</p>
-                                        <button class="btn btn-primary" data-bs-dismiss="modal">
+                                        <h5 class="mb-5">{{ item.titulo }}</h5>
+                                        <a href="{% url 'core:recetas' slug=item.slug %}" class="btn bg-vino text-white">
+                                            Ver receta
+                                        </a>
+                                        <button class="btn bg-vino text-white" data-bs-dismiss="modal">
                                             <i class="fas fa-times fa-fw"></i>
-                                            Cierra el recuadro modal
+                                            Cerrar el recuadro
                                         </button>
                                     </div>
                                 </div>
@@ -156,12 +169,10 @@
                                 </div>
                                 <div class="timeline-panel">
                                     <div class="timeline-heading">
-                                        <h4>{{ receta.categoria }}</h4>
+                                        <h4>{{ receta.categoria|title }}</h4>
                                         <h4 class="subheading">Número recetas: {{ receta.num_recetas }}</h4>
                                     </div>
                                     <div class="timeline-body">
-                                        <p class="text-muted">{{ receta.contenido }}</p>
-                                        <p class="text-muted">Fecha de creación: {{ receta.fecha_creacion }}</p>
                                     </div>
                                 </div>
                             </li>
@@ -224,89 +235,81 @@
 <section id="stats-counter" class="stats-counter">
     <div class="container aos-init aos-animate" data-aos="zoom-out">
         <div class="row gy-4">
-        <div class="col-lg-3 col-md-6">
+        <div class="col-lg-4 col-md-4">
             <div class="stats-item text-center w-100 h-100">
-            <span data-purecounter-start="0" data-purecounter-end="232" data-purecounter-duration="0" class="purecounter">232</span>
-            <p>Visitas</p>
+            <span data-purecounter-start="0" data-purecounter-end="{{ visitas_totales }}" data-purecounter-duration="1" class="purecounter">0</span>
+            <p>Visitas a la página</p>
             </div>
         </div>
-        <div class="col-lg-3 col-md-6">
+        <div class="col-lg-4 col-md-4">
             <div class="stats-item text-center w-100 h-100">
-            <span data-purecounter-start="0" data-purecounter-end="521" data-purecounter-duration="0" class="purecounter">521</span>
+            <span data-purecounter-start="0" data-purecounter-end="{{ visitas_sesion }}" data-purecounter-duration="1" class="purecounter">0</span>
+            <p>Usuarios únicos</p>
+        </div>
+        </div>
+        <div class="col-lg-4 col-md-4">
+            <div class="stats-item text-center w-100 h-100">
+            <span data-purecounter-start="0" data-purecounter-end="{{ recetas.count }}" data-purecounter-duration="1" class="purecounter">0</span>
             <p>Recetas</p>
         </div>
-        </div>
-        <div class="col-lg-3 col-md-6">
-            <div class="stats-item text-center w-100 h-100">
-            <span data-purecounter-start="0" data-purecounter-end="1453" data-purecounter-duration="0" class="purecounter">1453</span>
-            <p>Hours Of Support</p>
-            </div>
-        </div>
-
-        <div class="col-lg-3 col-md-6">
-            <div class="stats-item text-center w-100 h-100">
-            <span data-purecounter-start="0" data-purecounter-end="32" data-purecounter-duration="0" class="purecounter">32</span>
-            <p>Workers</p>
-            </div>
         </div>
 
         </div>
 
     </div>
-    </section>
+</section>
     <!-- Terminar la sección de las estadísticas -->
 
-<!-- Carrousel final con las recetas -->
-        <section class="page-section" id="services">
+<section class="page-section" id="services">
+    <div class="container">
+        <div class="text-center">
+            <h2 class="text-uppercase">Nuestras recetas más vistas</h2>
+            <h3 class="text-muted main-subtitle">Aquí están las más populares</h3>
+        </div>
+        <div class="blog-section">
             <div class="container">
-                <div class="text-center">
-                    <h2 class="text-uppercase">Nuestras recetas más vistas</h2>
-                    <h3 class="text-muted main-subtitle">Aquí están las más populares</h3>
-                </div>
-                <div class="blog-section">
-                    <div class="container">
-                        <div id="carouselExampleAutoplaying1" class="carousel slide" data-bs-ride="carousel">
-                            <div class="carousel-inner">
-                                {% for receta in recetas_destacadas %}
-                                    {% if forloop.first or forloop.counter0|divisibleby:3 %}
-                                        <div class="carousel-item {% if forloop.first %}active{% endif %}">
-                                            <div class="row">
-                                    {% endif %}
-                                    <div class="col-12 col-sm-6 col-md-4 mb-5">
-                                        <div class="post-entry">
-                                            <a href="#" class="post-thumbnail">
-                                                <img src="{% if receta.imagen %}{{ receta.imagen.url }}{% else %}/media/alubias.jpeg.800x600_q85_crop.jpg{% endif %}" alt="Image" class="img-fluid">
-                                            </a>
-                                            <div class="post-content-entry">
-                                                <h3><a href="#">{{ receta.titulo }} vista: {{ receta.num_vistas }}</a></h3>
-                                                <p>{{ receta.contenido }}</p>
-                                                <div class="meta">
-                                                    <a href="{% url 'core:recetas' slug=receta.slug %}">Ver detalles</a>
-                                                    <span>by <a href="#">{{ receta.author }}</a></span>
-                                                    <span>on <a href="#">{{ receta.date }}</a></span>
-                                                </div>
-                                            </div>
+                <div id="carouselExampleAutoplaying1" class="carousel carousel-dark slide" data-bs-ride="carousel">
+                    <div class="carousel-inner">
+                        {% for receta in recetas_destacadas %}
+                            {% if forloop.counter0|divisibleby:3 %}
+                                <div class="carousel-item {% if forloop.first %}active{% endif %}">
+                                    <div class="row">
+                            {% endif %}
+                            <div class="col-12 col-md-4 mb-5 {% if not forloop.counter0|divisibleby:3 %}d-none d-md-block{% endif %}">
+                                <div class="post-entry">
+                                    <a href="#" class="post-thumbnail">
+                                        <img src="{% if receta.imagen %}{{ receta.imagen.url }}{% else %}/media/alubias.jpeg.800x600_q85_crop.jpg{% endif %}" alt="Image" class="img-fluid">
+                                    </a>
+                                    <div class="post-content-entry">
+                                        <h3><a href="{% url 'core:recetas' slug=receta.slug %}">{{ receta.titulo }} vista: {{ receta.num_vistas }}</a></h3>
+                                        <p>Tiempo preparación: {{ receta.tiempo_total.2}} minuto</p>
+                                        <div class="meta">
+                                            <a href="{% url 'core:recetas' slug=receta.slug %}">Ver detalles</a>
+                                            <span>by <a href="#">{{ receta.author }}</a></span>
+                                            <span>on <a href="#">{{ receta.date }}</a></span>
                                         </div>
                                     </div>
-                                    {% if forloop.last or forloop.counter0|add:1|divisibleby:3 %}
-                                            </div><!--/.row-->
-                                        </div><!--/.carousel-item-->
-                                    {% endif %}
-                                {% endfor %}
-                            </div><!--/.carousel-inner-->
-                            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleAutoplaying1" data-bs-slide="prev">
-                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                                <span class="">Previous</span>
-                            </button>
-                            <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleAutoplaying1" data-bs-slide="next">
-                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                                <span class="">Next</span>
-                            </button>
-                        </div><!--/#carouselExampleAutoplaying-->
-                    </div><!--/.container-->
-                </div><!--/.blog-section-->
+                                </div>
+                            </div>
+                            {% if forloop.last or forloop.counter0|add:1|divisibleby:3 %}
+                                    </div><!--/.row-->
+                                </div><!--/.carousel-item-->
+                            {% endif %}
+                        {% endfor %}
+                    </div><!--/.carousel-inner-->
+                    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleAutoplaying1" data-bs-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="">Previous</span>
+                    </button>
+                    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleAutoplaying1" data-bs-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="">Next</span>
+                    </button>
+                </div><!--/#carouselExampleAutoplaying-->
             </div><!--/.container-->
-        </section><!--/#services-->
+        </div><!--/.blog-section-->
+    </div><!--/.container-->
+</section><!--/#services-->
 
 
 
