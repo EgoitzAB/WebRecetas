@@ -54,7 +54,7 @@ class ItemsPagina(models.Model):
                 img.save(buffer, format='JPEG')
                 buffer.seek(0)
                 # Sobrescribir la imagen original con la nueva imagen
-                self.imagen = InMemoryUploadedFile(buffer, None, 'imagen.jpg', 'image/jpeg', buffer.getbuffer().nbytes, None)
+                self.imagen = ContentFile(buffer.getvalue())
             except Exception as e:
                 print(f"Error al procesar la imagen: {e}")
         super().save(*args, **kwargs)
