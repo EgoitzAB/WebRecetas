@@ -44,38 +44,6 @@
                     {% block content %}
 
                     {% endblock content %}
-                    <div class="d-flex align-items-center justify-content-center pb-4">
-                        <ul class="sin-puntos">
-{% if user.is_authenticated %}
-    {% if request.resolver_match.url_name != 'account_login' %}
-        <li>
-            <p>¿Quiere cambiar el email?
-            <a class="btn btn-sm" href="{% url 'account_email' %}" role="button">{% trans "Cambiar Email" %}</a></p>
-        </li>
-    {% endif %}
-    {% if request.resolver_match.url_name != 'account_logout' %}
-        <li>
-            <p>Cierra tu sesión aquí
-            <a class="btn btn-sm" href="{% url 'account_logout' %}" role="button">{% trans "Cerrar sesión" %}</a></p>
-        </li>
-    {% endif %}
-{% else %}
-    {% if request.resolver_match.url_name != 'account_login' %}
-        <li>
-            <p>¿Ya tiene una cuenta?
-            <a class="btn btn-sm" href="{% url 'account_login' %}" role="button">{% trans "Inicia sesión" %}</a></p>
-        </li>
-    {% endif %}
-    {% if request.resolver_match.url_name != 'account_signup' %}
-        <li>
-            <p>¿No tienes cuenta?
-            <a class="btn btn-sm" href="{% url 'account_signup' %}" role="button">{% trans "Regístrate" %}</a></p>
-        </li>
-    {% endif %}
-{% endif %}
-
-                        </ul>
-                    </div>
                     </div>
                     </div>
                 </div>

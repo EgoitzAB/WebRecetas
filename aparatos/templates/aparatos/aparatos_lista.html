@@ -10,9 +10,8 @@
 {% block content %}
 <header class="masthead" style="background-image: url('{{ imagen_fondo.url }}')">
     <div class="container">
-        <div class="masthead-subheading">El txoko del menaje</div>
-        <div class="masthead-heading">Compra y descubre utensilios y herramientas</div>
-        <a class="btn btn-success btn-xl text-uppercase" href="#services">Explóralos</a>
+        <div class="masthead-subheading">Hogar y cocina</div>
+        <div class="masthead-heading">Compra y descubre aparatos y herramientas</div>
     </div>
 </header>
 
@@ -21,7 +20,7 @@
     <select name="categorias" class="filtro-select">
         <option value="" class="filtro-option">Todas las categorías</option>
         {% for categorias_id, categorias_nombre in form.fields.categorias.choices %}
-            <option value="{{ categorias_id }}" class="filtro-option">{{ categorias_nombre }}</option>
+            <option value="{{ categorias_id }}" class="filtro-option">{{ categorias_nombre|title }}</option>
         {% endfor %}
     </select>
     <button type="submit" class="filtro-button">Filtrar</button>
@@ -40,7 +39,10 @@
                             <p>{{ receta.descripcion }}</p>
                             <div class="meta">
                                 <a href="{% url 'aparatos:aparatos_detalle' slug=receta.slug %}">Ver detalles</a>
-                                <span>Puedes comprarlo en <a href="#">{{ receta.link_amazon }}</a></span> <span>o <a href="#">{{ receta.link_amazon }}</a></span>
+                                <span><a href="{{ receta.link_amazon }}" target="_blank" >
+                                  <button class="amazon-button">Comprar en Amazon</button>
+                                  </a>
+                                </span>
                             </div>
                         </div>
                         <h3 class="mt-5 mb-3">Modelos Asociados:</h3>

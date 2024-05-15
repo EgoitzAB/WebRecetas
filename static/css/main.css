@@ -1,4 +1,9 @@
-/* Estilos para templates autenticación */
+:root {
+    /* Variables de color */
+    --color-pan: #F5DEB3; /* Color pan */
+    --color-vino: #800020; /* Color vino */
+    --color-verdura: #228B22; /* Color verdura */
+}
 
 .myproject-h1 {
     font-size: 3rem;
@@ -6,11 +11,11 @@
 
 .gradient-custom-2 {
     /* fallback for old browsers */
-    background: #fccb90;
+    background: var(--color-vino);
     /* Chrome 10-25, Safari 5.1-6 */
-    background: -webkit-linear-gradient(to right, #43f82b, #fcd600);
+    background: -webkit-linear-gradient(to right, var(--color-vino), #fcd600);
     /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
-    background: linear-gradient(to right,  #43f82b, #fcd600);
+    background: linear-gradient(to right,  var(--color-vino), #fcd600);
 }
 
 @media (min-width: 768px) {

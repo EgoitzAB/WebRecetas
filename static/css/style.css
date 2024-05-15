@@ -88,7 +88,7 @@ header.masthead .masthead-heading {
     margin-bottom: 2rem;
   }
 
-  #mainNav.navbar-shrink {
+#mainNav.navbar-shrink {
     padding-top: 1rem;
     padding-bottom: 1rem;
     background-color: #212529;
@@ -99,6 +99,7 @@ header.masthead .masthead-heading {
     text-transform: uppercase;
     font-weight: 700;
   }
+
 #mainNav .navbar-brand {
     color: #ffc800;
     font-weight: 700;
@@ -131,9 +132,10 @@ header.masthead .masthead-heading {
       position: fixed;
       padding-top: 1.5rem;
       padding-bottom: 1.5rem;
-      background-color: transparent;
+      background-color: rgba(0, 0, 0, 0.5);
       border: none;
       transition: padding-top 0.3s ease-in-out, padding-bottom 0.3s ease-in-out;
+      z-index: 1000;
   }
 
   #mainNav .navbar-brand {
@@ -344,7 +346,7 @@ header.masthead .masthead-heading {
   color: white;
   border: 7px solid #e9ecef;
   border-radius: 100%;
-  background-color: #ffc800;
+  background-color: var(--color-verdura);
 }
 
 .timeline > li .timeline-image h4, .timeline > li .timeline-image .h4 {
@@ -784,4 +786,21 @@ header.masthead .masthead-heading {
 
 .carousel-control-next {
   right: -15%; /* Ajusta el porcentaje según sea necesario */
+}
+
+.amazon-button {
+  display: inline-block;
+  padding: 10px 20px;
+  border-radius: 20px;
+  background-color: #FF9900;
+  color: #000000;
+  border: none;
+  cursor: pointer;
+  text-decoration: none;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.amazon-button:hover {
+  background-color: #FFD966;
 }

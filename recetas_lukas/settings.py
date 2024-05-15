@@ -51,11 +51,20 @@ INSTALLED_APPS = [
     'allauth.account',
     'allauth.socialaccount',
 
+    'django_otp',
+    'django_otp.plugins.otp_static',
+    'django_otp.plugins.otp_totp',
+ #   'django_otp.plugins.otp_email',
+#    'two_factor',
+    'allauth_2fa',
+
     'easy_thumbnails',
     'taggit',
     'django.contrib.postgres',
     'debug_toolbar',
     'redisboard',
+    'cookie_consent',
+    'django_extensions',
 
     'core',
     'aparatos',
@@ -68,10 +77,13 @@ MIDDLEWARE = [
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
+    # Two factor para el admin
+    'django_otp.middleware.OTPMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 
-    "allauth.account.middleware.AccountMiddleware",
+    'allauth.account.middleware.AccountMiddleware',
+    'allauth_2fa.middleware.AllauthTwoFactorMiddleware',
     "core.middleware.ContadorVisitasMiddleware",
 ]
 
@@ -140,14 +152,16 @@ AUTHENTICATION_BACKENDS = [
     'allauth.account.auth_backends.AuthenticationBackend',
 ]
 
-SITE_ID = 1  # new
+# Autenticación de dos factores
+ACCOUNT_DEFAULT_HTTP_PROTOCOL = 'https'
+ACCOUNT_ADAPTER = 'allauth_2fa.adapter.OTPAdapter'
 
 ACCOUNT_AUTHENTICATION_METHOD = "username_email"
 ACCOUNT_CHANGE_EMAIL = True
 ACCOUNT_EMAIL_VERIFICATION = "mandatory"
 ACCOUNT_EMAIL_REQUIRED = True
-
-LOGIN_REDIRECT_URL = "/"  # new
+ACCOUNT_USERNAME_REQUIRED = True
+LOGIN_REDIRECT_URL = '/'
 
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
@@ -156,7 +170,7 @@ EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Europe/Madrid'
 
 USE_I18N = True
 

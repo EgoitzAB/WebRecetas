@@ -9,7 +9,7 @@
 <header class="masthead" style="background-image: url('{{ object.modelo.imagen.url }}')">
     <div class="container">
         <div class="masthead-subheading">{{ object.modelo.categoria.nombre}}</div>
-        <div class="masthead-heading">Compra y descubre utensilios y herramientas</div>
+        <div class="masthead-heading">Compra y descubre aparatos y herramientas</div>
     </div>
 </header>
 <!-- Detalles del objeto específico (receta o aparato) -->
@@ -38,6 +38,13 @@
                 {% if object.caracteristicas_modelo %}
                 <p class="receta-contenido">Características modelo: {{ object.caracteristicas_modelo }}</p>
                 <p class="receta-contenido">Año modelo: {{ object.año }}</p>
+                {% endif %}
+            </div>
+            <div class="col-md-6">
+                {% if object.link_amazon %}
+                <a href="{{ object.link_amazon }}" target="_blank" class="receta-contenido">
+                <button class="amazon-button">Comprar en Amazon</button>
+                </a>
                 {% endif %}
             </div>
         </div>

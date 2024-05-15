@@ -1,8 +1,6 @@
 {% extends "page/base.html" %}
 {% load static %}
 {% block extrahead %}
-<link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
-<script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@srexi/purecounterjs/dist/purecounter_vanilla.js"></script>
 {% endblock extrahead %}
 {% block header %}
@@ -62,11 +60,11 @@
             </div>
             <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleAutoplaying" data-bs-slide="prev">
                 <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                <span class="visually-hidden">Previous</span>
+                <span class="visually-hidden">Anterior</span>
             </button>
             <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleAutoplaying" data-bs-slide="next">
                 <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                <span class="visually-hidden">Next</span>
+                <span class="visually-hidden">Siguiente</span>
             </button>
         </div>
     </div>
@@ -285,8 +283,8 @@
                                         <p>Tiempo preparación: {{ receta.tiempo_total.2}} minuto</p>
                                         <div class="meta">
                                             <a href="{% url 'core:recetas' slug=receta.slug %}">Ver detalles</a>
-                                            <span>by <a href="#">{{ receta.author }}</a></span>
-                                            <span>on <a href="#">{{ receta.date }}</a></span>
+                                            <span>Hecha por <a href="#">{{ receta.autor }}</a></span>
+                                            <span>en <a href="#">{{ receta.fecha_creacion }}</a></span>
                                         </div>
                                     </div>
                                 </div>

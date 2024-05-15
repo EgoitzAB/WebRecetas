@@ -30,6 +30,7 @@ class Aparatos(models.Model):
     slug = AutoSlugField(unique=True, populate_from='nombre')
     tags = TaggableManager(blank=True)
     categoria = models.ForeignKey(Categoria, on_delete=models.SET_NULL, null=True)
+    link_amazon = models.URLField(blank=True)
 
     def save(self, *args, **kwargs):
         if not self.slug:

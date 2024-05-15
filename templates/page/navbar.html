@@ -12,10 +12,7 @@
         <div class="offcanvas-body">
           <ul class="navbar-nav me-auto mb-2 mb-lg-0">
             <li class="nav-item">
-              <a class="nav-link active" aria-current="page" href="{% url 'core:home' %}">Portada</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="{% url 'core:receta_lista' %}">Recetas</a>
+              <a class="nav-link active" href="{% url 'core:receta_lista' %}">Recetas</a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="{% url 'aparatos:aparatos_lista' %}">Hogar y Cocina</a>
@@ -23,7 +20,6 @@
           </ul>
           <form class="d-flex mt-3 mt-lg-0 h-5" role="search" action="{% url 'core:receta_search' %}">
             <input class="form-control me-2 form-search search-field" type="search" placeholder="Buscar recetas" aria-label="Search">
-            <button class="btn btn-success py-15" type="submit">Buscar</button>
           </form>
 
         <ul class="nav navbar-nav navbar-right ms-auto">

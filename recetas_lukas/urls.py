@@ -15,6 +15,7 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
+from django.contrib.admin.views.decorators import staff_member_required
 from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
@@ -28,12 +29,18 @@ sitemaps = {
     'recetas': RecetasSitemap,
 }
 
+# Ensure users go through the allauth workflow when logging into admin.
+admin.site.login = staff_member_required(admin.site.login, login_url='/accounts/login')
+# Run the standard admin set-up.
+admin.autodiscover()
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('accounts/two-factor/', include('allauth_2fa.urls')),
     path('accounts/', include('allauth.urls')),
-    path('', include('core.urls')),
     path("__debug__/", include("debug_toolbar.urls")),
     path('aparatos/', include('aparatos.urls')),
     path('sitemap.xml', sitemap, {'sitemaps': sitemaps}, name='sitemap'),
+    path('cookies/', include('cookie_consent.urls')),
+    path('', include('core.urls')),
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -11,8 +11,8 @@
 {% block content %}
 <header class="masthead" style="background-image: url('{{ imagen_fondo.url }}')">
     <div class="container">
-        <div class="masthead-subheading text-pan">El txoko del menaje</div>
-        <div class="masthead-heading text-pan">Compra y descubre utensilios y herramientas</div>
+        <div class="masthead-subheading text-pan">Hogar y cocina</div>
+        <div class="masthead-heading text-pan">Compra y descubre aparatos y herramientas</div>
     </div>
 </header>
 <div class="recipe-detail container">
@@ -39,6 +39,8 @@
         <ul>
     {% for modelo in object.modelos_set.all %}
         <li class="text-pan"><a href="{% url 'aparatos:modelo_detalle' modelo.slug %}" class="text-vino">{{ modelo.nombre }}</a></li>
+            <span><a href="{{ modelo.link_amazon }}" target="_blank" >
+            <button class="amazon-button">Comprar en Amazon</button></a></span>
     {% endfor %}
         </ul>
     {% endif %}

@@ -123,17 +123,19 @@ $(document).ready(function() {
 
 $(document).ready(function () {
     AOS.init({
-      duration: 1200,
-      easing: "ease-in-out",
-      once: true,
-      mirror: false,
+    duration: 1200,
+    easing: "ease-in-out",
+    once: true,
+    mirror: false,
     });
-    new PureCounter({
-      once: false,
-      pulse: false,
-      formater: "us-US",
-      separator: true,
-      decimals: 0,
-      delay: 10,
-    });
-  });
+    if (typeof PureCounter !== 'undefined') {
+        new PureCounter({
+            once: false,
+            pulse: false,
+            formater: "us-US",
+            separator: true,
+            decimals: 0,
+            delay: 10,
+        });
+    }
+});
