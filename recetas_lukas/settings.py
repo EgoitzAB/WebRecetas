@@ -27,7 +27,7 @@ SECRET_KEY = os.getenv('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.getenv('DEBUG') == 'True'
 
-ALLOWED_HOSTS = ['test.egoitzabilleira.es', 'www.test.egoitzabilleira.es', 'localhost']
+ALLOWED_HOSTS = ['recetaspatxi.es', 'www.recetaspatxi.es', 'localhost', '127.0.0.1']
 
 INTERNAL_IPS = [
     "127.0.0.1",
@@ -61,16 +61,19 @@ INSTALLED_APPS = [
     'django.contrib.postgres',
     'debug_toolbar',
     'redisboard',
-    'cookie_consent',
     'django_extensions',
+    'defender',
+    'django-prometheus',
 
     'core',
     'aparatos',
 ]
 
 MIDDLEWARE = [
+    'django_prometheus.middleware.PrometheusBeforeMiddleware',
     "debug_toolbar.middleware.DebugToolbarMiddleware",
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -83,7 +86,9 @@ MIDDLEWARE = [
     'allauth.account.middleware.AccountMiddleware',
     'allauth_2fa.middleware.AllauthTwoFactorMiddleware',
     "core.middleware.ContadorVisitasMiddleware",
-    'whitenoise.middleware.WhitenoiseMiddleware',
+    'defender.middleware.FailedLoginMiddleware', # Django-defender
+    'django_prometheus.middleware.PrometheusAfterMiddleware',
+
 ]
 
 ROOT_URLCONF = 'recetas_lukas.urls'
@@ -111,7 +116,7 @@ WSGI_APPLICATION = 'recetas_lukas.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
+        'ENGINE': 'django_prometheus.db.backends.postgresql',
         'NAME': os.getenv('DB_NAME'),
         'USER': os.getenv('DB_USER'),
         'PASSWORD': os.getenv('DB_PASSWORD'),
@@ -155,13 +160,14 @@ AUTHENTICATION_BACKENDS = [
 ACCOUNT_DEFAULT_HTTP_PROTOCOL = 'https'
 ACCOUNT_ADAPTER = 'allauth_2fa.adapter.OTPAdapter'
 
-ACCOUNT_AUTHENTICATION_METHOD = "username_email"
+ACCOUNT_AUTHENTICATION_METHOD = "email"
 ACCOUNT_CHANGE_EMAIL = True
 ACCOUNT_EMAIL_VERIFICATION = "mandatory"
 ACCOUNT_EMAIL_REQUIRED = True
-ACCOUNT_USERNAME_REQUIRED = True
+ACCOUNT_USERNAME_REQUIRED = False
 LOGIN_REDIRECT_URL = '/'
 
+TWO_FACTOR_AUTENTICATION_ENABLED = True
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 # Internationalization
@@ -185,17 +191,19 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR / 'static'),
 ]
 
-STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
-STORAGES = {
-    'default': {
-        'BACKEND': 'django.core.files.storage.FileSystemStorage',
-        'LOCATION': os.path.join(BASE_DIR, 'static'),
-    },
-    "staticfiles": {
-        "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
-    },
-}
+# STORAGES = {
+#     'default': {
+#         'BACKEND': 'django.core.files.storage.FileSystemStorage',
+#         'LOCATION': os.path.join(BASE_DIR, 'static'),
+#     },
+#     "staticfiles": {
+#         "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
+#     },
+# }
+
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedStaticFilesStorage'
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
@@ -203,7 +211,7 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 CACHES = {
     "default": {
         "BACKEND": "django.core.cache.backends.redis.RedisCache",
-        "LOCATION": "redis://127.0.0.1:6379",
+        "LOCATION": "redis://localhost:6379/0",
     }
 }
 
@@ -212,7 +220,7 @@ CACHES = {
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-SECURE_HSTS_SECONDS = 31536000  # 1 año
+SECURE_HSTS_SECONDS = 31536000
 SECURE_HSTS_INCLUDE_SUBDOMAINS = True
 SECURE_HSTS_PRELOAD = True
 SECURE_SSL_REDIRECT = True
@@ -226,3 +234,48 @@ SECURE_SSL_REDIRECT = True
 SECURE_BROWSER_XSS_FILTER = True
 SECURE_SSL_HOST = True
 SECURE_REFERRER_POLICY = 'same-origin'
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'file': {
+            'level': 'DEBUG',
+            'class': 'logging.FileHandler',
+            'filename': os.path.join(BASE_DIR, 'debug.log'),
+        },
+    },
+    'loggers': {
+        'django': {
+            'handlers': ['file'],
+            'level': 'DEBUG',
+            'propagate': True,
+        },
+    },
+}
+
+CSRF_TRUSTED_ORIGINS = ['https://recetaspatxi.es', 'https://www.recetaspatxi.es']
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+
+EMAIL_HOST = 'smtp.ionos.es'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_USE_SSL = False
+EMAIL_HOST_USER = 'contacto@egoitzabilleira.es'
+EMAIL_HOST_PASSWORD = 'Me_Voy_A_Cancun_55'
+DEFAULT_FROM_EMAIL = 'contacto@egoitzabilleira.es'
+
+# Django Defender Settings
+DEFENDER_LOGIN_FAILURE_LIMIT = 5  # Número de intentos fallidos permitidos antes de bloquear
+DEFENDER_COOLOFF_TIME = 300  # Tiempo en segundos para desbloquear después de un bloqueo (5 minutos)
+DEFENDER_STORE_ACCESS_ATTEMPTS = True  # Almacenar intentos fallidos
+DEFENDER_LOCKOUT_URL = '/locked/'  # URL de redirección cuando un usuario es bloqueado
+DEFENDER_REDIS_URL = 'redis://localhost:6379/0'  # URL de conexión a Redis
+DEFENDER_LOCKOUT_TEMPLATE = 'defender/lockout.html'  # Plantilla personalizada para la página de bloqueo
+DEFENDER_DISABLE_IP_LOCKOUT = False
+DEFENDER_DISABLE_USERNAME_LOCKOUT = False  # Bloquear por nombre de usuario
+DEFENDER_USE_CELERY = False  # Usar Celery para desbloquear usuarios (requiere Celery configurado)
+
+# Bloquear tanto por IP como por nombre de usuario
+DEFENDER_LOCKOUT_BY_IP_AND_USERNAME = True  # Bloquea la combinación de IP y nombre de usuario

@@ -29,7 +29,7 @@ class ListaAparatos(ListView):
             imagen_fondo = cache.get_or_set('imagen_fondo_lista_aparatos', FondosHeaders.objects.get(vista="aparatos_lista").imagen_fondo, timeout=6)
         except ObjectDoesNotExist:
             # Si el objeto FondosHeaders no existe, proporciona un valor predeterminado o maneja la excepción de otra manera
-            imagen_fondo = '/home/felipe/Recetas/media/imagenes_fondo/kitchen-2400367_1920.jpg'  # Cambia esto por la ruta de tu imagen predeterminada
+            imagen_fondo = '/var/www/WebRecetas/media/imagenes_fondo/kitchen-2400367_1920.jpg'
         context['form'] = AparatosForm(self.request.GET)
         context['imagen_fondo'] = imagen_fondo
         return context

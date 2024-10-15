@@ -1,0 +1,824 @@
+/* home page  */
+:root {
+  /* Variables de color */
+  --color-pan: #F5DEB3; /* Color pan */
+  --color-vino: #800020; /* Color vino */
+  --color-verdura: #228B22; /* Color verdura */
+}
+
+body {
+  overflow-x: hidden; /* Desactiva el scroll horizontal */
+}
+
+.card-body.collapsed {
+  height: 150px;
+  overflow: hidden;
+}
+
+.card-body.expanded {
+  height: auto;
+  overflow: auto;
+}
+
+.carousel-image {
+  max-height: 60vh;
+  object-fit: contain;
+  width: auto;
+}
+
+header.masthead {
+    padding-top: 10.5rem;
+    padding-bottom: 6rem;
+    text-align: center;
+    color: #fff;
+    background-repeat: no-repeat;
+    background-attachment: scroll;
+    background-position: center center;
+    background-size: cover;
+    margin-bottom: 6em;
+    position: static;
+}
+
+header.masthead .masthead-subheading {
+    font-size: 1.5rem;
+    font-style: italic;
+    line-height: 1.5rem;
+    margin-bottom: 25px;
+  }
+
+header.masthead .masthead-heading {
+    font-size: 3.25rem;
+    font-weight: 700;
+    line-height: 3.25rem;
+    margin-bottom: 2rem;
+
+  }
+
+.form-search {
+  width: 140px;
+}
+
+.offcanvas-open .search-field {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 10000;
+}
+
+.offcanvas-open .search-field {
+  position: relative;
+}
+
+.main-section {
+  margin-top: 4em;
+}
+
+.main-title {
+  margin-top: 3.5em;
+}
+
+.main-subtitle {
+  margin-top: 2.5em;
+  margin-bottom: 2.5em;
+}
+.container-fluid {
+  display: block !important;
+  overflow: hidden;
+}
+#mainNav {
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+    position: fixed;
+    background-color: #212529;
+    margin-bottom: 2rem;
+    overflow: hidden;
+    display: block !important;
+  }
+
+#mainNav.navbar-shrink {
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+    background-color: #212529;
+  }
+
+#mainNav .navbar-toggler {
+    padding: 0.75rem 0.5rem;
+    text-transform: uppercase;
+    font-weight: 700;
+  }
+
+#mainNav .navbar-brand {
+    color: #ffc800;
+    font-weight: 700;
+    letter-spacing: 0.0625em;
+    text-transform: uppercase;
+  }
+#mainNav .navbar-brand img {
+    height: 1.5rem;
+  }
+#mainNav .navbar-nav .nav-item .nav-link {
+    color: #fff;
+    letter-spacing: 0.0625em;
+}
+#mainNav .navbar-nav .nav-item .nav-link.active, #mainNav .navbar-nav .nav-item .nav-link:hover {
+    color: #ffc800;
+}
+
+@media (min-width: 992px) {
+  .navbar-expand-lg .navbar-nav .nav-link {
+    padding-right: 1px; /* Eliminar el padding derecho */
+    padding-left: 1px; /* Eliminar el padding izquierdo */
+  }
+
+  .navbar-expand-lg form {
+    margin-left: auto;
+  }
+
+  #mainNav {
+      align-items: center;
+      position: fixed;
+      padding-top: 1.5rem;
+      padding-bottom: 1.5rem;
+      background-color: rgba(0, 0, 0, 0.5);
+      border: none;
+      transition: padding-top 0.3s ease-in-out, padding-bottom 0.3s ease-in-out;
+      z-index: 1000;
+  }
+
+  #mainNav .navbar-brand {
+    font-size: 1.5em;
+    transition: font-size 0.3s ease-in-out;
+  }
+
+  #mainNav .navbar-brand img {
+    height: 2rem;
+    transition: height 0.3s ease-in-out;
+  }
+
+  #mainNav.navbar-shrink {
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+    background-color: #212529;
+  }
+
+  #mainNav.navbar-shrink .navbar-brand {
+    font-size: 1.25em;
+  }
+  #mainNav.navbar-shrink .navbar-brand svg,
+  #mainNav.navbar-shrink .navbar-brand img {
+    height: 1.5rem;
+  }
+  #mainNav .navbar-nav .nav-item {
+    margin-right: 1rem;
+  }
+  #mainNav .navbar-nav .nav-item:last-child {
+    margin-right: 0;
+  }
+}
+
+.menu-toggler {
+  margin-left: 10px;
+}
+
+.navbar-nav .nav-link {
+  position: relative;
+}
+
+.navbar-nav .nav-link::after {
+  content: '';
+  position: absolute;
+  bottom: -5px;
+  left: 0;
+  width: 0;
+  height: 1px;
+  background-color: currentColor;
+  transition: width 0.3s ease-in-out;
+}
+
+.navbar-nav .nav-link:hover::after {
+  width: 100%;
+}
+
+#portfolio .portfolio-item {
+  max-width: 26rem;
+  margin-left: auto;
+  margin-right: auto;
+}
+#portfolio .portfolio-item .portfolio-link {
+  position: relative;
+  display: block;
+  margin: 0 auto;
+}
+#portfolio .portfolio-item .portfolio-link .portfolio-hover {
+  display: flex;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: rgba(255, 200, 0, 0.9);
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity ease-in-out 0.25s;
+}
+#portfolio .portfolio-item .portfolio-link .portfolio-hover .portfolio-hover-content {
+  font-size: 1.25rem;
+  color: white;
+}
+#portfolio .portfolio-item .portfolio-link:hover .portfolio-hover {
+  opacity: 1;
+}
+#portfolio .portfolio-item .portfolio-caption {
+  padding: 1.5rem;
+  text-align: center;
+  background-color: #fff;
+}
+#portfolio .portfolio-item .portfolio-caption .portfolio-caption-heading {
+  font-size: 1.5rem;
+  font-family: "Montserrat", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  font-weight: 700;
+  margin-bottom: 0;
+}
+
+#portfolio .portfolio-item .portfolio-caption .portfolio-caption-subheading {
+  font-style: italic;
+  font-family: "Roboto Slab", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+}
+
+.portfolio-modal .modal-dialog {
+  margin: 1rem;
+  max-width: 100vw;
+}
+.portfolio-modal .modal-content {
+  padding-top: 6rem;
+  padding-bottom: 6rem;
+  text-align: center;
+}
+.portfolio-modal .modal-content h2, .portfolio-modal .modal-content .h2 {
+  font-size: 3rem;
+  line-height: 3rem;
+}
+.portfolio-modal .modal-content p.item-intro {
+  font-style: italic;
+  margin-bottom: 2rem;
+  font-family: "Roboto Slab", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+}
+.portfolio-modal .modal-content p {
+  margin-bottom: 2rem;
+}
+.portfolio-modal .modal-content ul.list-inline {
+  margin-bottom: 2rem;
+}
+.portfolio-modal .modal-content img {
+  margin-bottom: 2rem;
+}
+.portfolio-modal .close-modal {
+  position: absolute;
+  top: 1.5rem;
+  right: 1.5rem;
+  width: 3rem;
+  height: 3rem;
+  cursor: pointer;
+  background-color: transparent;
+}
+.portfolio-modal .close-modal:hover {
+  opacity: 0.3;
+}
+
+.timeline {
+  position: relative;
+  padding: 0;
+  list-style: none;
+}
+.timeline:before {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 40px;
+  width: 2px;
+  margin-left: -1.5px;
+  content: "";
+  background-color: #e9ecef;
+}
+.timeline > li {
+  position: relative;
+  min-height: 50px;
+  margin-bottom: 50px;
+  opacity: 0;
+  transition: opacity 2s, transform 2s;
+  transform: translateY(20px);
+}
+.timeline > li:after, .timeline > li:before {
+  display: table;
+  content: " ";
+}
+.timeline > li:after {
+  clear: both;
+}
+
+.timeline > li.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.timeline > li .timeline-panel {
+  position: relative;
+  float: right;
+  width: 100%;
+  padding: 0 20px 0 100px;
+  text-align: left;
+}
+
+.timeline > li .timeline-panel:before {
+  right: auto;
+  left: -15px;
+  border-right-width: 15px;
+  border-left-width: 0;
+}
+
+.timeline > li .timeline-panel:after {
+  right: auto;
+  left: -14px;
+  border-right-width: 14px;
+  border-left-width: 0;
+}
+
+.timeline > li .timeline-image {
+  position: absolute;
+  z-index: 100;
+  left: 0;
+  width: 80px;
+  height: 80px;
+  margin-left: 0;
+  text-align: center;
+  color: white;
+  border: 7px solid #e9ecef;
+  border-radius: 100%;
+  background-color: var(--color-verdura);
+}
+
+.timeline > li .timeline-image h4, .timeline > li .timeline-image .h4 {
+  font-size: 10px;
+  line-height: 14px;
+  margin-top: 12px;
+}
+
+.timeline > li.timeline-inverted > .timeline-panel {
+  float: right;
+  padding: 0 20px 0 100px;
+  text-align: left;
+}
+
+.timeline > li.timeline-inverted > .timeline-panel:before {
+  right: auto;
+  left: -15px;
+  border-right-width: 15px;
+  border-left-width: 0;
+}
+
+.timeline > li.timeline-inverted > .timeline-panel:after {
+  right: auto;
+  left: -14px;
+  border-right-width: 14px;
+  border-left-width: 0;
+}
+
+.timeline > li:last-child {
+  margin-bottom: 0;
+}
+
+.timeline .timeline-heading h4, .timeline .timeline-heading .h4 {
+  margin-top: 0;
+  color: inherit;
+}
+
+.timeline .timeline-heading h4.subheading, .timeline .timeline-heading .subheading.h4 {
+  text-transform: none;
+}
+
+.timeline .timeline-body > ul,
+.timeline .timeline-body > p {
+  margin-bottom: 0;
+}
+
+@media (min-width: 768px) {
+  .timeline:before {
+    left: 50%;
+  }
+  .timeline > li {
+    min-height: 100px;
+    margin-bottom: 100px;
+  }
+  .timeline > li .timeline-panel {
+    float: left;
+    width: 41%;
+    padding: 0 20px 20px 30px;
+    text-align: right;
+  }
+  .timeline > li .timeline-image {
+    left: 50%;
+    width: 100px;
+    height: 100px;
+    margin-left: -50px;
+  }
+  .timeline > li .timeline-image h4, .timeline > li .timeline-image .h4 {
+    font-size: 13px;
+    line-height: 18px;
+    margin-top: 16px;
+  }
+  .timeline > li.timeline-inverted > .timeline-panel {
+    float: right;
+    padding: 0 30px 20px 20px;
+    text-align: left;
+  }
+}
+@media (min-width: 992px) {
+  .timeline > li {
+    min-height: 150px;
+  }
+  .timeline > li .timeline-panel {
+    padding: 0 20px 20px;
+  }
+  .timeline > li .timeline-image {
+    width: 150px;
+    height: 150px;
+    margin-left: -75px;
+  }
+  .timeline > li .timeline-image h4, .timeline > li .timeline-image .h4 {
+    font-size: 18px;
+    line-height: 26px;
+    margin-top: 30px;
+  }
+  .timeline > li.timeline-inverted > .timeline-panel {
+    padding: 0 20px 20px;
+  }
+}
+@media (min-width: 1200px) {
+  .timeline > li {
+    min-height: 170px;
+  }
+  .timeline > li .timeline-panel {
+    padding: 0 20px 20px 100px;
+  }
+  .timeline > li .timeline-image {
+    width: 170px;
+    height: 170px;
+    margin-left: -85px;
+  }
+  .timeline > li .timeline-image h4, .timeline > li .timeline-image .h4 {
+    margin-top: 40px;
+  }
+  .timeline > li.timeline-inverted > .timeline-panel {
+    padding: 0 100px 20px 20px;
+  }
+}
+
+
+/*--------------------------------------------------------------
+# Stats Counter Section
+--------------------------------------------------------------*/
+.stats-counter {
+  background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url("/media/alubias.jpeg.800x600_q85_crop.jpg") center center;
+  background-size: cover;
+  padding: 100px 0;
+}
+
+@media (min-width: 1365px) {
+  .stats-counter {
+    background-attachment: fixed;
+  }
+}
+
+.stats-counter .stats-item {
+  padding: 30px;
+  width: 100%;
+}
+
+.stats-counter .stats-item span {
+  font-size: 48px;
+  display: block;
+  color: #fff;
+  font-weight: 700;
+}
+
+.stats-counter .stats-item p {
+  padding: 0;
+  margin: 0;
+  font-family: var(--font-secondary);
+  font-size: 16px;
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+
+/*-----------Página del listado de recetas-----------------*/
+
+.blog-section {
+  padding: 7rem 0 12rem 0;
+}
+
+.blog-section .post-entry a {
+    text-decoration: none;
+}
+
+.blog-section .post-entry .post-thumbnail {
+    display: block;
+    margin-bottom: 20px;
+}
+
+.blog-section .post-entry .post-thumbnail img {
+    border-radius: 20px;
+    -webkit-transition: .3s all ease;
+    -o-transition: .3s all ease;
+    transition: .3s all ease;
+}
+
+.blog-section .post-entry .post-content-entry {
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+.blog-section .post-entry .post-content-entry h3 {
+      font-size: 16px;
+      margin-bottom: 0;
+      font-weight: 600;
+      margin-bottom: 7px;
+}
+
+/* Color vino para el título de la receta */
+.post-entry h3 a {
+  color: #800000; /* Color vino en hexadecimal */
+}
+
+/* Color verde para el nombre del autor */
+.post-entry .meta a {
+  color: #008000; /* Color verde en hexadecimal */
+}
+
+/* Color pan para la fecha */
+.post-entry .meta span a {
+  color: #008000; /* Color pan en hexadecimal */
+}
+
+
+.blog-section .post-entry .post-content-entry .meta {
+      font-size: 14px;
+}
+
+.blog-section .post-entry .post-content-entry .meta a {
+        font-weight: 600;
+}
+
+.blog-section .post-entry:hover .post-thumbnail img, .blog-section .post-entry:focus .post-thumbnail img {
+    opacity: .7;
+}
+
+.form-container {
+    margin-top: 100px; /* Ajusta este valor según sea necesario */
+}
+
+.navbar-login
+{
+    width: 305px;
+    padding: 10px;
+    padding-bottom: 0px;
+}
+
+.navbar-login-session
+{
+    padding: 10px;
+    padding-bottom: 0px;
+    padding-top: 0px;
+}
+
+.icon-size
+{
+    font-size: 87px;
+}
+
+.pagination {
+  justify-content: center;
+}
+
+/*-----------Página de detalle de recetas-----------------*/
+
+.receta-section {
+  display: block;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+.receta-margin {
+  margin-top: 14rem;
+  height: 200px;
+}
+
+.receta-title {
+  text-align: center;
+  margin-bottom: 8rem;
+}
+
+.receta-entry {
+  justify-content: center;
+  text-align: center;
+}
+
+.receta-thumbnail {
+  width: 60vw;
+  display: block;
+  margin: 0 auto;
+  justify-content: center;
+  border-radius: 40px;
+  -webkit-transition: .3s all ease;
+  -o-transition: .3s all ease;
+  transition: .3s all ease;
+}
+
+.receta-thumbnail:hover, .receta-thumbnail:focus {
+  opacity: .7;
+}
+
+.receta-contenido {
+  margin-top: 5rem;
+  margin-bottom: 3rem;
+  text-align: center;
+}
+@media (max-width: 600px) {
+  .divider {
+    height: 10px;
+    margin-top: 10rem;
+  }
+}
+
+.thumbnail-grande {
+  width: 35vw; /* Ajustar el ancho deseado */
+  height: auto;
+  display: block;
+  margin: 0 auto;
+}
+
+.recomendaciones {
+  display: block;
+}
+/* miscelanea */
+
+.footer {
+  position: relative;
+  bottom: 0;
+  width: 100%;
+}
+
+.paso-descripcion {
+  margin-top: 4rem;
+  margin-bottom: 4rem;
+}
+
+.encabezado-pasos {
+  margin-top: 4rem;
+  margin-bottom: 4rem;
+}
+
+.select2-search {
+  z-index: 1000;
+}
+
+.text-bg-dark {
+  color: #000000 !important;
+  background-color: RGBA(var(--bs-dark-rgb), var(--bs-bg-opacity, 1)) !important;
+}
+
+.offcanvas-header {
+  background-color: transparent !important;
+  color: #fff;
+}
+
+.terms {
+  margin-top: 250px;
+}
+
+.pagination-button-separate {
+  margin-right: 10px; /* Ajusta el espacio entre los botones */
+  margin-left: 10px;
+  background-color: #ffca28; /* Cambia el color del botón */
+  border-color: #ffca28; /* Cambia el color del borde del botón */
+  color: #ffffff; /* Cambia el color del texto del botón */
+}
+
+.pagination .page-item .current {
+  background-color: #800000; /* Color vino en hexadecimal */
+  border-color: #800000; /* Opcional: cambia el color del borde si es necesario */
+  border-radius: 0;
+  margin-right: 10px;
+}
+
+/* Estilos para el formulario de filtro */
+.filtro-form {
+  display: flex;
+  align-items: center;
+  background-color: #F4E3B2;
+  border-radius: 10px;
+  padding: 10px;
+}
+
+/* Estilos para el select del filtro */
+.filtro-select {
+  border-radius: 20px; /* Hace que el select sea más redondeado */
+  padding: 10px;
+  background-color: #FFFFFF; /* Color de fondo blanco */
+  border: 2px solid #000000; /* Borde negro */
+  color: #000000; /* Texto negro */
+  font-size: 16px;
+}
+
+/* Estilos para las opciones del select del filtro */
+.filtro-option {
+  background-color: #FFFFFF; /* Color de fondo blanco */
+  color: #000000; /* Texto negro */
+}
+
+/* Estilos para el botón de filtrar */
+.filtro-button {
+  border-radius: 20px; /* Hace que el botón sea más redondeado */
+  padding: 10px 20px;
+  background-color: #800020;
+  color: #FFFFFF; /* Texto blanco */
+  border: none;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease; /* Agrega una transición suave al color de fondo */
+}
+
+/* Estilos para el botón de filtrar al pasar el mouse sobre él */
+.filtro-button:hover {
+  background-color: #333333; /* Color de fondo oscuro al pasar el mouse */
+}
+
+.text-pan {
+  color: #f9ed69; /* Color pan */
+}
+
+.text-vino {
+  color: #800000;
+}
+
+.text-verdura {
+  color: var(--color-verdura)
+}
+
+.bg-pan {
+  background-color: var(--color-pan);
+}
+
+.bg-vino {
+  background-color: var(--color-vino);
+  color: white !important;
+}
+
+.bg-verdura {
+  background-color: var(--color-verdura)
+}
+
+.bg-vino:hover {
+  color: #800020 !important; /* Cambio de color del texto a rojo vino */
+}
+
+.carousel-control-prev,
+.carousel-control-next {
+    font-size: large;
+    position: absolute;
+    z-index: 1000; /* Asegura que las flechas estén sobre las imágenes */
+}
+
+.carousel-control-prev {
+  left: 10%; /* Ajusta el porcentaje según sea necesario */
+}
+
+.carousel-control-next {
+  right: 10%; /* Ajusta el porcentaje según sea necesario */
+}
+
+.carousel {
+  overflow: hidden; /* Oculta cualquier desbordamiento para eliminar el scroll */
+}
+
+.carousel-control-prev-icon,
+.carousel-control-next-icon {
+  padding: 10px; /* Ajusta el tamaño del icono */
+}
+
+.amazon-button {
+  display: inline-block;
+  padding: 10px 20px;
+  border-radius: 20px;
+  background-color: #FF9900;
+  color: #000000;
+  border: none;
+  cursor: pointer;
+  text-decoration: none;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.amazon-button:hover {
+  background-color: #FFD966;
+}

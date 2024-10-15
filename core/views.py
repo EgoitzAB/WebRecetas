@@ -19,8 +19,11 @@ import redis
 
 def home(request):
     # Recuperar imagen del fondo de pantalla
-    imagen_fondo = cache.get_or_set('imagen_fondo_home', FondosHeaders.objects.get(vista="home").imagen_fondo, timeout=6)
-    print(f"Imagen de fondo recuperada: {imagen_fondo}")
+    try:
+        imagen_fondo = cache.get_or_set('imagen_fondo_home', FondosHeaders.objects.get(vista="home").imagen_fondo, timeout=6)
+    except ObjectDoesNotExist:
+        # Manejar el caso en el que no hay ningún objeto en la base de datos
+        imagen_fondo = 'www/WebRecetas/media/imagenes_fondo/pasta-1181189_1920_eztJu4l.jpg'
     # Recuperar las vistas de la página desde el caché
     contadores_visitas = funcion_visitas()
     visitas_totales = contadores_visitas.get('visitas_totales', 0)

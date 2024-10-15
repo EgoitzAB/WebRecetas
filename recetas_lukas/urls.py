@@ -29,18 +29,19 @@ sitemaps = {
     'recetas': RecetasSitemap,
 }
 
-# Ensure users go through the allauth workflow when logging into admin.
-admin.site.login = staff_member_required(admin.site.login, login_url='/accounts/login')
-# Run the standard admin set-up.
-admin.autodiscover()
+# # Ensure users go through the allauth workflow when logging into admin.
+# admin.site.login = staff_member_required(admin.site.login, login_url='/accounts/login')
+# # Run the standard admin set-up.
+# admin.autodiscover()
 
 urlpatterns = [
+    path('admin/defender/', include('defender.urls')), # defender admin
     path('admin/', admin.site.urls),
     path('accounts/two-factor/', include('allauth_2fa.urls')),
     path('accounts/', include('allauth.urls')),
     path("__debug__/", include("debug_toolbar.urls")),
     path('aparatos/', include('aparatos.urls')),
     path('sitemap.xml', sitemap, {'sitemaps': sitemaps}, name='sitemap'),
-    path('cookies/', include('cookie_consent.urls')),
     path('', include('core.urls')),
+    path('', include('django_prometheus.urls')),
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
