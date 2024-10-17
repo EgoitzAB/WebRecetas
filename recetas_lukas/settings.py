@@ -214,7 +214,7 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 CACHES = {
     "default": {
         "BACKEND": "django.core.cache.backends.redis.RedisCache",
-        "LOCATION": "redis://localhost:6379/0",
+        "LOCATION": "redis://redis:6379/0",
     }
 }
 
@@ -244,7 +244,7 @@ LOGGING = {
     'handlers': {
         'file': {
             'level': 'DEBUG',
-            'class': 'logging.FileHandler.RotatingFileHandler',
+            'class': 'logging.handlers.RotatingFileHandler',
             'filename': os.path.join(BASE_DIR, 'debug.log'),
             'maxBytes': 5 * 1024 * 1024,
             'backupCount': 3,

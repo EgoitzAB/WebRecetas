@@ -1,0 +1,42 @@
+version: '3'
+
+services:
+  db:
+    image: postgres:15
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./init_pg_trgm.sql:/docker-entrypoint-initdb.d/init_pg_trgm.sql  # Script de inicialización
+    environment:
+      - POSTGRES_DB=${DB_NAME}
+      - POSTGRES_USER=${DB_USER}
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
+    restart: always
+
+  redis:
+    image: redis:7.0  # Asegúrate de usar la versión que deseas
+    volumes:
+      - redis_data:/data
+      - ./redis.conf:/usr/local/etc/redis/redis.conf  # Referencia al archivo de configuración
+    ports:
+      - "6379:6379"
+    command: ["redis-server", "/usr/local/etc/redis/redis.conf"]  # Iniciar Redis con la configuración
+    restart: always
+  
+  web:
+    build: .
+    command: >
+      sh -c "python manage.py migrate && python manage.py runsslserver 0.0.0.0:8000"
+    volumes:
+      - .:/app
+    ports:
+      - "8000:8000"
+    depends_on:
+      - redis
+      - db
+    env_file:
+      - .env  # Usa el archivo .env para las variables de entorno
+    restart: always
+
+volumes:
+  postgres_data:
+  redis_data:
