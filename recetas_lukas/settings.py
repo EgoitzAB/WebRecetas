@@ -63,7 +63,7 @@ INSTALLED_APPS = [
     'redisboard',
     'django_extensions',
     'defender',
-    'django-prometheus',
+    'django_prometheus',
 
     'core',
     'aparatos',
