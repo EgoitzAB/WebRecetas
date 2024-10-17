@@ -11,6 +11,8 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 """
 
 import os
+import logging
+from logging.handlers import RotatingFileHandler
 from pathlib import Path
 from dotenv import load_dotenv
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -64,6 +66,7 @@ INSTALLED_APPS = [
     'django_extensions',
     'defender',
     'django_prometheus',
+    'sslserver',
 
     'core',
     'aparatos',
@@ -241,8 +244,17 @@ LOGGING = {
     'handlers': {
         'file': {
             'level': 'DEBUG',
-            'class': 'logging.FileHandler',
+            'class': 'logging.FileHandler.RotatingFileHandler',
             'filename': os.path.join(BASE_DIR, 'debug.log'),
+            'maxBytes': 5 * 1024 * 1024,
+            'backupCount': 3,
+            'formatter': 'verbose'
+        },
+    },
+    'formatters': {
+        'verbose': {
+            'format': '{asctime} {levelname} {message}',
+            'style': '{',
         },
     },
     'loggers': {

@@ -87,8 +87,8 @@
                             <div class="portfolio-hover-content"><i class="fas fa-plus fa-3x"></i></div>
                         </div>
                         {% if item.imagen %}
-                        <img class="img-fluid" src="{{ item.imagen.url }}" alt="imagen nueva" onerror="this.onerror=null; this.src='{% static \'images/default.jpg\' %}';" />
-                                           {% else %}
+                        <img class="img-fluid" src="{{ item.imagen.url }}" alt="imagen nueva" onerror="this.onerror=null; this.src='{% static 'images/default.jpg' %}';" />
+                        {% else %}
                             <img class="img-fluid" src="{% static 'images/default.jpg' %}" alt="imagen nueva"/>
                         {% endif %}
                     </a>
