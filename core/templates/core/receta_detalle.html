@@ -8,10 +8,17 @@
 {% include "page/navbar.html" %}
 {% endblock header %}
 {% block content %}
-{% if object.categoria %}
+{% if object.categoria and object.categoria.imagen %}
     <header class="masthead" style="background-image: url('{{ object.categoria.imagen.url }}');">
         <div class="container">
             <div class="masthead-subheading">{{ object.categoria.nombre }}</div>
+            <div class="masthead-heading">Es hora de cocinar</div>
+        </div>
+    </header>
+{% else %}
+    <header class="masthead" style="background-image: url('{% static 'images/default_header.jpg' %}');">
+        <div class="container">
+            <div class="masthead-subheading">Categoría no disponible</div>
             <div class="masthead-heading">Es hora de cocinar</div>
         </div>
     </header>
@@ -19,7 +26,7 @@
     <div class="container">
         <div class="divider"></div>
             <h1 class="receta-title">{{ object.titulo }}</h1>
-            <img src="{% if object.imagen %}{{ object.imagen.url }}{% else %}/media/alubias.jpeg.800x600_q85_crop.jpg{% endif %}" alt="Image" class="receta-thumbnail">
+            <img src="{% if object.imagen %}{{ object.imagen.url }}{% else %}/media/albon.jpeg.800x600_q85_crop.jpg{% endif %}" alt="Image" class="receta-thumbnail">
         <div class="receta-entry">
         <h3 class="receta-title mt-5">Descripción</h3>
         <p class="receta-contenido" id="receta-contenido">{{ object.contenido }}</p>
@@ -28,7 +35,7 @@
                 <h5 class="mb-4">Ingredientes:</h5>
                 <ul>
                     {% for ingrediente in object.ingredientes_set.all %}
-                        <li>{{ ingrediente.nombre }} - {{ ingrediente.cantidad }}</li>
+                        <li>{{ ingrediente.nombre }}</li>
                     {% endfor %}
                 </ul>
             </div>

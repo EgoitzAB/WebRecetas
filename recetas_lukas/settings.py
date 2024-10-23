@@ -29,7 +29,7 @@ SECRET_KEY = os.getenv('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.getenv('DEBUG') == 'True'
 
-ALLOWED_HOSTS = ['recetaspatxi.es', 'www.recetaspatxi.es', 'localhost', '127.0.0.1']
+ALLOWED_HOSTS = ['recetaspatxi.es', 'www.recetaspatxi.es', 'localhost', '127.0.0.1', '0.0.0.0']
 
 INTERNAL_IPS = [
     "127.0.0.1",
@@ -283,7 +283,7 @@ DEFENDER_LOGIN_FAILURE_LIMIT = 5  # Número de intentos fallidos permitidos ante
 DEFENDER_COOLOFF_TIME = 300  # Tiempo en segundos para desbloquear después de un bloqueo (5 minutos)
 DEFENDER_STORE_ACCESS_ATTEMPTS = True  # Almacenar intentos fallidos
 DEFENDER_LOCKOUT_URL = '/locked/'  # URL de redirección cuando un usuario es bloqueado
-DEFENDER_REDIS_URL = 'redis://localhost:6379/0'  # URL de conexión a Redis
+DEFENDER_REDIS_URL = 'redis://redis:6379/0'  # URL de conexión a Redis
 DEFENDER_LOCKOUT_TEMPLATE = 'defender/lockout.html'  # Plantilla personalizada para la página de bloqueo
 DEFENDER_DISABLE_IP_LOCKOUT = False
 DEFENDER_DISABLE_USERNAME_LOCKOUT = False  # Bloquear por nombre de usuario

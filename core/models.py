@@ -36,7 +36,6 @@ class ItemsPagina(models.Model):
     fecha_modificacion = models.DateTimeField(auto_now=True)
     status = models.CharField(max_length=2, choices=Status.choices, default=Status.CREADO)
     imagen = ThumbnailerImageField(upload_to='pasos_pics', blank=True, null=True)
-    likes = models.ManyToManyField(User, related_name='likes', blank=True)
     tags = TaggableManager(blank=True)
     categoria = models.ForeignKey(Categoria, on_delete=models.SET_NULL, null=True)
     slug = AutoSlugField(unique=True, populate_from='titulo')
@@ -80,7 +79,7 @@ class ItemsPagina(models.Model):
 
 class Pasos(models.Model):
     numero = models.IntegerField()
-    descripcion = models.CharField(max_length=250)
+    descripcion = models.TextField()
     imagen_paso = models.ImageField(upload_to='recetas_pics', blank=True, null=True)
     recetas = models.ForeignKey(ItemsPagina, on_delete=models.CASCADE)
     tiempo_preparacion = models.IntegerField()
@@ -113,8 +112,8 @@ class Pasos(models.Model):
         ]
 
 class Ingredientes(models.Model):
-    nombre = models.CharField(max_length=250)
-    cantidad = models.CharField(max_length=250)
+    nombre = models.CharField(max_length=1000)
+    cantidad = models.CharField(max_length=1000, blank=True)
     recetas = models.ForeignKey(ItemsPagina, on_delete=models.CASCADE)
 
     def __str__(self):

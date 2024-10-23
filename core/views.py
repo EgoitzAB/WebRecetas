@@ -44,7 +44,7 @@ def home(request):
         # Obtener el número de vistas de cada receta
         for receta in recetas_destacadas:
             receta.num_vistas = obtener_vistas_de_receta(receta.id)
-        recetas = ItemsPagina.objects.filter(status='CR')
+        recetas = ItemsPagina.objects.filter(status='PB')
         #Agrupar las recetas por categoría y seleccionar una receta representativa de cada categoría
         recetas_distintas = []
         categorias_distintas = set()  # Usamos un conjunto para mantener las categorías únicas
