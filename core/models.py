@@ -64,6 +64,17 @@ class ItemsPagina(models.Model):
         tiempo_coccion_total = self.pasos_set.aggregate(Sum('tiempo_coccion'))['tiempo_coccion__sum'] or 0
         tiempo_total_combinado = tiempo_preparacion_total + tiempo_coccion_total
         return tiempo_preparacion_total, tiempo_coccion_total, tiempo_total_combinado
+    
+    @property
+    def imagen_default(self):
+        # Devuelve la imagen o la penúltima de pasos si no hay imagen
+        if self.imagen:
+            return self.imagen.url
+        else:
+            pasos = self.pasos_set.all()
+            if pasos.count() >= 2:  # Verifica si hay al menos 2 pasos
+                return pasos[pasos.count() - 2].imagen_paso.url  # Penúltima imagen
+            return '/media/default.jpg'  # Ruta a la imagen por defecto si no hay imagen en pasos
 
     def __str__(self):
         return self.titulo
@@ -110,6 +121,7 @@ class Pasos(models.Model):
         indexes = [
             GinIndex(fields=['descripcion'], name='descripcion_gin_index', opclasses=['gin_trgm_ops']),
         ]
+
 
 class Ingredientes(models.Model):
     nombre = models.CharField(max_length=1000)

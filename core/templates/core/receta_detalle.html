@@ -23,11 +23,11 @@
         </div>
     </header>
 {% endif %}
-    <div class="container">
-        <div class="divider"></div>
-            <h1 class="receta-title">{{ object.titulo }}</h1>
-            <img src="{% if object.imagen %}{{ object.imagen.url }}{% else %}/media/albon.jpeg.800x600_q85_crop.jpg{% endif %}" alt="Image" class="receta-thumbnail">
-        <div class="receta-entry">
+<div class="container">
+    <div class="divider"></div>
+    <h1 class="receta-title">{{ object.titulo }}</h1>
+    <img src="{{ object.imagen_default }}" alt="Image" class="receta-thumbnail">
+    <div class="receta-entry">
         <h3 class="receta-title mt-5">Descripción</h3>
         <p class="receta-contenido" id="receta-contenido">{{ object.contenido }}</p>
         <div class="row">
@@ -80,7 +80,7 @@
                         <div class="col-12 col-sm-6 mb-5">
                             <div class="post-entry">
                                 <a href="#" class="post-thumbnail">
-                                    <img src="{% if receta.imagen %}{{ receta.imagen.url }}{% else %}/media/alubias.jpeg.800x600_q85_crop.jpg{% endif %}" alt="Image" class="img-fluid">
+                                    <img src="{% if receta.imagen %}{{ receta.imagen.url }}{% else %}{% with receta.pasos_set.all|slice:":-1" as pasos %}{% if pasos|length > 0 %}{{ pasos.last.imagen_paso.url }}{% else %}{% static 'images/default_receta.jpg' %}{% endif %}{% endwith %}{% endif %}" alt="Image" class="img-fluid">
                                 </a>
                                 <div class="post-content-entry">
                                     <h3><a href="#">{{ receta.titulo }} vista: {{ receta.num_vistas }}</a></h3>
@@ -114,8 +114,7 @@
             </div><!--/#carouselExampleAutoplaying-->
         </div><!--/.container-->
     </div><!--/.blog-section-->
-
-
+    
 {% endblock content %}
 {% block footer %}
 {% include "page/footer.html" %}

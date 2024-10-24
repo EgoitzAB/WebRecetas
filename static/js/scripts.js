@@ -139,3 +139,26 @@ $(document).ready(function () {
         });
     }
 });
+
+$(document).ready(function () {
+    $('#ver-mas-btn').on('click', function () {
+        var nextPage = $(this).data('next-page');
+
+        $.ajax({
+            url: '?page=' + nextPage,
+            type: 'GET',
+            dataType: 'json',
+            success: function (data) {
+                // Añadir las nuevas recetas al contenedor de recetas
+                $('#recetas-list').append(data.html);
+
+                // Actualizar o eliminar el botón si no hay más páginas
+                if (data.has_next) {
+                    $('#ver-mas-btn').data('next-page', nextPage + 1);
+                } else {
+                    $('#ver-mas-container').html('<p>No hay más recetas para mostrar.</p>');
+                }
+            }
+        });
+    });
+});

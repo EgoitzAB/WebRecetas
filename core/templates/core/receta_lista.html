@@ -29,25 +29,29 @@
 </div>
 
 <div class="blog-section">
-    <div class="container">
-        <div class="row">
-            {% for receta in object_list %}
-            <div class="col-12 col-sm-6 col-md-4 mb-5">
-                <div class="post-entry">
-                <a href="#" class="post-thumbnail"><img src="{% if receta.imagen %}{{ receta.imagen.url }}{% else %}/media/alubias.jpeg.800x600_q85_crop.jpg{% endif %}" alt="Image" class="img-fluid"></a>
-                <div class="post-content-entry">
-                    <h3><a href="#">{{ receta.titulo }}</a></h3>
-                    <p>{{ receta.contenido }}</p>
-                    <div class="meta">
-                        <a href="{% url 'core:recetas' slug=receta.slug %}">Ver detalles</a>
-                    <span class="text-verdura">Hecha por<a href="#">{{ receta.autor }}</a></span> <span>el <a href="#">{{ receta.fecha_creacion }}</a></span>
-                </div>
-                </div>
-            </div>
-            </div>
-            {% endfor %}
-        </div>
-    </div>
+  <div class="container">
+      <div class="row">
+          {% for receta in recetas %}
+          <div class="col-12 col-sm-6 col-md-4 mb-5">
+              <div class="post-entry">
+                  <a href="{% url 'core:recetas' slug=receta.slug %}" class="post-thumbnail">
+                      <img src="{{ receta.imagen_default }}" alt="Image" class="img-fluid">
+                  </a>
+
+                  <div class="post-content-entry">
+                      <h3><a href="#">{{ receta.titulo }}</a></h3>
+                      <p>{{ receta.contenido }}</p>
+                      <div class="meta">
+                          <a href="{% url 'core:recetas' slug=receta.slug %}">Ver detalles</a>
+                          <span class="text-verdura">Hecha por<a href="#">{{ receta.autor }}</a></span>
+                          <span>el <a href="#">{{ receta.fecha_creacion }}</a></span>
+                      </div>
+                  </div>
+              </div>
+          </div>
+          {% endfor %}
+      </div>
+  </div>
 </div>
 <nav aria-label="Page navigation example">
   <ul class="pagination">

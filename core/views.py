@@ -96,7 +96,7 @@ class VistaLista(ListView):
     paginate_by = 6
 
     def get_queryset(self):
-        queryset = ItemsPagina.objects.filter(status='CR').order_by('categoria')
+        queryset = ItemsPagina.objects.filter(status='PB').order_by('categoria')
         form = ItemsPaginaForm(self.request.GET)
         if form.is_valid():
             categorias_selected = form.cleaned_data.get('categorias')
