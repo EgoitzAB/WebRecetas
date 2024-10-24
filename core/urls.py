@@ -19,4 +19,7 @@ urlpatterns = [
     path('listado-recetas/', views.VistaLista.as_view(), name='receta_lista'),
     path('terminos-de-uso/', views.TermsOfUseView.as_view(), name='terms_of_use'),
     path('politica-de-privacidad/', views.PrivacidadView.as_view(), name='privacy_policy'),
+    path('favorito/agregar/<int:receta_id>/', views.agregar_favorito, name='agregar_favorito'),
+    path('favorito/eliminar/<int:receta_id>/', views.eliminar_favorito, name='eliminar_favorito'),
+    path('perfil/', views.perfil_usuario, name='perfil_usuario'),
 ]

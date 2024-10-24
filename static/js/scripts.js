@@ -163,3 +163,53 @@ $(document).ready(function () {
         });
     });
 });
+
+// Función para obtener el valor del token CSRF
+function getCookie(name) {
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        const cookies = document.cookie.split(';');
+        for (let i = 0; i < cookies.length; i++) {
+            const cookie = cookies[i].trim();
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
+
+// Obtener el token CSRF
+const csrfToken = getCookie('csrftoken');
+
+// Función para manejar la acción de agregar o quitar de favoritos
+function toggleFavorito(button) {
+    const recetaId = button.getAttribute('data-receta-id');
+    const isAdding = button.innerText.includes('Agregar');
+
+    fetch(isAdding ? `/favorito/agregar/${recetaId}/` : `/favorito/eliminar/${recetaId}/`, {
+        method: 'POST',
+        headers: {
+            'X-CSRFToken': csrfToken,
+            'Content-Type': 'application/json'
+        },
+        credentials: 'same-origin'
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.status === 'success') {
+            // Cambiar el texto del botón dependiendo de la acción
+            if (data.action === 'added') {
+                button.innerText = 'Quitar de favoritos';
+            } else {
+                button.innerText = 'Agregar a favoritos';
+            }
+        } else {
+            console.error('Error al procesar la solicitud');
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+    });
+}

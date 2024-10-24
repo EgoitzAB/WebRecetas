@@ -1,6 +1,7 @@
 from typing import Any
-from django.shortcuts import render, get_object_or_404
-from .models import ItemsPagina, FondosHeaders
+from django.shortcuts import render, get_object_or_404, redirect
+from django.contrib.auth.decorators import login_required
+from .models import ItemsPagina, FondosHeaders, Favorito
 from django.contrib.postgres.search import SearchVector, SearchQuery, SearchRank, TrigramSimilarity
 from .forms import SearchForm, ItemsPaginaForm
 from django.views.generic import DetailView, ListView
@@ -231,3 +232,32 @@ class TermsOfUseView(generic.TemplateView):
 
 class PrivacidadView(generic.TemplateView):
     template_name = 'core/privacidad.html'
+
+
+@login_required
+def agregar_favorito(request, receta_id):
+    receta = get_object_or_404(ItemsPagina, id=receta_id)
+    favorito, created = Favorito.objects.get_or_create(usuario=request.user, receta=receta)
+
+    return JsonResponse({
+        'status': 'success',
+        'action': 'added' if created else 'exists',
+        'receta_id': receta.id,
+        'receta_titulo': receta.titulo,
+    })
+
+@login_required
+def eliminar_favorito(request, receta_id):
+    receta = get_object_or_404(ItemsPagina, id=receta_id)
+    Favorito.objects.filter(usuario=request.user, receta=receta).delete()
+
+    return JsonResponse({
+        'status': 'success',
+        'action': 'removed',
+        'receta_id': receta.id,
+        'receta_titulo': receta.titulo,
+    })
+@login_required
+def perfil_usuario(request):
+    favoritos = Favorito.objects.filter(usuario=request.user).select_related('receta')
+    return render(request, 'core/perfil_usuario.html', {'favoritos': favoritos})

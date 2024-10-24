@@ -158,3 +158,13 @@ class FondosHeaders(models.Model):
     class Meta:
         verbose_name = 'Encabezados del sitio'
         verbose_name_plural = 'Encabezados del sitio'
+
+class Favorito(models.Model):
+    usuario = models.ForeignKey(User, on_delete=models.CASCADE)
+    receta = models.ForeignKey(ItemsPagina, on_delete=models.CASCADE)
+
+    class Meta:
+        unique_together = ('usuario', 'receta')  # Evita duplicados
+
+    def __str__(self):
+        return f'{self.usuario.username} - {self.receta.titulo}'

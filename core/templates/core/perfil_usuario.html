@@ -1,0 +1,48 @@
+{% extends "page/base.html" %}
+{% load static %}
+{% block content %}
+<section class="page-section bg-light main-section" id="perfil-usuario">
+    <div class="container">
+        <div class="text-center main-title">
+            <h2 class="text-uppercase main-title main-subtitle">Mi Perfil</h2>
+            <h3 class="section-subheading text-muted">Mis Recetas Favoritas</h3>
+        </div>
+        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3 d-flex align-items-stretch flex-wrap">
+            {% if favoritos %}
+                {% for favorito in favoritos %}
+                <div class="col d-flex align-items-stretch">
+                    <div class="card shadow-sm flex-grow-1">
+                        <a class="portfolio-link" data-bs-toggle="modal" href="#portfolioModal{{ forloop.counter }}">
+                            <div class="portfolio-hover">
+                                <div class="portfolio-hover-content"><i class="fas fa-plus fa-3x"></i></div>
+                            </div>
+                            {% if favorito.receta.imagen %}
+                            <img class="img-fluid" src="{{ favorito.receta.imagen.url|slice:":-3" }}" alt="imagen nueva" />
+                            {% else %}
+                                <img class="img-fluid" src="{% static 'images/default.jpg' %}" alt="imagen predeterminada" />
+                            {% endif %}
+                        </a>
+                        <div class="card-body collapsed">
+                            <p class="card-text">{{ favorito.receta.titulo }}</p>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <small class="text-body-secondary mb-3">Tiempo preparación: {{ favorito.receta.tiempo_total.2 }} minutos</small>
+                            </div>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <a href="{% url 'core:recetas' slug=favorito.receta.slug %}" class="btn bg-vino">
+                                    Ver receta
+                                </a>
+                                <button class="btn bg-vino" data-receta-id="{{ favorito.receta.id }}" onclick="toggleFavorito(this)">
+                                    Quitar de favoritos
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            {% else %}
+                <p>No tienes recetas favoritas todavía.</p>
+            {% endif %}
+        </div>
+    </div>
+</section>
+{% endblock %}
