@@ -141,22 +141,23 @@ $(document).ready(function () {
 });
 
 $(document).ready(function () {
-    $('#ver-mas-btn').on('click', function () {
-        var nextPage = $(this).data('next-page');
+    var offset = 12; // Cantidad inicial de recetas cargadas
 
+    $('#ver-mas-btn').on('click', function () {
         $.ajax({
-            url: '?page=' + nextPage,
+            url: '?offset=' + offset, // Enviamos el offset para cargar más recetas
             type: 'GET',
             dataType: 'json',
             success: function (data) {
-                // Añadir las nuevas recetas al contenedor de recetas
+                // Añadimos las nuevas recetas al contenedor
                 $('#recetas-list').append(data.html);
 
-                // Actualizar o eliminar el botón si no hay más páginas
-                if (data.has_next) {
-                    $('#ver-mas-btn').data('next-page', nextPage + 1);
-                } else {
-                    $('#ver-mas-container').html('<p>No hay más recetas para mostrar.</p>');
+                // Aumentamos el offset para la siguiente carga
+                offset += 12;
+
+                // Si no quedan más recetas, ocultamos el botón "Ver más"
+                if (!data.quedan_mas) {
+                    $('#ver-mas-container').remove();
                 }
             }
         });

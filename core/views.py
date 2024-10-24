@@ -15,6 +15,9 @@ from django.template.response import TemplateResponse
 from .utils import obtener_vistas_de_receta, recetas_mas_vistas, funcion_visitas
 from .recomendador import RecetaRecomendador, RecetaHistorial
 import redis
+from django.core.paginator import Paginator
+from django.http import JsonResponse
+from django.template.loader import render_to_string
 
 
 def home(request):
@@ -24,28 +27,29 @@ def home(request):
     except ObjectDoesNotExist:
         # Manejar el caso en el que no hay ningún objeto en la base de datos
         imagen_fondo = 'www/WebRecetas/media/imagenes_fondo/pasta-1181189_1920_eztJu4l.jpg'
-    # Recuperar las vistas de la página desde el caché
+
+    # Recuperar las visitas de la página desde el caché
     contadores_visitas = funcion_visitas()
     visitas_totales = contadores_visitas.get('visitas_totales', 0)
     visitas_sesion = contadores_visitas.get('visitas_sesion', 0)
-    # Recuperar las recetas del cache y renderizar, o hacer queries y generar cache
+
+    # Recuperar las recetas del caché y renderizar, o hacer queries y generar caché si es necesario
     recetas_home = cache.get_many(['recetas', 'recetas_distintas', 'recetas_destacadas'])
     if recetas_home:
-        return render(request, 'core/home.html', {'recetas': recetas_home['recetas'],
-                                                    'recetas_distintas': recetas_home['recetas_distintas'],
-                                                    'recetas_destacadas': recetas_home['recetas_destacadas'],
-                                                    'imagen_fondo': imagen_fondo,
-                                                    'visitas_totales': visitas_totales,
-                                                    'visitas_sesion': visitas_sesion,
-                                                    })
+        recetas = recetas_home['recetas']
+        recetas_distintas = recetas_home['recetas_distintas']
+        recetas_destacadas = recetas_home['recetas_destacadas']
     else:
         # Obtener las recetas más vistas utilizando la función recetas_mas_vistas
         recetas_destacadas = recetas_mas_vistas(request, cantidad_recetas=6)
         # Obtener el número de vistas de cada receta
         for receta in recetas_destacadas:
             receta.num_vistas = obtener_vistas_de_receta(receta.id)
+        
+        # Obtener todas las recetas publicadas
         recetas = ItemsPagina.objects.filter(status='PB')
-        #Agrupar las recetas por categoría y seleccionar una receta representativa de cada categoría
+        
+        # Agrupar las recetas por categoría y seleccionar una receta representativa de cada categoría
         recetas_distintas = []
         categorias_distintas = set()  # Usamos un conjunto para mantener las categorías únicas
         for receta in recetas:
@@ -57,16 +61,42 @@ def home(request):
                 recetas_distintas.append(receta)
                 categorias_distintas.add(receta.categoria)
 
-        timeout = 180 # ajustando el timeout del caché a 3 minutos
-        cache.set_many({'recetas': recetas, 'recetas_distintas': recetas_distintas,
-                    'recetas_destacadas': recetas_destacadas},
-                    timeout=timeout)
-        return render(request, 'core/home.html', {'recetas': recetas,
-                                                'recetas_distintas': recetas_distintas,
-                                                'recetas_destacadas': recetas_destacadas,
-                                                'imagen_fondo': imagen_fondo,
-                                                'visitas_totales': visitas_totales,
-                                                'visitas_sesion': visitas_sesion})
+        # Guardar los datos en caché con un timeout de 3 minutos
+        timeout = 180  # 3 minutos
+        cache.set_many({
+            'recetas': recetas,
+            'recetas_distintas': recetas_distintas,
+            'recetas_destacadas': recetas_destacadas
+        }, timeout=timeout)
+
+    # Paginación: 12 recetas por página
+    # Límite de recetas que se mostrarán por carga
+    limite_inicial = 20
+    offset = int(request.GET.get('offset', 0))
+    limite = limite_inicial + offset
+
+    # Filtramos las recetas para mostrar solo las que correspondan
+    recetas_a_mostrar = recetas[:limite]
+    quedan_mas = recetas.count() > limite
+
+
+    # Si la solicitud es AJAX, devolvemos solo las nuevas recetas en formato JSON
+    if request.headers.get('x-requested-with') == 'XMLHttpRequest':
+        html = render_to_string('core/recetas_parcial.html', {'recetas': recetas_a_mostrar})
+        return JsonResponse({'html': html, 'quedan_mas': quedan_mas})
+
+    # Si no es AJAX, renderizar el template completo
+    context = {
+        'recetas': recetas_a_mostrar,
+        'quedan_mas': quedan_mas,
+        'recetas_distintas': recetas_distintas,
+        'recetas_destacadas': recetas_destacadas,
+        'imagen_fondo': imagen_fondo,
+        'visitas_totales': visitas_totales,
+        'visitas_sesion': visitas_sesion,
+    }
+    
+    return render(request, 'core/home.html', context)
 
 def receta_search(request):
     form = SearchForm()

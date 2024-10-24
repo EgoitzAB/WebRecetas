@@ -1,22 +1,18 @@
 {% load static %}
-
-{% for item in page_obj %}
+{% for item in recetas %}
 <div class="col d-flex align-items-stretch">
     <div class="card shadow-sm flex-grow-1">
         <a class="portfolio-link" data-bs-toggle="modal" href="#portfolioModal{{ forloop.counter }}">
             <div class="portfolio-hover">
                 <div class="portfolio-hover-content"><i class="fas fa-plus fa-3x"></i></div>
             </div>
-            {% if item.imagen %}
-                <img class="img-fluid" src="{{ item.imagen.url|slice:":-3" }}" alt="imagen nueva" />
-            {% else %}
-                <img class="img-fluid" src="{% static 'images/default.jpg' %}" alt="imagen predeterminada" />
-            {% endif %}
+            <img class="img-fluid" src="{{ item.imagen_default }}" alt="imagen nueva" />
+
         </a>
         <div class="card-body collapsed">
             <p class="card-text">{{ item.titulo }}</p>
             <div class="d-flex justify-content-between align-items-center">
-                <small class="text-body-secondary mb-3">Tiempo preparación: {{ item.tiempo_total.2}} minutos</small>
+                <small class="text-body-secondary mb-3">Tiempo preparación: {{ item.tiempo_total.2 }} minutos</small>
             </div>
             <div class="d-flex justify-content-between align-items-center">
                 <a href="{% url 'core:recetas' slug=item.slug %}" class="btn bg-vino">Ver receta</a>
@@ -25,32 +21,6 @@
         </div>
     </div>
 </div>
-
-<!-- Portfolio Modal -->
-<div class="portfolio-modal modal fade" id="portfolioModal{{ forloop.counter }}" tabindex="-1" aria-labelledby="portfolioModal{{ forloop.counter }}Label" aria-hidden="true">
-    <div class="modal-dialog modal-xl">
-        <div class="modal-content">
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            <div class="modal-body text-center">
-                <div class="container">
-                    <div class="row justify-content-center">
-                        <div class="col-lg-8">
-                            <h2 class="portfolio-modal-title text-secondary text-uppercase mb-0">{{ item.heading }}</h2>
-                            {% if item.imagen and item.imagen.url %}
-                                <img class="img-fluid rounded mb-5" src="{{ item.imagen.url }}" alt="..." />
-                            {% else %}
-                                <img class="img-fluid rounded mb-5" src="{% static 'images/default.jpg' %}" alt="imagen por defecto" />
-                            {% endif %}
-                            <h5 class="mb-5">{{ item.titulo }}</h5>
-                            <a href="{% url 'core:recetas' slug=item.slug %}" class="btn bg-vino text-white">Ver receta</a>
-                            <button class="btn bg-vino text-white" data-bs-dismiss="modal">
-                                <i class="fas fa-times fa-fw"></i> Cerrar el recuadro
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
 {% endfor %}
+
+
